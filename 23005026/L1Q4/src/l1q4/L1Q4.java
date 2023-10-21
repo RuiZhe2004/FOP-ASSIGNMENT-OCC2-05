@@ -19,7 +19,6 @@ public class L1Q4 {
         String[] month = {"Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "  (MONTH 2016)" };
         System.out.println("1 asterisk (*) = 100");
         ver(lt, month);
-        System.out.println("00");
     }
     
     public static void ver(int t[], String m[]) {
