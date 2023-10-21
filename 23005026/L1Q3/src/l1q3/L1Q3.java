@@ -15,7 +15,6 @@ public class L1Q3 {
      */
     public static void main(String[] args) {
         topbtm();
-        System.out.println("hi");
         System.out.println("*       *        *     *           ***             * *");
         System.out.println("*       *       *       *         *****           *   *");
         repeat();
