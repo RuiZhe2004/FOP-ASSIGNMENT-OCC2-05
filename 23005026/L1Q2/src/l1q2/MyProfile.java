@@ -14,7 +14,6 @@ public class MyProfile {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("hi");
         System.out.println("My Name: LOW JIA XIN");
         System.out.println("Matric Number: 23005026");
         System.out.println("Address: Bayan Lepas, Pulau Pinang");
