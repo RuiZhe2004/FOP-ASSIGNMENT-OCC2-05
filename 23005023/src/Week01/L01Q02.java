@@ -4,10 +4,10 @@ package Week01;
 public class L01Q02 {
     
     public static class PersonalInfo {
-        public String name;
+        private String name;
         private String matricID;
-        public String email;
-        public String address;
+        private String email;
+        private String address;
 
         public PersonalInfo(String name, String matricID, String email, String address){
             this.name = name;
