@@ -17,7 +17,7 @@ public class L02Q04 {
         int sec = sc.nextInt();
         
         int hr = sec/3600;
-        int min = (123456-hr*3600)/60;
+        int min = (sec-hr*3600)/60;
         int leftSec = sec - hr*3600 - min*60;
         
         System.out.printf("%d seconds is %d hours, %d minutes and %d seconds\n", sec, hr, min, leftSec);
