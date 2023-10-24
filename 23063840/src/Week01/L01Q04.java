@@ -6,7 +6,7 @@ package Week01;
 
 /**
  *
- * @author ruizh
+ * @author jiale
  */
 public class L01Q04 {
     public static void main (String[] args){
