@@ -6,7 +6,7 @@ package Week02;
 
 /**
  *
- * @author rz_rexton
+ * @author rz_rexton 
  */
 import java.util.Scanner;
 public class L02Q06 {
