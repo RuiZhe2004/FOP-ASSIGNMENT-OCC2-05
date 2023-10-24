@@ -10,7 +10,7 @@ package Week01;
  */
 public class L01Q04 {
     public static void main(String[] args) {
-        int[] amount = {2500, 1600, 2000, 2700, 3200, 1800};
+        int[] amount = {2500, 1600, 2000, 2700, 3200, 800};
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun"};
         System.out.printf("\n%-10s%-19s\n","Month   |","Amount");
         System.out.println("-------  -------------------------------------");
