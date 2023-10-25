@@ -12,7 +12,7 @@ import java.util.Random;
 public class L02Q05 {
     public static void main(String[] args) {
         Random rand = new Random();
-        int num = rand.nextInt(10000);
+        int num = rand.nextInt(10001);
         
         System.out.println("Generate random number is " + num);
         
