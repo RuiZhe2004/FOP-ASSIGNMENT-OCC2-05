@@ -14,13 +14,13 @@ public class L02Q02 {
         Scanner input = new Scanner(System.in);
         System.out.print("The price of the car : RM");
         double P = input.nextDouble();
-        System.out.println();
+
         System.out.print("Down payment : RM");
         double D = input.nextDouble();
-        System.out.println();
+
         System.out.print("Interest rate in % :");
         double R = input.nextDouble();
-        System.out.println();
+
         System.out.print("Loan duration in year : RM");
         double Y = input.nextDouble();
         System.out.println();
