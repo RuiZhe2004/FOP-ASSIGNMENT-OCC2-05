@@ -7,7 +7,7 @@ public class LeCars {
     public static void main(String[] args) {
             // Get an InputStream for the resource file
             InputStream resourceStream = LeCars.class.getResourceAsStream("/data/cust.csv");
-
+               
             if (resourceStream != null) {
                 // Convert the InputStream to a String
                 String fileContent = convertStreamToString(resourceStream);
