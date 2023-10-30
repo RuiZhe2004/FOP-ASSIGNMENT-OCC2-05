@@ -21,9 +21,12 @@ public class L03Q06 {
         System.out.print("\nEnter the y-coordinate of the same point: ");
         double y = sc.nextDouble();
         
-        if ( (y*y) + (x*x) >(radius*radius))
+        if ( (y*y) + (x*x) >(radius*radius)){
             System.out.println("The point is outside the circle. ");
-        else
+        }else if( (y*y) + (x*x) == (radius*radius)){
+            System.out.println("The point is on the line of circle");
+        }else{
             System.out.println("The point is inside the circle.");
+        }
     }
 }
