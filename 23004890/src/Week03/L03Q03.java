@@ -21,22 +21,22 @@ public class L03Q03 {
         
         if (sales >= 0 && sales <= 100){
             commission = sales * 0.05;
-            System.out.printf("The commission is RM%.2f\n", commission);
+            System.out.printf("The commission is RM%.2f.\n", commission);
         }
         else if (sales > 100 && sales <= 500){    
         commission = sales * 0.075;
-            System.out.printf("The commission is RM%.2f\n", commission);
+            System.out.printf("The commission is RM%.2f.\n", commission);
         }
         else if (sales > 500 && sales <= 1000){    
         commission = sales * 0.1;
-            System.out.printf("The commission is RM%.2f\n", commission);
+            System.out.printf("The commission is RM%.2f.\n", commission);
         }
         else if (sales > 1000){    
         commission = sales * 0.125;
-            System.out.printf("The commission is RM%.2f\n", commission);
+            System.out.printf("The commission is RM%.2f.\n", commission);
         }
         else{
-            System.out.printf("System error. Please try again.");
+            System.out.printf("System error. Please try again.\n");
         }
         
     }
