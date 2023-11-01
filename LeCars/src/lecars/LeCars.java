@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 
 public class LeCars {
     public static void main(String[] args) {
+            System.out.println("Hi");
             // Get an InputStream for the resource file
             InputStream resourceStream = LeCars.class.getResourceAsStream("/data/cust.csv");
                
