@@ -107,7 +107,7 @@ public class L04Q04 {
                 augfirst = (augfirst+nlydays[j])%7;  
               }
               
-              //print may calendar when leap year
+              //print may calendar when not leap year
               System.out.println("");
               System.out.printf("%12s%s\n","","Calendar");
               System.out.printf("%12s%d%s\n","",year," MAY");
@@ -130,7 +130,7 @@ public class L04Q04 {
               System.out.println("");//spacing and prepare to print calendar Aug
               System.out.println("");
               
-              //Print Aug calendar whn leap year
+              //Print Aug calendar when not leap year
               System.out.println("");
               System.out.printf("%12s%s\n","","Calendar");
               System.out.printf("%12s%d%s\n","",year," AUG");
