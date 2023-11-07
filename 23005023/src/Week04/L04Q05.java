@@ -19,22 +19,36 @@ public class L04Q05 {
             System.out.println("Player 1 Point : " + player1Point);
             System.out.println("Player 2 Point : " + player2Point);
             
-            point = random.nextInt(6) + 1;
-            player1Point += point;
-            System.out.println("Player 1 roll a " + point);
+            do {
+                point = random.nextInt(6) + 1;
+                player1Point += point;
+                System.out.println("Player 1 roll a " + point);
+                
+                if (player1Point > 100){
+                    System.out.println("Player 1 Win the Game!");
+                    break;
+                }
+            } while(point == 6);
             
-            if (player1Point > 100){
-                System.out.println("Player 1 Win the Game!");
+                         
+            if (player1Point > 100 || player2Point > 100){
                 break;
             }
-            point = random.nextInt(6) + 1;
-            player2Point += point;
-            System.out.println("Player 1 roll a " + point);
-            if (player2Point > 100){
-                System.out.println("Player 2 Win the Game!");
+            
+            
+            do {
+                point = random.nextInt(6) + 1;
+                player2Point += point;
+                System.out.println("Player 2 roll a " + point);
+                
+                if (player2Point > 100){
+                    System.out.println("Player 2 Win the Game!");
+                    break;
+                }
+            } while(point == 6);
+            if (player1Point > 100 || player2Point > 100){
                 break;
             }
-            
         }
         
         System.out.println("Player 1 Point : " + player1Point);
