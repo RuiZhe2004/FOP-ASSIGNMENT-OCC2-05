@@ -13,12 +13,12 @@ import java.util.Random;
 public class L04Q08 {
     public static void main(String[] args) {
         Random g = new Random();
-        int n = g.nextInt(101); // Random integer from 0 to 100
-        System.out.println("The first " + n + " prime numbers: ");
+        int num = g.nextInt(101); // Random integer from 0 to 100
+        System.out.println("The first " + num + " prime numbers: ");
         int count = 0;
         int i = 2;
 
-        while (count < n) {
+        while (count < num) {
             boolean isPrime = true;
 
             for (int j = 2; j <= i / 2; j++) {
