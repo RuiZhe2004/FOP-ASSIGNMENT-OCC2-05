@@ -6,7 +6,7 @@ package Week04;
 
 /**
  *
- * @author ooiru
+ * @author rz_rexton
  */
 import java.util.Random;
 public class L04Q06 {
