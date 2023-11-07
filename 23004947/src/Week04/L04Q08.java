@@ -18,10 +18,10 @@ public class L04Q08 {
         int count = 0;
         int i = 2;
 
-        while (count < num) {
-            boolean isPrime = true;
+        while (count < num) { //help to meet the required num of prime number
+            boolean isPrime = true; //using this function helps me to print out prime num that is verified
 
-            for (int j = 2; j <= i / 2; j++) {
+            for (int j = 2; j <= i / 2; j++) { //using i/2 helps to include 2 & 3 as prime number
                 if (i % j == 0) {
                     isPrime = false;
                     break;
@@ -32,7 +32,7 @@ public class L04Q08 {
                 System.out.println(i);
                 count++;
             }
-            i++; // Move to the next number
+            i++; // Use other factor to check prime number
         }
     }
 }
