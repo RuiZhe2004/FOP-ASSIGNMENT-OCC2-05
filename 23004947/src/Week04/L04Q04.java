@@ -29,13 +29,13 @@ public class L04Q04 {
         
               //Find may first day when leap year
               int mayfirst = day;
-              for(int i=0;i<4;i++){
+              for(int i=0;i<=4;i++){
                 mayfirst = (mayfirst+nlydays[i])%7; 
               }
         
               //Find aug first day when leap year
               int augfirst = day;
-              for(int j=0;j<7;j++){
+              for(int j=0;j<=7;j++){
                 augfirst = (augfirst+nlydays[j])%7;  
               }
               
@@ -112,7 +112,7 @@ public class L04Q04 {
               System.out.printf("%12s%s\n","","Calendar");
               System.out.printf("%12s%d%s\n","",year," MAY");
               System.out.println("---------------------------------");
-              System.out.printf("%3s  %3s  %3s  %3s  %3s  %3s  %3s\n","SUN","MON","TUE","WED","THU","FRI","SAT");
+              System.out.printf("%3s  %3s  %3s  %3s  %3s  %3s  %3s\n","MON","TUE","WED","THU","FRI","SAT","SUN");
               System.out.println("---------------------------------");
               for(int i=1;i< mayfirst ;i++){
               System.out.printf("%5s","");
@@ -135,7 +135,7 @@ public class L04Q04 {
               System.out.printf("%12s%s\n","","Calendar");
               System.out.printf("%12s%d%s\n","",year," AUG");
               System.out.println("---------------------------------");
-              System.out.printf("%3s  %3s  %3s  %3s  %3s  %3s  %3s\n","SUN","MON","TUE","WED","THU","FRI","SAT");
+              System.out.printf("%3s  %3s  %3s  %3s  %3s  %3s  %3s\n","MON","TUE","WED","THU","FRI","SAT","SUN");
               System.out.println("---------------------------------");
               
               for(int i=1;i< augfirst ;i++){
