@@ -39,9 +39,9 @@ public class L05Q04 {
     }
     
     public static void reverse(int[][] arr) {
-        int left = 0;
-        int right = arr.length - 1;
         for (int i = 0; i < arr.length; i++) {
+            int left = 0;
+            int right = arr.length - 1;            
             while (left < right) {
                 int temp = arr[i][left];
                 arr[i][left] = arr[i][right];
