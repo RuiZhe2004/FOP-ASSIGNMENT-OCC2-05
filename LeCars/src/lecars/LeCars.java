@@ -5,16 +5,32 @@ import java.nio.charset.StandardCharsets;
 
 public class LeCars {
     public static void main(String[] args) {
-            System.out.println("Hi");
-            // Get an InputStream for the resource file
-            InputStream resourceStream = LeCars.class.getResourceAsStream("/data/cust.csv");
+
+            // Get an InputStream for the resource file cust.csv
+            InputStream resourceStreamCust = LeCars.class.getResourceAsStream("/data/cust.csv");
                
-            if (resourceStream != null) {
+            if (resourceStreamCust != null) {
                 // Convert the InputStream to a String
-                String fileContent = convertStreamToString(resourceStream);
+                String fileContentCust = convertStreamToString(resourceStreamCust);
+                
+                // to remove the unused row
+                fileContentCust = fileContentCust.replaceFirst("custId,custName,phoneNum,postcode\\n", "");
                 
                 // Print or process the file content as needed
-                System.out.println(fileContent);
+                System.out.println(fileContentCust);
+                
+                
+                String[] lineSplit = fileContentCust.split("\\n");
+                String[][] cust = new String[lineSplit.length][4];
+                
+                for(int line = 0; line < lineSplit.length; line++){
+                    // line - 1 to not include the index name
+                    cust[line] = lineSplit[line].split(",");
+                }
+                
+                // System.out.println(cust[lineSplit.length-1][0]);
+                
+                
             } else {
                 System.err.println("Resource file not found.");
             }
