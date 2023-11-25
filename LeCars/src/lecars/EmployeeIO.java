@@ -15,6 +15,7 @@ public class EmployeeIO {
     public static void main(String[] args) {
         getEmployeeInput();
     }
+    
     public static String[][] getEmployeeInput() {
         String[][] employee = {{}};
 
@@ -46,6 +47,45 @@ public class EmployeeIO {
             System.err.println("Resource file not found.");
         }
         return employee;        
+    }
+    
+    public static String[][][] separateEmployee(String[][] employee) {
+        int numSalesEmployee = 0;
+        int numManagementEmployee = 0;
+
+        // Count the number of sales and management employees
+        for (String[] emp : employee) {
+            if ("1".equals(emp[2])) {
+                numManagementEmployee++;
+            } else {
+                numSalesEmployee++;
+            }
+        }
+
+        // Separate employees based on roles
+        String[][] salesEmployee = new String[numSalesEmployee][];
+        String[][] managementEmployee = new String[numManagementEmployee][];
+
+        // Reset counters
+        numSalesEmployee = 0;
+        numManagementEmployee = 0;
+
+        int ct = 0;
+        while (ct < employee.length) {
+            if ("0".equals(employee[ct][2])) {
+                salesEmployee[numSalesEmployee] = employee[ct].clone();  // clone to avoid reference issues
+                numSalesEmployee++;
+            } else {
+                managementEmployee[numManagementEmployee] = employee[ct].clone();  // clone to avoid reference issues
+                numManagementEmployee++;
+            }
+            ct++;
+        }
+
+        // Create a 3D array to store the separated employees
+        String[][][] separatedEmployee = {salesEmployee, managementEmployee};
+
+        return separatedEmployee;
     }
 
 }

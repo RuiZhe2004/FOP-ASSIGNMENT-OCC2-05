@@ -4,6 +4,10 @@ import lecars.StreamReaderHandler;
 import java.io.*;
 
 public class CustIO {
+    public static void main(String[] args) {
+        getCustInput();
+    }
+    
     public static String[][] getCustInput() {
         String[][] cust = {{}};
 
@@ -36,5 +40,4 @@ public class CustIO {
         }
         return cust;        
     }
-
 }
