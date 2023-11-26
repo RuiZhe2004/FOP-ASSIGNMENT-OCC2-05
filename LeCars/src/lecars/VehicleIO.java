@@ -108,7 +108,7 @@ public class VehicleIO {
 
             // to remove the unused row
             fileContent = fileContent.replaceFirst("carPlate,carModel,acquirePrice,carStatus,salesPrice\\n", "");
-            System.out.println("nani");
+
             // Print or process the file content as needed
             System.out.println(fileContent);
 
