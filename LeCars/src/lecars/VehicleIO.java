@@ -80,6 +80,11 @@ public class VehicleIO {
     public boolean isPriceAbove(double price) {
         return this.salesPrice >= price;
     }
+
+    //pls add toString method to customize ur output instead of array location
+    public String toString(){
+        return carPlate+","+carModel+","+acquirePrice+","+carStatus+","+salesPrice;
+    }
     
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
@@ -103,7 +108,7 @@ public class VehicleIO {
 
             // to remove the unused row
             fileContent = fileContent.replaceFirst("carPlate,carModel,acquirePrice,carStatus,salesPrice\\n", "");
-
+            System.out.println("nani");
             // Print or process the file content as needed
             System.out.println(fileContent);
 
@@ -122,18 +127,18 @@ public class VehicleIO {
 //                        Double.parseDouble(attributes[4]), attributes[5]);
 //                vehicles.add(vehicle);
 //            }
-
             for (String line : lineSplit) {
                 String[] attributes = line.split(",");
 
                 // set soldPrice to null when it is not exist
                 Double soldPrice = null;
-
                 // Check soldPrice exist
-                if (!attributes[4].isEmpty()) {
+             /*    if (!attributes[4].isEmpty()) {
                     soldPrice = Double.parseDouble(attributes[4]);
-                }
+                }*/
                 
+                //if got price then parse, else =0
+                soldPrice=(attributes.length==5)?Double.parseDouble(attributes[4]):0;
                 // attributes 0 = carPlate
                 // attributes 1 = carModel
                 // attributes 2 = acquirePrice
@@ -162,9 +167,9 @@ public class VehicleIO {
     
     private static void filterByStatus(List<VehicleIO> vehicles, int status) {
         for (VehicleIO vehicle : vehicles) {
-            while (vehicle.isStatus(status)) {
-                System.out.println("Vehicle with status " + status + ": " + vehicles.toString());
-                System.out.println(vehicle);
+            //so that it stops lol
+            if (vehicle.carStatus==status) {
+                System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
             }
         }
     }
