@@ -29,7 +29,6 @@ public class VehicleIO {
             vehicle = new String[lineSplit.length][5];
 
             for(int line = 0; line < lineSplit.length; line++){
-                // line - 1 to not include the index name
                 vehicle[line] = lineSplit[line].split(",");
             }
             

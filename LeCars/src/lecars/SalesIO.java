@@ -29,7 +29,6 @@ public class SalesIO {
             sales = new String[lineSplit.length][5];
 
             for(int line = 0; line < lineSplit.length; line++){
-                // line - 1 to not include the index name
                 sales[line] = lineSplit[line].split(",");
             }
             
@@ -37,5 +36,9 @@ public class SalesIO {
             System.err.println("Resource file not found.");
         }
         return sales;        
+    }
+    
+    public static void addNewSales(String carPlate, String custID){
+        
     }
 }

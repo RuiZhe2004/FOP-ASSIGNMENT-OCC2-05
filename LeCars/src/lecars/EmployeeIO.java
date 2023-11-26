@@ -13,7 +13,29 @@ import java.io.*;
 
 public class EmployeeIO {
     public static void main(String[] args) {
-        getEmployeeInput();
+        String[][] employee = getEmployeeInput();
+        
+        // [0] to get salesEmployee
+        // [1] to get managementEmployee
+        String[][] salesEmployee = EmployeeIO.separateEmployee(employee)[0];
+        String[][] managementEmployee = EmployeeIO.separateEmployee(employee)[1];
+        
+        
+        System.out.println("Sales Employee:");
+        for (int i = 0; i < salesEmployee.length; i++) {
+            for (int j = 0; j < salesEmployee[i].length; j++) {
+                System.out.print(salesEmployee[i][j] + " ");
+            }
+            System.out.println();  // Move to the next line after printing each row
+        }
+        System.out.println();
+        System.out.println("Management Employee:");
+        for (int i = 0; i < managementEmployee.length; i++) {
+            for (int j = 0; j < managementEmployee[i].length; j++) {
+                System.out.print(managementEmployee[i][j] + " ");
+            }
+            System.out.println();  // Move to the next line after printing each row
+        }
     }
     
     public static String[][] getEmployeeInput() {
@@ -37,7 +59,6 @@ public class EmployeeIO {
             employee = new String[lineSplit.length][4];
 
             for(int line = 0; line < lineSplit.length; line++){
-                // line - 1 to not include the index name
                 employee[line] = lineSplit[line].split(",");
             }
             

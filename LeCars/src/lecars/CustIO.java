@@ -29,7 +29,6 @@ public class CustIO {
             cust = new String[lineSplit.length][4];
 
             for(int line = 0; line < lineSplit.length; line++){
-                // line - 1 to not include the index name
                 cust[line] = lineSplit[line].split(",");
             }
 
