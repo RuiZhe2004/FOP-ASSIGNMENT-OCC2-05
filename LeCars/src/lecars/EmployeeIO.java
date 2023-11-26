@@ -20,28 +20,26 @@ public class EmployeeIO {
         String[][] employee = {{}};
 
         // Get an InputStream for the resource file employee.csv
-        InputStream resourceStreamEmployee = CustIO.class.getResourceAsStream("/data/employee.csv");
+        InputStream resourceStream = EmployeeIO.class.getResourceAsStream("/data/employee.csv");
 
-        if (resourceStreamEmployee != null) {
+        if (resourceStream != null) {
             // Convert the InputStream to a String
-            String fileContentEmployee = StreamReaderHandler.convertStreamToString(resourceStreamEmployee);
+            String fileContent = StreamReaderHandler.convertStreamToString(resourceStream);
 
             // to remove the unused row
-            fileContentEmployee = fileContentEmployee.replaceFirst("employeeId,employeeName,employeeStatus,password\\n", "");
+            fileContent = fileContent.replaceFirst("employeeId,employeeName,employeeStatus,password\\n", "");
 
             // Print or process the file content as needed
-            System.out.println(fileContentEmployee);
+            System.out.println(fileContent);
 
 
-            String[] lineSplit = fileContentEmployee.split("\\n");
+            String[] lineSplit = fileContent.split("\\n");
             employee = new String[lineSplit.length][4];
 
             for(int line = 0; line < lineSplit.length; line++){
                 // line - 1 to not include the index name
                 employee[line] = lineSplit[line].split(",");
             }
-
-            // System.out.println(cust[lineSplit.length-1][0]);
             
         } else {
             System.err.println("Resource file not found.");
@@ -83,6 +81,8 @@ public class EmployeeIO {
         }
 
         // Create a 3D array to store the separated employees
+        // [0] to get salesEmployee
+        // [1] to get managementEmployee
         String[][][] separatedEmployee = {salesEmployee, managementEmployee};
 
         return separatedEmployee;
