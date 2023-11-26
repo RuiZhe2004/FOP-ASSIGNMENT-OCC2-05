@@ -6,7 +6,7 @@ package lecars;
 
 /**
  *
- * @author rz_rexton
+ * @author rz_rexton & szeyu
  */
 import lecars.StreamReaderHandler;
 import java.io.*;
