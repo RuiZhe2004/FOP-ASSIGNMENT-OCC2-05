@@ -6,7 +6,7 @@ package lecars;
 
 /**
  *
- * @author szeyu
+ * @author szeyu & rz_rexton
  */
 
 import java.io.*;
@@ -16,10 +16,23 @@ public class SalesEmployee extends EmployeeIO {
         registerNewUser("test","test");
     }
     public static void registerNewUser(String employeeName, String password){
-        // employeeID Auto Increment
-        String employeeID;
-        employeeID = "E0016";
+        //read and get the employee data
+        String[][] employee = getEmployeeInput();
         
+        //Get the last row of EmployeeID
+        String lastEmpID = (employee[employee.length-1][0]).substring(1);
+        int intlastEmpID = Integer.parseInt(lastEmpID);  //Convert to int so that can +1
+        
+        // employeeID Auto Increment
+        intlastEmpID++;   //+1
+        String strlatestEmpID = Integer.toString(intlastEmpID); //Convert int back to string
+        String combinedlatestEmpID = ("0000"+intlastEmpID); 
+        String extractlast4digit = combinedlatestEmpID.substring(combinedlatestEmpID.length()-4); //extract the last 4 digit from the string
+        
+        //Get substring last 4 digit
+        String employeeID;
+        employeeID = "E"+extractlast4digit;
+
         // status always 0 as a sales employee
         final String status = "0";
         
