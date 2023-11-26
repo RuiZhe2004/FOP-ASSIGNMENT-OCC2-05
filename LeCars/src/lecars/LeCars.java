@@ -12,6 +12,7 @@ package lecars;
 import java.io.*;
 import java.util.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import lecars.CustIO;
 import lecars.EmployeeIO;
@@ -20,14 +21,16 @@ import lecars.SalesIO;
 
 public class LeCars {
     public static void main(String[] args) {
-//        String[][] cust = CustIO.getCustInput();        
-//        
-//        String[][] employee = EmployeeIO.getEmployeeInput();
-//        String[][] salesEmployee = EmployeeIO.separateEmployee(employee)[0];
-//        String[][] managementEmployee = EmployeeIO.separateEmployee(employee)[1];
-//        
-//        String[][] sales = SalesIO.getSalesInput();
+        //String[][] cust = CustIO.getCustInput();        
+        
+        //String[][] employee = EmployeeIO.getEmployeeInput();
+        //String[][] salesEmployee = EmployeeIO.separateEmployee(employee)[0];
+        //String[][] managementEmployee = EmployeeIO.separateEmployee(employee)[1];
+        
+        //String[][] sales = SalesIO.getSalesInput();
         
         List<VehicleIO> vehicle = VehicleIO.getVehicleInput();
+        
+               
     }
 }
