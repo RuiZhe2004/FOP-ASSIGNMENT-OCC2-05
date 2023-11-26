@@ -6,7 +6,7 @@ package lecars;
 
 /**
  *
- * @author szeyu
+ * @author szeyu & rz_rexton
  */
 
 import java.io.*;
