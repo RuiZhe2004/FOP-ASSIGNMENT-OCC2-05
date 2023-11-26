@@ -81,7 +81,7 @@ public class VehicleIO {
         return this.salesPrice >= price;
     }
 
-    //pls add toString method to customize ur output instead of array location
+    //pls add toString method to customize ur output instead of array location, lol
     public String toString(){
         return carPlate+","+carModel+","+acquirePrice+","+carStatus+","+salesPrice;
     }
@@ -165,9 +165,10 @@ public class VehicleIO {
         return vehicles;        
     }
     
+    //filtering filtering filtering
     private static void filterByStatus(List<VehicleIO> vehicles, int status) {
         for (VehicleIO vehicle : vehicles) {
-            //so that it stops lol
+            //so that it stops lol,:3
             if (vehicle.carStatus==status) {
                 System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
             }
