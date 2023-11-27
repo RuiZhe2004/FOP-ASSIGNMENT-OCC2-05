@@ -6,40 +6,79 @@ package lecars;
 
 /**
  *
- * @author rz_rexton & szeyu
+ * @author rz_rexton
  */
 import lecars.StreamReaderHandler;
 import java.io.*;
+import java.util.*;
 
 public class EmployeeIO {
-    public static void main(String[] args) {
-        String[][] employee = getEmployeeInput();
-        
-        // [0] to get salesEmployee
-        // [1] to get managementEmployee
-        String[][] salesEmployee = EmployeeIO.separateEmployee(employee)[0];
-        String[][] managementEmployee = EmployeeIO.separateEmployee(employee)[1];
-        
-        
-        System.out.println("Sales Employee:");
-        for (int i = 0; i < salesEmployee.length; i++) {
-            for (int j = 0; j < salesEmployee[i].length; j++) {
-                System.out.print(salesEmployee[i][j] + " ");
-            }
-            System.out.println();  // Move to the next line after printing each row
-        }
-        System.out.println();
-        System.out.println("Management Employee:");
-        for (int i = 0; i < managementEmployee.length; i++) {
-            for (int j = 0; j < managementEmployee[i].length; j++) {
-                System.out.print(managementEmployee[i][j] + " ");
-            }
-            System.out.println();  // Move to the next line after printing each row
-        }
+
+    private String employeeId;
+    private String employeeName;
+    private int employeeStatus;
+    private String password;
+    
+    // Constructor
+    public EmployeeIO(String employeeId, String employeeName, int employeeStatus, String password) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeStatus = employeeStatus;
+        this.password = password;
     }
     
-    public static String[][] getEmployeeInput() {
-        String[][] employee = {{}};
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public int getEmployeeStatus() {
+        return employeeStatus;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public void setEmployeeStatus(int employeeStatus) {
+        this.employeeStatus = employeeStatus;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    //add toString method to customize ur output instead of array location
+    public String toString(){
+        return employeeId+","+employeeName+","+employeeStatus+","+password;
+    }
+    
+    public static void main(String[] args) {
+        List<EmployeeIO> employees = getEmployeeInput();
+        System.out.println("");
+//        for (VehicleIO vehicle : vehicles) {            
+//            System.out.println(vehicle.toString());
+//        }
+        
+        filterByStatus(employees, 1);
+        System.out.println("");
+        filterByStatus(employees, 0);
+    }
+    
+    public static List<EmployeeIO> getEmployeeInput() {
+        List<EmployeeIO> employees = new ArrayList<>();
 
         // Get an InputStream for the resource file employee.csv
         InputStream resourceStream = EmployeeIO.class.getResourceAsStream("/data/employee.csv");
@@ -54,59 +93,43 @@ public class EmployeeIO {
             // Print or process the file content as needed
             System.out.println(fileContent);
 
-
+            //split content
             String[] lineSplit = fileContent.split("\\n");
-            employee = new String[lineSplit.length][4];
 
-            for(int line = 0; line < lineSplit.length; line++){
-                employee[line] = lineSplit[line].split(",");
+            for (String line : lineSplit) {
+                String[] attributes = line.split(",");
+
+                // attributes 0 = employeeId
+                // attributes 1 = employeeName
+                // attributes 2 = employeeStatus
+                // attributes 3 = password
+                EmployeeIO employee = new EmployeeIO(attributes[0], attributes[1],
+                        Integer.parseInt(attributes[2]),attributes[3]);
+
+
+                // Assign values using setter methods
+                employee.setEmployeeId(attributes[0]);
+                employee.setEmployeeName(attributes[1]);
+                employee.setEmployeeStatus(Integer.parseInt(attributes[2]));
+                employee.setPassword(attributes[3]);
+
+                employees.add(employee);
             }
+
             
         } else {
             System.err.println("Resource file not found.");
         }
-        return employee;        
+        return employees;        
     }
     
-    public static String[][][] separateEmployee(String[][] employee) {
-        int numSalesEmployee = 0;
-        int numManagementEmployee = 0;
-
-        // Count the number of sales and management employees
-        for (String[] emp : employee) {
-            if ("1".equals(emp[2])) {
-                numManagementEmployee++;
-            } else {
-                numSalesEmployee++;
+    //filtering 
+    private static void filterByStatus(List<EmployeeIO> employees, int status) {
+        for (EmployeeIO employee : employees) {
+            //so that it stops lol,:3
+            if (employee.employeeStatus==status) {
+                System.out.println("Employee with status " + status + ": " + employee.toString());
             }
         }
-
-        // Separate employees based on roles
-        String[][] salesEmployee = new String[numSalesEmployee][];
-        String[][] managementEmployee = new String[numManagementEmployee][];
-
-        // Reset counters
-        numSalesEmployee = 0;
-        numManagementEmployee = 0;
-
-        int ct = 0;
-        while (ct < employee.length) {
-            if ("0".equals(employee[ct][2])) {
-                salesEmployee[numSalesEmployee] = employee[ct].clone();  // clone to avoid reference issues
-                numSalesEmployee++;
-            } else {
-                managementEmployee[numManagementEmployee] = employee[ct].clone();  // clone to avoid reference issues
-                numManagementEmployee++;
-            }
-            ct++;
-        }
-
-        // Create a 3D array to store the separated employees
-        // [0] to get salesEmployee
-        // [1] to get managementEmployee
-        String[][][] separatedEmployee = {salesEmployee, managementEmployee};
-
-        return separatedEmployee;
     }
-
 }
