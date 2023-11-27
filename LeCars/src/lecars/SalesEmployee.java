@@ -24,41 +24,41 @@ public class SalesEmployee extends EmployeeIO {
     }
     
         public static void registerNewUser(String employeeName, String password) {
-        // Read and get the employee data
-        List<EmployeeIO> employees = getEmployeeInput();
+            // Read and get the employee data
+            List<EmployeeIO> employees = getEmployeeInput();
 
-        // Check if the list is empty or not
-        String employeeID;
-        if (!employees.isEmpty()) {
-            // Get the last employee's ID
-            String lastEmpID = employees.get(employees.size() - 1).getEmployeeId();
-            int intLastEmpID = Integer.parseInt(lastEmpID.substring(1)); // Increment the ID
+            // Check if the list is empty or not
+            String employeeID;
+            if (!employees.isEmpty()) {
+                // Get the last employee's ID
+                String lastEmpID = employees.get(employees.size() - 1).getEmployeeId();
+                int intLastEmpID = Integer.parseInt(lastEmpID.substring(1)); // Increment the ID
 
-            // employeeID Auto Increment
-            intLastEmpID++;   //+1
-            String strlatestEmpID = Integer.toString(intLastEmpID); //Convert int back to string
-            String combinedlatestEmpID = ("0000"+intLastEmpID); 
-            String extractlast4digit = combinedlatestEmpID.substring(combinedlatestEmpID.length()-4); //extract the last 4 digit from the string
-        
-            //Get substring last 4 digit
-            employeeID = "E"+extractlast4digit;
+                // employeeID Auto Increment
+                intLastEmpID++;   //+1
+                String strlatestEmpID = Integer.toString(intLastEmpID); //Convert int back to string
+                String combinedlatestEmpID = ("0000"+intLastEmpID); 
+                String extractlast4digit = combinedlatestEmpID.substring(combinedlatestEmpID.length()-4); //extract the last 4 digit from the string
 
-        // Status is always "0" as a sales employee
-        final String status = "0";
+                //Get substring last 4 digit
+                employeeID = "E"+extractlast4digit;
 
-        try (FileWriter fw = new FileWriter("src/data/employee.csv", true);
-             BufferedWriter bw = new BufferedWriter(fw);
-             PrintWriter out = new PrintWriter(bw)) {
+            // Status is always "0" as a sales employee
+            final String status = "0";
 
-            String lineOfData = employeeID + "," + employeeName + "," + status + "," + password;
-            out.println(lineOfData);
+            try (FileWriter fw = new FileWriter("src/data/employee.csv", true);
+                 BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw)) {
 
-            System.out.println("Successfully wrote to the file.");
+                String lineOfData = employeeID + "," + employeeName + "," + status + "," + password;
+                out.println(lineOfData);
 
-        } catch (IOException e) {
-          System.out.println("An error occurred.");
-          e.printStackTrace();
-          }
+                System.out.println("Successfully wrote to the file.");
+
+            } catch (IOException e) {
+              System.out.println("An error occurred.");
+              e.printStackTrace();
+            }
         }
     }
 }

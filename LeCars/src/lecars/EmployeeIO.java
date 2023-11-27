@@ -139,14 +139,14 @@ public class EmployeeIO {
     
     // searching
     // by employee name
-    private static boolean searchByEmployeeName(List<EmployeeIO> employees, String employeeName) {
+    private static EmployeeIO searchByEmployeeName(List<EmployeeIO> employees, String employeeName) {
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
             if (employee.employeeName.equals(employeeName)) {
-                return true;
+                return employee;
             }
         }
-        return false;
+        return null;
     }
     
     // searching
