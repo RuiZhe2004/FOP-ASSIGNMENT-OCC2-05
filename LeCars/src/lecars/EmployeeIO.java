@@ -75,6 +75,9 @@ public class EmployeeIO {
         filterByStatus(employees, 1);
         System.out.println("");
         filterByStatus(employees, 0);
+        
+        EmployeeIO targetEmployee = searchByEmployeeId(employees, "E0015");
+        System.out.println(targetEmployee.toString());
     }
     
     public static List<EmployeeIO> getEmployeeInput() {
@@ -124,6 +127,7 @@ public class EmployeeIO {
     }
     
     //filtering 
+    // by status
     private static void filterByStatus(List<EmployeeIO> employees, int status) {
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
@@ -134,6 +138,7 @@ public class EmployeeIO {
     }
     
     // searching
+    // by employee name
     private static boolean searchByEmployeeName(List<EmployeeIO> employees, String employeeName) {
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
@@ -142,5 +147,17 @@ public class EmployeeIO {
             }
         }
         return false;
+    }
+    
+    // searching
+    // by employee id
+    private static EmployeeIO searchByEmployeeId(List<EmployeeIO> employees, String employeeId) {
+        for (EmployeeIO employee : employees) {
+            //so that it stops lol,:3
+            if (employee.employeeId.equals(employeeId)) {
+                return employee;
+            }
+        }
+        return null;
     }
 }
