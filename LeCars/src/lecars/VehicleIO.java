@@ -94,6 +94,11 @@ public class VehicleIO {
 //        }
         
         filterByStatus(vehicles, 1);
+        VehicleIO vehicle = searchByVehicleCarPlate(vehicles, "PQR789");
+        if(vehicle == null)
+            System.out.println("No result");
+        else
+            System.out.println(vehicle.toString());
     }
     
     public static List<VehicleIO> getVehicleInput() {
@@ -173,5 +178,17 @@ public class VehicleIO {
                 System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
             }
         }
+    }
+    
+    // searching
+    // by car plate
+    private static VehicleIO searchByVehicleCarPlate(List<VehicleIO> vehicles, String carPlate) {
+        for (VehicleIO vehicle : vehicles) {
+            //so that it stops lol,:3
+            if (vehicle.carPlate.equals(carPlate)) {
+                return vehicle;
+            }
+        }
+        return null;
     }
 }
