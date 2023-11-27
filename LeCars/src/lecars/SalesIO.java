@@ -122,12 +122,6 @@ public class SalesIO {
         return sales;        
     }
     
-    // Helper method to extract numeric part from SalesId
-    private static int extractNumericSalesId(String salesId) {
-        // Assuming SalesId format is always "A" followed by numeric digits
-        String numericPart = salesId.substring(1);
-        return Integer.parseInt(numericPart);
-    }
     
     public static void addNewSales(String carPlate, String custId, String employeeId){
         try {
@@ -136,7 +130,7 @@ public class SalesIO {
 
             // Get the last row of SalesId
             String lastSalesId = sales.get(sales.size() - 1).getSalesId();
-            int intLastSalesId = extractNumericSalesId(lastSalesId) + 1; // Increment and convert to int
+            int intLastSalesId = Integer.parseInt(lastSalesId.substring(1)) + 1; // Increment and convert to int
 
             // SalesId Auto Increment
             String salesId = String.format("A%04d", intLastSalesId);
