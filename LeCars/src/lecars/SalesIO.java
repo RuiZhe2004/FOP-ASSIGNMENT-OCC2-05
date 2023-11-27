@@ -8,9 +8,7 @@ import java.time.format.*;
 
 public class SalesIO {
     
-    private static final DateTimeFormatter formatterWithZ = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-    private static final DateTimeFormatter formatterWithoutZ = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
-    
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     private String salesId;
     private OffsetDateTime dateTime;
     private String carPlate;
@@ -72,7 +70,7 @@ public class SalesIO {
     
     public static void main(String[] args) {
         List<SalesIO> sales = getSalesInput();
-        //addNewSales("test","testCustId","testEmployeeId");
+        addNewSales("test","testCustId","testEmployeeId");
     }
     
     public static List<SalesIO> getSalesInput() {
@@ -102,27 +100,8 @@ public class SalesIO {
                 // attributes 2 = carPlate
                 // attributes 3 = custId
                 // attributes 4 = employeeId
-                OffsetDateTime dateTime = null;
+                OffsetDateTime dateTime = OffsetDateTime.parse(attributes[1]);
 
-                try {
-                    // try parsing with z
-                    dateTime = OffsetDateTime.parse(attributes[1], formatterWithZ);
-                } catch (DateTimeParseException e) {
-                    System.out.println("Error parsing with Z. Trying without Z. String: " + attributes[1]);
-                    e.printStackTrace();
-                }
-
-                // check if dateTime is still null and try parsing without z
-                if (dateTime == null) {
-                    try {
-                        dateTime = OffsetDateTime.parse(attributes[1], formatterWithoutZ);
-                    } catch (DateTimeParseException e2) {
-                        System.out.println("Error parsing without Z. String: " + attributes[1]);
-                        e2.printStackTrace();
-                    }
-                }
-
-                
                 SalesIO sale = new SalesIO(attributes[0], dateTime, attributes[2], attributes[3], attributes[4]);
 
                 // Assign values using setter methods
@@ -143,41 +122,46 @@ public class SalesIO {
         return sales;        
     }
     
+    // Helper method to extract numeric part from SalesId
+    private static int extractNumericSalesId(String salesId) {
+        // Assuming SalesId format is always "A" followed by numeric digits
+        String numericPart = salesId.substring(1);
+        return Integer.parseInt(numericPart);
+    }
+    
     public static void addNewSales(String carPlate, String custId, String employeeId){
-        //read and get the sales data
-        List<SalesIO> sales = getSalesInput();
-        
-        //Get the last row of SalesId
-        String lastSalesId = sales.get(sales.size()-1).getSalesId();
-        int intlastSalesId = Integer.parseInt(lastSalesId);  //Convert to int so that can +1
-        
-        // SalesId Auto Increment
-        intlastSalesId++;   //+1
-        String strlatestSalesId = Integer.toString(intlastSalesId); //Convert int back to string
-        String combinedlatestEmpID = ("0000"+intlastSalesId); 
-        String extractlast4digit = combinedlatestEmpID.substring(combinedlatestEmpID.length()-4); //extract the last 4 digit from the string
-        
-        //Get substring last 4 digit
-        String salesId;
-        salesId = "A"+extractlast4digit;
-        
-        try(FileWriter fw = new FileWriter("src/data/sales.csv", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw)) // give access to println (coder friendly)
-        {
+        try {
+            //read and get the sales data
+            List<SalesIO> sales = getSalesInput();
+
+            // Get the last row of SalesId
+            String lastSalesId = sales.get(sales.size() - 1).getSalesId();
+            int intLastSalesId = extractNumericSalesId(lastSalesId) + 1; // Increment and convert to int
+
+            // SalesId Auto Increment
+            String salesId = String.format("A%04d", intLastSalesId);
+
             // get the current date time
-            OffsetDateTime dateTime = OffsetDateTime.now();
-            
-            // construct an input string
-            String lineOfData = salesId + "," + dateTime + "," + carPlate + "," + custId + "," + employeeId;
-            out.println(lineOfData);
-            
-            out.close();
-            System.out.println("Successfully wrote to the file.");
-            
+            final OffsetDateTime dateTime = OffsetDateTime.now();
+            // Format the OffsetDateTime
+            String formattedDateTime = dateTime.format(formatter) + "Z";
+
+            // Construct an input string
+            String lineOfData = String.format("%s,%s,%s,%s,%s", salesId, formattedDateTime, carPlate, custId, employeeId);
+
+            try(FileWriter fw = new FileWriter("src/data/sales.csv", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw)) // give access to println (coder friendly)
+            {
+                out.println(lineOfData);
+
+                out.close();
+                System.out.println("Successfully wrote to the file.");
+
+            } 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+                System.out.println("An error occurred.");
+                e.printStackTrace();
         }
     }
 }
