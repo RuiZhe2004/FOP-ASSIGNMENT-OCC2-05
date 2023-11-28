@@ -25,7 +25,7 @@ public class SalesEmployee extends EmployeeIO {
         super(employeeId, employeeName, employeeStatus, password); // Calls the superclass constructor
     }
     
-    public static void registerNewUser(String employeeName, String password) {
+    public static String registerNewUser(String employeeName, String password) {
         // Read and get the employee data
         List<EmployeeIO> employees = getEmployeeInput();
             
@@ -39,11 +39,17 @@ public class SalesEmployee extends EmployeeIO {
 
         if (isDuplicate) {
             System.out.println("Username has been taken.");
+            return "Username has been taken.";
         } 
         else {
-
-        // Check if the list is empty or not
-            String employeeID;
+            
+            // by default the first employee is E0001
+            String employeeID = "E0001";
+            
+            // Status is always "0" as a sales employee
+            final String status = "0";
+            
+            // Check if the list is empty or not
             if (!employees.isEmpty()) {
                 // Get the last employee's ID
                 String lastEmpID = employees.get(employees.size() - 1).getEmployeeId();
@@ -57,22 +63,21 @@ public class SalesEmployee extends EmployeeIO {
 
                 //Get substring last 4 digit
                 employeeID = "E"+extractlast4digit;
-
-                // Status is always "0" as a sales employee
-                final String status = "0";
-
-                try (FileWriter fw = new FileWriter("src/data/employee.csv", true);
+            } 
+            
+            try (FileWriter fw = new FileWriter("src/data/employee.csv", true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter out = new PrintWriter(bw)) {
+                
+            String lineOfData = String.format("%s,%s,%s,%s", employeeID, employeeName, status, password);
+            out.println(lineOfData);
+            System.out.println("Successfully wrote to the file.");
+            return "Sucess";
 
-                String lineOfData = employeeID + "," + employeeName + "," + status + "," + password;
-                out.println(lineOfData);
-                System.out.println("Successfully wrote to the file.");
-
-                } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+                return "An error occurred.";
             }
         }
     }
