@@ -161,12 +161,17 @@ public class EmployeeIO {
         return null;
     }
     
-    public static boolean validateLogin(List<EmployeeIO> employees, String enteredUsername, String enteredPassword) {
+    public static int validateLogin(String enteredUsername, String enteredPassword) {
+        // read and get all the data of employees
+        List<EmployeeIO> employees = getEmployeeInput();
+        
         for (EmployeeIO employee : employees) {
             if (employee.getEmployeeName().equals(enteredUsername) && employee.getPassword().equals(enteredPassword)) {
-                return true; // Matching credentials found
+                // Matching credentials found
+                // return its status
+                return employee.getEmployeeStatus();
             }
         }
-        return false; // No matching credentials found
+        return -1; // No matching credentials found
     }
 }

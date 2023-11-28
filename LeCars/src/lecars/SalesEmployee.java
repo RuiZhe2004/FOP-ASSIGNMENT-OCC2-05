@@ -72,7 +72,7 @@ public class SalesEmployee extends EmployeeIO {
             String lineOfData = String.format("%s,%s,%s,%s", employeeID, employeeName, status, password);
             out.println(lineOfData);
             System.out.println("Successfully wrote to the file.");
-            return "Sucess";
+            return "Success";
 
             } catch (IOException e) {
                 System.out.println("An error occurred.");
@@ -83,11 +83,11 @@ public class SalesEmployee extends EmployeeIO {
     }
     
     public static void login(String enteredUsername, String enteredPassword) {
-        List<EmployeeIO> employees = getEmployeeInput();
-
-        if (EmployeeIO.validateLogin(employees, enteredUsername, enteredPassword)) {
-            System.out.println("Login successful!");
-            // successful login
+        
+        if (EmployeeIO.validateLogin(enteredUsername, enteredPassword) == 0) {
+            System.out.println("Sales Employee Login successful!");
+        } else if (EmployeeIO.validateLogin(enteredUsername, enteredPassword) == 1) {
+            System.out.println("Management Employee Login successful!");
         } else {
             System.out.println("Invalid username or password.");
         }
