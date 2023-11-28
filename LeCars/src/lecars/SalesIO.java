@@ -1,10 +1,12 @@
 package lecars;
 
 import lecars.StreamReaderHandler;
+import lecars.EmployeeIO;
 import java.io.*;
 import java.util.*;
 import java.time.*;
 import java.time.format.*;
+
 
 public class SalesIO {
     
@@ -70,7 +72,11 @@ public class SalesIO {
     
     public static void main(String[] args) {
         List<SalesIO> sales = getSalesInput();
-        addNewSales("test","testCustId","testEmployeeId");
+        //addNewSales("test","testCustId","testEmployeeId");
+        List<SalesIO> filteredSales = filterSalesByEmployeeId("E0014");
+        for (SalesIO sale : filteredSales) {            
+            System.out.println(sale.toString());
+        }
     }
     
     public static List<SalesIO> getSalesInput() {
@@ -87,7 +93,7 @@ public class SalesIO {
             fileContent = fileContent.replaceFirst("salesId,dateTime,carPlate,custId,employeeId\\n", "");
 
             // Print or process the file content as needed
-            System.out.println(fileContent);
+            //System.out.println(fileContent);
 
 
             String[] lineSplit = fileContent.split("\\n");
@@ -157,5 +163,20 @@ public class SalesIO {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
         }
+    }
+    
+    //filtering 
+    // by employeeId
+    private static List<SalesIO> filterSalesByEmployeeId(String employeeId) {
+        List<SalesIO> filteredSales = new ArrayList<>();;
+        List<SalesIO> sales = getSalesInput();
+        for (SalesIO sale : sales) {
+            //so that it stops lol,:3
+            if (sale.getEmployeeId().equals(employeeId)) {
+                // System.out.println("Employee with employee Id " + employeeId + ": " + sale.toString());
+                filteredSales.add(sale);
+            }
+        }
+        return filteredSales;
     }
 }
