@@ -160,4 +160,13 @@ public class EmployeeIO {
         }
         return null;
     }
+    
+    public static boolean validateLogin(List<EmployeeIO> employees, String employeeName, String password) {
+        for (EmployeeIO employee : employees) {
+            if (employee.getEmployeeName().equalsIgnoreCase(employeeName) && employee.getPassword().equals(employeeName)) {
+                return true; // Matching credentials found
+            }
+        }
+        return false; // No matching credentials found
+    }
 }
