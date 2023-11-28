@@ -161,9 +161,9 @@ public class EmployeeIO {
         return null;
     }
     
-    public static boolean validateLogin(List<EmployeeIO> employees, String employeeName, String password) {
+    public static boolean validateLogin(List<EmployeeIO> employees, String enteredUsername, String enteredPassword) {
         for (EmployeeIO employee : employees) {
-            if (employee.getEmployeeName().equalsIgnoreCase(employeeName) && employee.getPassword().equals(employeeName)) {
+            if (employee.getEmployeeName().equals(enteredUsername) && employee.getPassword().equals(enteredPassword)) {
                 return true; // Matching credentials found
             }
         }
