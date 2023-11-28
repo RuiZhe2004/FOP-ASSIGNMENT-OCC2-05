@@ -89,12 +89,12 @@ public class VehicleIO {
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
         System.out.println("");
-//        for (VehicleIO vehicle : vehicles) {            
-//            System.out.println(vehicle.toString());
-//        }
+        for (VehicleIO vehicle : vehicles) {            
+            System.out.println(vehicle.toString());
+        }
         
-        filterByStatus(vehicles, 1);
-        VehicleIO vehicle = searchByVehicleCarPlate(vehicles, "PQR789");
+        filterVehicleByStatus(1);
+        VehicleIO vehicle = searchByVehicleCarPlate("PQR789");
         if(vehicle == null)
             System.out.println("No result");
         else
@@ -115,7 +115,7 @@ public class VehicleIO {
             fileContent = fileContent.replaceFirst("carPlate,carModel,acquirePrice,carStatus,salesPrice\\n", "");
 
             // Print or process the file content as needed
-            System.out.println(fileContent);
+            //System.out.println(fileContent);
 
 
             String[] lineSplit = fileContent.split("\\n");
@@ -171,20 +171,25 @@ public class VehicleIO {
     }
     
     //filtering filtering filtering
-    private static void filterByStatus(List<VehicleIO> vehicles, int status) {
+    private static List<VehicleIO> filterVehicleByStatus(int status) {
+        List<VehicleIO> filteredVehicles = new ArrayList<>();;
+        List<VehicleIO> vehicles = getVehicleInput();
         for (VehicleIO vehicle : vehicles) {
             //so that it stops lol,:3
             if (vehicle.carStatus==status) {
-                System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
+                //System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
+                filteredVehicles.add(vehicle);
             }
         }
+        return filteredVehicles;
     }
     
     // searching
     // by car plate
-    private static VehicleIO searchByVehicleCarPlate(List<VehicleIO> vehicles, String carPlate) {
+    public static VehicleIO searchByVehicleCarPlate(String carPlate) {
+        List<VehicleIO> vehicles = getVehicleInput();
+        
         for (VehicleIO vehicle : vehicles) {
-            //so that it stops lol,:3
             if (vehicle.carPlate.equals(carPlate)) {
                 return vehicle;
             }
