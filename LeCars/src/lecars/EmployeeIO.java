@@ -68,16 +68,22 @@ public class EmployeeIO {
     public static void main(String[] args) {
         List<EmployeeIO> employees = getEmployeeInput();
         System.out.println("");
-//        for (VehicleIO vehicle : vehicles) {            
-//            System.out.println(vehicle.toString());
-//        }
         
-        filterByStatus(employees, 1);
-        System.out.println("");
-        filterByStatus(employees, 0);
+        System.out.println("Management Employees");
+        List<EmployeeIO> managementEmployees = filterEmployeeByStatus(1);
+        for (EmployeeIO employee : managementEmployees) {            
+            System.out.println(employee.toString());
+        }
+        System.out.println();
+        System.out.println("Sales Employees");
+        List<EmployeeIO> salesEmployees = filterEmployeeByStatus(0);
+        for (EmployeeIO employee : salesEmployees) {            
+            System.out.println(employee.toString());
+        }
         
-        EmployeeIO targetEmployee = searchByEmployeeId(employees, "E0015");
-        System.out.println(targetEmployee.toString());
+        System.out.println();
+        EmployeeIO targetEmployee = searchEmployeeByEmployeeId("E0015");
+        System.out.println("Target Employee : " + targetEmployee.toString());
     }
     
     public static List<EmployeeIO> getEmployeeInput() {
@@ -94,7 +100,7 @@ public class EmployeeIO {
             fileContent = fileContent.replaceFirst("employeeId,employeeName,employeeStatus,password\\n", "");
 
             // Print or process the file content as needed
-            System.out.println(fileContent);
+            //System.out.println(fileContent);
 
             //split content
             String[] lineSplit = fileContent.split("\\n");
@@ -128,30 +134,44 @@ public class EmployeeIO {
     
     //filtering 
     // by status
-    private static void filterByStatus(List<EmployeeIO> employees, int status) {
+    private static List<EmployeeIO> filterEmployeeByStatus(int status) {
+        List<EmployeeIO> filteredEmployee = new ArrayList<>();;
+        
+        // read and get all the data of employees
+        List<EmployeeIO> employees = getEmployeeInput();
+        
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
             if (employee.employeeStatus==status) {
-                System.out.println("Employee with status " + status + ": " + employee.toString());
+                // System.out.println("Employee with status " + status + ": " + employee.toString());
+                filteredEmployee.add(employee);
             }
         }
+        
+        return filteredEmployee;
     }
     
     // searching
     // by employee name
-    private static boolean searchByEmployeeName(List<EmployeeIO> employees, String employeeName) {
+    private static EmployeeIO searchEmployeeByEmployeeName(String employeeName) {
+        // read and get all the data of employees
+        List<EmployeeIO> employees = getEmployeeInput();
+        
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
             if (employee.employeeName.equals(employeeName)) {
-                return true;
+                return employee;
             }
         }
-        return false;
+        return null;
     }
     
     // searching
     // by employee id
-    private static EmployeeIO searchByEmployeeId(List<EmployeeIO> employees, String employeeId) {
+    private static EmployeeIO searchEmployeeByEmployeeId(String employeeId) {
+        // read and get all the data of employees
+        List<EmployeeIO> employees = getEmployeeInput();
+        
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
             if (employee.employeeId.equals(employeeId)) {
@@ -159,5 +179,19 @@ public class EmployeeIO {
             }
         }
         return null;
+    }
+    
+    public static int validateLogin(String enteredUsername, String enteredPassword) {
+        // read and get all the data of employees
+        List<EmployeeIO> employees = getEmployeeInput();
+        
+        for (EmployeeIO employee : employees) {
+            if (employee.getEmployeeName().equals(enteredUsername) && employee.getPassword().equals(enteredPassword)) {
+                // Matching credentials found
+                // return its status
+                return employee.getEmployeeStatus();
+            }
+        }
+        return -1; // No matching credentials found
     }
 }
