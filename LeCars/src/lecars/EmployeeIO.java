@@ -134,7 +134,7 @@ public class EmployeeIO {
     
     //filtering 
     // by status
-    private static List<EmployeeIO> filterEmployeeByStatus(int status) {
+    public static List<EmployeeIO> filterEmployeeByStatus(int status) {
         List<EmployeeIO> filteredEmployee = new ArrayList<>();;
         
         // read and get all the data of employees
