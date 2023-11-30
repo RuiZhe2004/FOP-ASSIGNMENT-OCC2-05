@@ -63,7 +63,7 @@ public class ManageEmployee {
                 System.out.println("Employee with ID " + employeeId + ", " + targetemp + " has been updated to a management level employee.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();  //catches any IOException that might occur during file writing operations.
         }
     }
 }
