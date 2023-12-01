@@ -171,4 +171,31 @@ public class CustIO {
         
         return null;
     }
+    // add new customer by increasing ID
+    public static void addNewCust(String custName, String phoneNum, String postcode){
+        try {
+            List<CustIO> cust = getcustInput();
+
+            String lastCustId = cust.get(cust.size() - 1).getCustId();
+            int LastCustId = Integer.parseInt(lastCustId.substring(1)) + 1; 
+
+            String nextCustId = String.format("C%04d", LastCustId);
+
+            String newData = String.format("%s,%s,%s,%s", nextCustId, custName, phoneNum, postcode);
+
+            try(FileWriter fw = new FileWriter("src/data/cust.csv", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw))
+            {
+                out.println(newData);
+
+                out.close();
+                System.out.println("Successfully wrote to the file.");
+
+            } 
+        } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+        }
+    }
 }
