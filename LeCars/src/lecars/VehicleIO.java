@@ -1,6 +1,7 @@
 package lecars;
 
 import lecars.StreamReaderHandler;
+import lecars.StreamWriterHandler;
 import java.io.*;
 import java.util.*;
 
@@ -111,6 +112,12 @@ public class VehicleIO {
         
         //filter by carPrice
         filterVehicleByCarSales(10000);
+        
+        //filter by carModel
+        filterByCarModel("Toyota Corolla");
+        
+        //add new vehicle
+        addNewVehicle("CBA123","LECAR","10000","0","99999");
             
     }
     
@@ -225,6 +232,36 @@ public class VehicleIO {
                 System.out.println("Vehicle with " + price + " above: " + vehicle.toString());
             }
         }
+    }
+    
+    //add new vehicle
+    //carPlate,carModel,acquirePrice,carStatus,salesPrice
+    public static String addNewVehicle(String carPlate,String carModel,String acquirePrice,String carStatus,String salesPrice) {
+        List<VehicleIO> vehicles = getVehicleInput();
+        
+        boolean isDuplicate = vehicles.stream().anyMatch(vehicle -> vehicle.getCarPlate().equals(carPlate));
+        
+        if (isDuplicate) {
+            System.out.println("The car plate has been taken.");
+            return "Carplate has been taken.";
+        } 
+        else {        
+            try (FileWriter fw = new FileWriter("src/data/vehicle.csv", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw)) {
+                
+            String lineOfData = String.format("%s,%s,%s,%s,%s", carPlate, carModel, acquirePrice, carStatus, salesPrice);
+            out.println(lineOfData);
+            System.out.println("Successfully wrote to the file.");
+            return "Success";
+
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+                return "An error occurred.";
+            }
+        }
+        
     }
     
 }
