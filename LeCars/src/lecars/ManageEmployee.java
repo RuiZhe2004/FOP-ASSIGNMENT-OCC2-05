@@ -17,7 +17,7 @@ public class ManageEmployee {
     public static void main(String[] args) {
     }
 
-    private static void NewManageEmployee(String employeeId, String employeeName) {
+    private static void newManageEmployee(String employeeId, String employeeName) {
         
         //load the list of all employees
         List<EmployeeIO> employees = getEmployeeInput();
