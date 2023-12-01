@@ -81,24 +81,43 @@ public class VehicleIO {
         return this.salesPrice >= price;
     }
 
-    //pls add toString method to customize ur output instead of array location, lol
+    //Add toString method to customize output (instead of array location)
     public String toString(){
         return carPlate+","+carModel+","+acquirePrice+","+carStatus+","+salesPrice;
     }
     
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
-        System.out.println("");
-        for (VehicleIO vehicle : vehicles) {            
-            System.out.println(vehicle.toString());
-        }
+        System.out.println();
         
+        //filter by status, not sold = 1
         filterVehicleByStatus(1);
+        
+        //filter by status, sold = 0
+        filterVehicleByStatus(0);
+        
+        //search by car plate
         VehicleIO vehicle = searchByVehicleCarPlate("PQR789");
         if(vehicle == null)
             System.out.println("No result");
         else
             System.out.println(vehicle.toString());
+        
+        //search by car model
+        filterByCarModel("Honda Civic");
+        
+        //filter by status 0 and car model
+        filterVehicleByStatusAndModel(0, "Honda Civic");
+        
+        //filter by carPrice
+        filterVehicleByCarSales(10000);
+        
+        //filter by carModel
+        filterByCarModel("Toyota Corolla");
+        
+        //add new vehicle
+        addNewVehicle("CBA123","LECAR","10000","0","99999");
+            
     }
     
     public static List<VehicleIO> getVehicleInput() {
@@ -119,28 +138,12 @@ public class VehicleIO {
 
 
             String[] lineSplit = fileContent.split("\\n");
-//            vehicles = new String[lineSplit.length][5];
-//
-//            for(int line = 0; line < lineSplit.length; line++){
-//                vehicles[line] = lineSplit[line].split(",");
-//            }
 
-//            for (String line : lineSplit) {
-//                String[] attributes = line.split(",");
-//                VehicleIO vehicle = new VehicleIO(attributes[0], attributes[1],
-//                        Double.parseDouble(attributes[2]), Integer.parseInt(attributes[3]),
-//                        Double.parseDouble(attributes[4]), attributes[5]);
-//                vehicles.add(vehicle);
-//            }
             for (String line : lineSplit) {
                 String[] attributes = line.split(",");
 
                 // set soldPrice to null when it is not exist
                 Double soldPrice = null;
-                // Check soldPrice exist
-             /*    if (!attributes[4].isEmpty()) {
-                    soldPrice = Double.parseDouble(attributes[4]);
-                }*/
                 
                 //if got price then parse, else =0
                 soldPrice=(attributes.length==5)?Double.parseDouble(attributes[4]):0;
@@ -175,9 +178,8 @@ public class VehicleIO {
         List<VehicleIO> filteredVehicles = new ArrayList<>();;
         List<VehicleIO> vehicles = getVehicleInput();
         for (VehicleIO vehicle : vehicles) {
-            //so that it stops lol,:3
             if (vehicle.carStatus==status) {
-                //System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
+                System.out.println("Vehicle with status " + status + ": " + vehicle.toString());
                 filteredVehicles.add(vehicle);
             }
         }
@@ -196,4 +198,72 @@ public class VehicleIO {
         }
         return null;
     }
+    
+    //search by carmodel
+    public static List<VehicleIO> filterByCarModel(String model) {
+        List<VehicleIO> filteredVehiclesCarModel = new ArrayList<>();
+        List<VehicleIO> vehicles = getVehicleInput();
+        
+        for(VehicleIO vehicle : vehicles) {
+            if (vehicle.carModel.equals(model)) {
+                System.out.println("Vehicle with " + model + " : " + vehicle.toString());
+                filteredVehiclesCarModel.add(vehicle);
+            }
+        }
+        return filteredVehiclesCarModel;
+    }
+    
+    //filter carmodel by status
+    public static void filterVehicleByStatusAndModel(int status, String model) {
+    List<VehicleIO> vehicles = getVehicleInput();
+        for (VehicleIO vehicle : vehicles) {
+            if (vehicle.getCarStatus() == status && vehicle.getCarModel().equals(model)) {
+                System.out.println("Vehicle with " + model + " status " + status + " : " + vehicle.toString());
+            }
+        }
+    }
+    
+    //filter vehicle with carSales price above
+    public static void filterVehicleByCarSales (int price) {
+        List<VehicleIO> vehicles = getVehicleInput();
+        for (VehicleIO vehicle : vehicles) {
+            if (vehicle.getSalesPrice() > price) {
+                System.out.println("Vehicle with " + price + " above: " + vehicle.toString());
+            }
+        }
+    }
+    
+    //add new vehicle
+    //carPlate,carModel,acquirePrice,carStatus,salesPrice
+    public static String addNewVehicle(String carPlate,String carModel,String acquirePrice,String carStatus,String salesPrice) {
+        List<VehicleIO> vehicles = getVehicleInput();
+        
+        boolean isDuplicate = vehicles.stream().anyMatch(vehicle -> vehicle.getCarPlate().equals(carPlate));
+        
+        if (isDuplicate) {
+            System.out.println("The car plate has been taken.");
+            return "Carplate has been taken.";
+        } 
+        else {        
+            try (FileWriter fw = new FileWriter("src/data/vehicle.csv", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw)) {
+                
+            String lineOfData = String.format("%s,%s,%s,%s,%s", carPlate, carModel, acquirePrice, carStatus, salesPrice);
+            out.println(lineOfData);
+            System.out.println("Successfully wrote to the file.");
+            return "Success";
+
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+                return "An error occurred.";
+            }
+        }
+        
+    }
+    
 }
+
+    
+
