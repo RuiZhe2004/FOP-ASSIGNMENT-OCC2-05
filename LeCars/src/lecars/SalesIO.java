@@ -3,6 +3,7 @@ package lecars;
 import lecars.StreamReaderHandler;
 import lecars.EmployeeIO;
 import lecars.VehicleIO;
+import static lecars.CustIO.*;
 import java.io.*;
 import java.util.*;
 import java.time.*;
@@ -80,6 +81,12 @@ public class SalesIO {
         }
         System.out.println();
         System.out.printf("RM%.2f%n", getProfitByEmployeeId("E0012"));
+        
+        List<CustIO> cust = getcustInput();
+        List<CustIO> filteredCust = filterCustByEmployeeId("E0014");
+        for (CustIO customer : filteredCust) {            
+            System.out.println(customer.toString());
+        }
     }
     
     public static List<SalesIO> getSalesInput() {
@@ -196,5 +203,37 @@ public class SalesIO {
             }
         }
         return profit;
+    }
+    
+    public static List<CustIO> filterCustByEmployeeId(String employeeID) {
+        List<SalesIO> filteredCustID = new ArrayList<>();
+        List<SalesIO> sales = getSalesInput();
+        
+        // Filter by employeeID first
+        for (SalesIO customer : sales) {
+            if (customer.employeeId.equals(employeeID)) {
+                filteredCustID.add(customer);
+            }
+        }
+        
+        // Get Only the custID from the filtered list
+        List<String> custIDs = new ArrayList<>();
+        for (SalesIO custIDonly : filteredCustID) {
+            custIDs.add(custIDonly.custId);
+        }
+        
+        // Filter by custID get from the SalesIO
+        List<CustIO> CustListByEmployeeID = new ArrayList<>();
+        List<CustIO> cust = getcustInput();
+        
+        for (String filteredCustId : custIDs) {
+            for (CustIO CustInfo : cust) {
+                if (CustInfo.custId.equals(filteredCustId)) {
+                    CustListByEmployeeID.add(CustInfo);
+                }
+            }
+        }
+
+        return CustListByEmployeeID;
     }
 }

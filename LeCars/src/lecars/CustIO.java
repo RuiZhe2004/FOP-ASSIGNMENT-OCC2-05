@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 
 public class CustIO {
-    private String custId;
+    public String custId;
     private String custName;
     private String phoneNum;
     private String postcode;
