@@ -87,6 +87,10 @@ public class SalesIO {
         for (CustIO customer : filteredCust) {            
             System.out.println(customer.toString());
         }
+        System.out.println();
+        
+        SalesIO searchByCustId = searchByCustId("C0014");
+        System.out.println("Target Customer: " + searchByCustId.toString());
     }
     
     public static List<SalesIO> getSalesInput() {
@@ -203,6 +207,17 @@ public class SalesIO {
             }
         }
         return profit;
+    }
+    
+    private static SalesIO searchByCustId(String custId) {
+        List<SalesIO> sales = getSalesInput();
+        
+        for (SalesIO customer : sales) {
+            if (customer.custId.equals(custId)) {
+                return customer;
+            }
+        }
+        return null;
     }
     
     public static List<CustIO> filterCustByEmployeeId(String employeeID) {
