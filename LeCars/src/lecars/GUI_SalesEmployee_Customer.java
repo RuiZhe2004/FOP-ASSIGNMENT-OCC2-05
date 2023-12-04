@@ -8,12 +8,12 @@ package lecars;
  *
  * @author szeyu
  */
-public class GUI_SalesEmployee extends javax.swing.JFrame {
+public class GUI_SalesEmployee_Customer extends javax.swing.JFrame {
 
     /**
-     * Creates new form GUI_SalesEmployee
+     * Creates new form GUI_SalesEmployee_Home
      */
-    public GUI_SalesEmployee() {
+    public GUI_SalesEmployee_Customer() {
         initComponents();
     }
 
@@ -34,9 +34,11 @@ public class GUI_SalesEmployee extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jMenu1.setBackground(new java.awt.Color(51, 51, 51));
         jMenu1.setText("Home");
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setForeground(new java.awt.Color(0, 153, 153));
         jMenu2.setText("Customer");
         jMenuBar1.add(jMenu2);
 
@@ -52,11 +54,11 @@ public class GUI_SalesEmployee extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 616, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 371, Short.MAX_VALUE)
         );
 
         pack();
@@ -79,20 +81,23 @@ public class GUI_SalesEmployee extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI_SalesEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_SalesEmployee_Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI_SalesEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_SalesEmployee_Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI_SalesEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_SalesEmployee_Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI_SalesEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI_SalesEmployee_Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_SalesEmployee().setVisible(true);
+                new GUI_SalesEmployee_Customer().setVisible(true);
             }
         });
     }
