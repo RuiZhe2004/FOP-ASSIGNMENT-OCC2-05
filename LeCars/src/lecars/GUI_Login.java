@@ -5,6 +5,7 @@
 package lecars;
 
 import javax.swing.JOptionPane;
+import lecars.EmployeeIO;
 
 /**
  *
@@ -170,8 +171,11 @@ public class GUI_Login extends javax.swing.JFrame {
         else if(jPassword.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Please fill in password");
         }
-        else if(juser.getText().contains("JL")&&jPassword.getText().contains("123")){
-            JOptionPane.showMessageDialog(null,"Login Successful");
+        else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 1){
+            JOptionPane.showMessageDialog(null,"Login Management Successful");
+        }
+        else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 0){
+            JOptionPane.showMessageDialog(null,"Login Sales Successful");
         }
         else{
             JOptionPane.showMessageDialog(null,"Wrong username or password","Message",JOptionPane.ERROR_MESSAGE);

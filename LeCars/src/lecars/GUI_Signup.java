@@ -37,7 +37,6 @@ public class GUI_Signup extends javax.swing.JFrame {
         jshowpw = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(660, 400));
 
         jRegistration.setFont(new java.awt.Font("Times New Roman", 3, 36)); // NOI18N
         jRegistration.setForeground(new java.awt.Color(255, 51, 51));
