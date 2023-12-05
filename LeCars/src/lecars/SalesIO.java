@@ -209,6 +209,20 @@ public class SalesIO {
         return profit;
     }
     
+    // get the sales price by EmployeeId
+    private static double getTotalSalesPriceByEmployeeId(String employeeId) {
+        List<SalesIO> filteredSales = filterSalesByEmployeeId(employeeId);
+
+        double totalSalesPrice = 0;
+        for (SalesIO sale : filteredSales) {
+            VehicleIO vehicle = VehicleIO.searchByVehicleCarPlate(sale.getCarPlate());
+            if (vehicle != null){
+                totalSalesPrice += vehicle.getSalesPrice();
+            }
+        }
+        return totalSalesPrice;
+    }
+    
     private static SalesIO searchByCustId(String custId) {
         List<SalesIO> sales = getSalesInput();
         
