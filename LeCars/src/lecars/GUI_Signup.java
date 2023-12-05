@@ -35,6 +35,10 @@ public class GUI_Signup extends javax.swing.JFrame {
         jSignup = new javax.swing.JButton();
         jLogin = new javax.swing.JButton();
         jshowpw = new javax.swing.JCheckBox();
+        jRetypepwField2 = new javax.swing.JPasswordField();
+        jRetypepassword = new javax.swing.JLabel();
+        jsecretkey = new javax.swing.JLabel();
+        jsecretkeyField3 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,41 +92,63 @@ public class GUI_Signup extends javax.swing.JFrame {
             }
         });
 
+        jRetypepwField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRetypepwField2ActionPerformed(evt);
+            }
+        });
+
+        jRetypepassword.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jRetypepassword.setText("Retype password:");
+
+        jsecretkey.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jsecretkey.setText("Secret key:");
+
+        jsecretkeyField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jsecretkeyField3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
+                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jshowpw)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jhaveaccount)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLogin)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                             .addComponent(jSignup))
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(12, 12, 12)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jRegistration)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jfullname))
-                                    .addGap(17, 17, 17)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jnamebox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)))))))
-                .addContainerGap(136, Short.MAX_VALUE))
+                                        .addComponent(jRetypepassword, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jfullname)
+                                        .addComponent(jsecretkey))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jnamebox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                                        .addComponent(jRetypepwField2)
+                                        .addComponent(jsecretkeyField3))))
+                            .addGap(28, 28, 28))))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
+                .addGap(41, 41, 41)
                 .addComponent(jRegistration)
-                .addGap(53, 53, 53)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jnamebox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jfullname))
@@ -131,13 +157,21 @@ public class GUI_Signup extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRetypepwField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRetypepassword))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jsecretkeyField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jsecretkey))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jshowpw)
-                .addGap(32, 32, 32)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLogin)
                     .addComponent(jhaveaccount)
                     .addComponent(jSignup))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,11 +202,23 @@ public class GUI_Signup extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(jshowpw.isSelected()){
             jPasswordField1.setEchoChar((char)0);
+            jRetypepwField2.setEchoChar((char)0);
+            jsecretkeyField3.setEchoChar((char)0);
         }
         else{
             jPasswordField1.setEchoChar('*');
+            jRetypepwField2.setEchoChar('*');
+            jsecretkeyField3.setEchoChar('*');
         }
     }//GEN-LAST:event_jshowpwActionPerformed
+
+    private void jRetypepwField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRetypepwField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRetypepwField2ActionPerformed
+
+    private void jsecretkeyField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jsecretkeyField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jsecretkeyField3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,10 +230,14 @@ public class GUI_Signup extends javax.swing.JFrame {
     private javax.swing.JLabel jPassword;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel jRegistration;
+    private javax.swing.JLabel jRetypepassword;
+    private javax.swing.JPasswordField jRetypepwField2;
     private javax.swing.JButton jSignup;
     private javax.swing.JLabel jfullname;
     private javax.swing.JLabel jhaveaccount;
     private javax.swing.JTextField jnamebox;
+    private javax.swing.JLabel jsecretkey;
+    private javax.swing.JPasswordField jsecretkeyField3;
     private javax.swing.JCheckBox jshowpw;
     // End of variables declaration//GEN-END:variables
 }
