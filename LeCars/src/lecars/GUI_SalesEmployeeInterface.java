@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import lecars.GUI_Login;
+import lecars.SalesIO;
 
 public class GUI_SalesEmployeeInterface extends JFrame {
 
@@ -23,11 +26,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         initDynamicContent();
         
     }
-
-    private void initDynamicContent() {
-        contentPanel = new JPanel();
-        getContentPane().add(contentPanel);
-
+    
+    private void home(){
         // Home
         homePanel = new JPanel();
         homePanel.setLayout(new GridLayout(3, 2));
@@ -51,7 +51,9 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         });
         homePanel.add(logoutButton);
         contentPanel.add(createPanel("Home", homePanel));
-
+    }
+    
+    private void customer(){
         // Customer
         customerPanel = new JPanel();
         customerPanel.setLayout(new BorderLayout());
@@ -72,14 +74,15 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 // Get the input from the search field
                 String searchInput = customerSearchField.getText();
                 
-                showInfoInterface("Customer Info");
             }
         });
 
         customerPanel.add(customerButton, BorderLayout.EAST);
         contentPanel.add(createPanel("Customer", customerPanel));
 
-
+    }
+    
+    private void sales(){
         // Sales
         salesPanel = new JPanel();
         salesPanel.setLayout(new BorderLayout());
@@ -100,31 +103,83 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 // Get the input from the search field
                 String searchInput = salesSearchField.getText();
 
-                // Simulate fetching sales information based on searchInput
-                if(searchInput.equals(null)){
-                    
+                // fetching sales information
+                List<SalesIO> sales = SalesIO.getSalesInput();
+
+                // Create a StringBuilder to accumulate sales information
+                StringBuilder salesInfo = new StringBuilder();
+//                salesInfo.append("salesId,dateTime,carPlate,custId,employeeId\n");
+                String[] columnNames = {"Sales ID", "Date/Time", "Car Plate", "Customer ID", "Employee ID"};
+
+                if (searchInput == null || searchInput.isEmpty()) {
+                    // Display all items
+                    for (SalesIO sale : sales) {
+                        // Add logic to process each sale item
+                        salesInfo.append(sale.toString()).append("\n");
+                    }
+                } else {
+                    // Search for specific items based on searchInput
+                    for (SalesIO sale : sales) {
+                        // Add logic to process matching items
+                         if (sale.getCarPlate().equals(searchInput)) {
+                            salesInfo.append(sale.toString()).append("\n");
+                         }
+                         else if (sale.getCustId().equals(searchInput)) {
+                            salesInfo.append(sale.toString()).append("\n");
+                         }
+                         else if (sale.getEmployeeId().equals(searchInput)) {
+                            salesInfo.append(sale.toString()).append("\n");
+                         }
+                         else if (sale.getSalesId().equals(searchInput)) {
+                            salesInfo.append(sale.toString()).append("\n");
+                         }
+                    }
                 }
-                showInfoInterface("sales Info");
+
+                // Show the accumulated sales information in a single pane
+                showInfoInterface("Sales Info", salesInfo.toString(), columnNames);
             }
         });
-
         salesPanel.add(salesButton, BorderLayout.EAST);
         contentPanel.add(createPanel("Sales", salesPanel));
 
-
+    }
+    
+    private void vehicle(){
         // Vehicle
         vehiclePanel = new JPanel();
         vehiclePanel.setLayout(new BorderLayout());
-        vehiclePanel.add(new JTextField(""), BorderLayout.NORTH);
+
+        JTextField vehicleSearchField = new JTextField(""); // Declare the search field
+        vehicleSearchField.setPreferredSize(new Dimension(200, 30)); // Set preferred size
+
+        JLabel vehicleSearchLabel = new JLabel("Search:"); // Create a label for the search field
+
+        // Add the label and search field to the panel
+        vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
+
         JButton vehicleButton = new JButton("Search");
         vehicleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showInfoInterface("Vehicle Info");
+                // Get the input from the search field
+                String searchInput = vehicleSearchField.getText();
+                
             }
         });
-        vehiclePanel.add(vehicleButton, BorderLayout.CENTER);
+        vehiclePanel.add(vehicleButton, BorderLayout.EAST);
         contentPanel.add(createPanel("Vehicle", vehiclePanel));
+    }
+
+    private void initDynamicContent() {
+        contentPanel = new JPanel();
+        getContentPane().add(contentPanel);
+        
+        home();
+        customer();
+        sales();
+        vehicle();    
 
         // Set default content to Home
         showContentForMenu("Home");
@@ -138,15 +193,39 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         return wrapperPanel;
     }
 
-    private void showInfoInterface(String infoTitle) {
+    private void showInfoInterface(String infoTitle, String infoContent, String[] columnNames) {
         JFrame infoFrame = new JFrame(infoTitle);
         JPanel infoPanel = new JPanel();
+
+        // Create a JTable to display sales information
+        String[][] rowData = parseRawInfo(infoContent);
+        JTable table = new JTable(rowData, columnNames);
+
+        // Create a JScrollPane for the JTable
+        JScrollPane scrollPane = new JScrollPane(table);
+
         // Add components for info display
+        infoPanel.add(scrollPane);
         infoFrame.getContentPane().add(infoPanel);
-        infoFrame.setSize(300, 200);
+        infoFrame.setSize(600, 400);
         infoFrame.setLocationRelativeTo(null);
         infoFrame.setVisible(true);
     }
+
+// Helper method to parse raw information into a 2D array for JTable
+private String[][] parseRawInfo(String salesInfo) {
+    String[] rows = salesInfo.split("\n");
+    String[][] rowData = new String[rows.length - 1][5]; // Assume 5 columns for sales info, adjust if needed
+
+    for (int i = 1; i < rows.length; i++) {
+        String[] columns = rows[i].split(",");
+        System.arraycopy(columns, 0, rowData[i - 1], 0, columns.length);
+    }
+
+    return rowData;
+}
+
+
 
     private void showContentForMenu(String menuName) {
         // Customize the content based on the menu clicked
