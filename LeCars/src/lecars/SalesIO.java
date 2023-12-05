@@ -182,7 +182,7 @@ public class SalesIO {
     //filtering 
     // by employeeId
     // can get the number of sales by employee
-    private static List<SalesIO> filterSalesByEmployeeId(String employeeId) {
+    public static List<SalesIO> filterSalesByEmployeeId(String employeeId) {
         List<SalesIO> filteredSales = new ArrayList<>();
         List<SalesIO> sales = getSalesInput();
         for (SalesIO sale : sales) {
@@ -206,11 +206,12 @@ public class SalesIO {
                 profit += vehicle.getSalesPrice() - vehicle.getAcquirePrice();
             }
         }
+        
         return profit;
     }
     
     // get the sales price by EmployeeId
-    private static double getTotalSalesPriceByEmployeeId(String employeeId) {
+    public static double getTotalSalesPriceByEmployeeId(String employeeId) {
         List<SalesIO> filteredSales = filterSalesByEmployeeId(employeeId);
 
         double totalSalesPrice = 0;
