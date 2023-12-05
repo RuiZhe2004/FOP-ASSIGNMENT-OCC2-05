@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lecars.GUI_Login;
 import lecars.SalesIO;
+import lecars.VehicleIO;
 
 public class GUI_SalesEmployeeInterface extends JFrame {
 
@@ -108,7 +109,6 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                 // Create a StringBuilder to accumulate sales information
                 StringBuilder salesInfo = new StringBuilder();
-//                salesInfo.append("salesId,dateTime,carPlate,custId,employeeId\n");
                 String[] columnNames = {"Sales ID", "Date/Time", "Car Plate", "Customer ID", "Employee ID"};
 
                 if (searchInput == null || searchInput.isEmpty()) {
@@ -121,16 +121,16 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                     // Search for specific items based on searchInput
                     for (SalesIO sale : sales) {
                         // Add logic to process matching items
-                         if (sale.getCarPlate().equals(searchInput)) {
+                         if (sale.getSalesId().equals(searchInput)) {
+                            salesInfo.append(sale.toString()).append("\n");
+                         }
+                         else if (sale.getCarPlate().equals(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
                          else if (sale.getCustId().equals(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
                          else if (sale.getEmployeeId().equals(searchInput)) {
-                            salesInfo.append(sale.toString()).append("\n");
-                         }
-                         else if (sale.getSalesId().equals(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
                     }
@@ -165,6 +165,44 @@ public class GUI_SalesEmployeeInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Get the input from the search field
                 String searchInput = vehicleSearchField.getText();
+                
+                // fetching vehicle information
+                List<VehicleIO> vehicles = VehicleIO.getVehicleInput();
+
+                // Create a StringBuilder to accumulate sales information
+                StringBuilder vehicleInfo = new StringBuilder();
+                String[] columnNames = {"Car Plate", "Car Model", "Acquire Price", "Car Status", "Sales Price"};
+
+                if (searchInput == null || searchInput.isEmpty()) {
+                    // Display all items
+                    for (VehicleIO vehicle : vehicles) {
+                        // Add logic to process each vehicle item
+                        vehicleInfo.append(vehicle.toString()).append("\n");
+                    }
+                } else {
+                    // Search for specific items based on searchInput
+                    for (VehicleIO vehicle : vehicles) {
+                        // Add logic to process matching items
+                         if (vehicle.getCarPlate().equals(searchInput)) {
+                            vehicleInfo.append(vehicle.toString()).append("\n");
+                         }
+                         else if (vehicle.getCarModel().equals(searchInput)) {
+                            vehicleInfo.append(vehicle.toString()).append("\n");
+                         }
+                         else if ((vehicle.getAcquirePrice()+"").equals(searchInput)) {
+                            vehicleInfo.append(vehicle.toString()).append("\n");
+                         }
+                         else if ((vehicle.getCarStatus()+"").equals(searchInput)) {
+                            vehicleInfo.append(vehicle.toString()).append("\n");
+                         }
+                         else if ((vehicle.getSalesPrice()+"").equals(searchInput)) {
+                            vehicleInfo.append(vehicle.toString()).append("\n");
+                         }
+                    }
+                }
+
+                // Show the accumulated sales information in a single pane
+                showInfoInterface("Vehicles Info", vehicleInfo.toString(), columnNames);
                 
             }
         });
@@ -207,7 +245,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         // Add components for info display
         infoPanel.add(scrollPane);
         infoFrame.getContentPane().add(infoPanel);
-        infoFrame.setSize(600, 400);
+        infoFrame.setSize(700, 500);
         infoFrame.setLocationRelativeTo(null);
         infoFrame.setVisible(true);
     }
