@@ -6,6 +6,7 @@ package lecars;
 
 import javax.swing.JOptionPane;
 import lecars.EmployeeIO;
+import lecars.GUI_SalesEmployeeInterface;
 
 /**
  *
@@ -172,10 +173,20 @@ public class GUI_Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Please fill in password");
         }
         else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 1){
-            JOptionPane.showMessageDialog(null,"Login Management Successful");
+            //JOptionPane.showMessageDialog(null,"Login Management Successful");
+            
         }
         else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 0){
-            JOptionPane.showMessageDialog(null,"Login Sales Successful");
+            //JOptionPane.showMessageDialog(null,"Login Sales Successful");
+            String employeeId = EmployeeIO.searchEmployeeByEmployeeName(juser.getText()).getEmployeeId();
+            
+            GUI_SalesEmployeeInterface GUI_SalesEmployeeInterfaceFrame=new GUI_SalesEmployeeInterface(employeeId, juser.getText());
+            GUI_SalesEmployeeInterfaceFrame.setVisible(true);
+            // Set the frame size
+            GUI_SalesEmployeeInterfaceFrame.pack();
+            GUI_SalesEmployeeInterfaceFrame.setSize(800, 600);
+            GUI_SalesEmployeeInterfaceFrame.setLocationRelativeTo(null);
+            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null,"Wrong username or password","Message",JOptionPane.ERROR_MESSAGE);

@@ -153,7 +153,7 @@ public class EmployeeIO {
     
     // searching
     // by employee name
-    private static EmployeeIO searchEmployeeByEmployeeName(String employeeName) {
+    public static EmployeeIO searchEmployeeByEmployeeName(String employeeName) {
         // read and get all the data of employees
         List<EmployeeIO> employees = getEmployeeInput();
         
