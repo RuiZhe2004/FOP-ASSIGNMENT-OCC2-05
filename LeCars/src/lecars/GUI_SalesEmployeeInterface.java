@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import lecars.GUI_Login;
 import lecars.SalesIO;
 import lecars.VehicleIO;
+import lecars.CustIO;
 
 public class GUI_SalesEmployeeInterface extends JFrame {
 
@@ -135,6 +135,10 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                          }
                     }
                 }
+                
+                // to handle the case where nothing show in the table
+                if(salesInfo.toString().equals(""))
+                    salesInfo.append("-,-,-,-,-\n");
 
                 // Show the accumulated sales information in a single pane
                 showInfoInterface("Sales Info", salesInfo.toString(), columnNames);
@@ -199,7 +203,12 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                             vehicleInfo.append(vehicle.toString()).append("\n");
                          }
                     }
+                                        
                 }
+                
+                // to handle the case where nothing show in the table
+                if(vehicleInfo.toString().equals(""))
+                    vehicleInfo.append("-,-,-,-,-\n");
 
                 // Show the accumulated sales information in a single pane
                 showInfoInterface("Vehicles Info", vehicleInfo.toString(), columnNames);

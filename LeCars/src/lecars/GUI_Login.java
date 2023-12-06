@@ -6,6 +6,8 @@ package lecars;
 
 import javax.swing.JOptionPane;
 import lecars.EmployeeIO;
+import lecars.EmployeeIO;
+import lecars.GUI_SalesEmployeeInterface;
 import lecars.GUI_SalesEmployeeInterface;
 
 /**
@@ -42,7 +44,6 @@ public class GUI_Login extends javax.swing.JFrame {
         jSignup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(660, 400));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 51));
@@ -68,6 +69,7 @@ public class GUI_Login extends javax.swing.JFrame {
                 jLoginActionPerformed(evt);
             }
         });
+        getRootPane().setDefaultButton(jLogin);
 
         jReset.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jReset.setText("Reset");
