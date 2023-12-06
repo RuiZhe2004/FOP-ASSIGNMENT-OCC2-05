@@ -3,6 +3,8 @@ package lecars;
 import lecars.StreamReaderHandler;
 import java.io.*;
 import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class VehicleIO {
     private String carPlate;
@@ -91,33 +93,34 @@ public class VehicleIO {
         System.out.println();
         
         //filter by status, not sold = 1
-        filterVehicleByStatus(1);
+        //filterVehicleByStatus(1);
         
         //filter by status, sold = 0
-        filterVehicleByStatus(0);
+        //filterVehicleByStatus(0);
         
         //search by car plate
-        VehicleIO vehicle = searchByVehicleCarPlate("PQR789");
-        if(vehicle == null)
-            System.out.println("No result");
-        else
-            System.out.println(vehicle.toString());
+//        VehicleIO vehicle = searchByVehicleCarPlate("PQR789");
+//        if(vehicle == null)
+//            System.out.println("No result");
+//        else
+//            System.out.println(vehicle.toString());
         
         //search by car model
-        filterByCarModel("Honda Civic");
+        //filterByCarModel("Honda Civic");
         
         //filter by status 0 and car model
-        filterVehicleByStatusAndModel(0, "Honda Civic");
+        //filterVehicleByStatusAndModel(0, "Honda Civic");
         
         //filter by carPrice
-        filterVehicleByCarSales(10000);
+        //filterVehicleByCarSales(10000);
         
         //filter by carModel
-        filterByCarModel("Toyota Corolla");
+        //filterByCarModel("Toyota Corolla");
         
         //add new vehicle
-        addNewVehicle("CBA123","LECAR","10000","0","99999");
-            
+        //addNewVehicle("CBA123","LECAR","10000","0","99999");
+        
+        soldVehicle("ABC9999",200);
     }
     
     public static List<VehicleIO> getVehicleInput() {
@@ -261,6 +264,53 @@ public class VehicleIO {
             }
         }
         
+    }
+    
+    //vehicle sold
+    public static String soldVehicle(String carPlate, double salesPrice) {
+        List<VehicleIO> vehicles = getVehicleInput();
+             
+        try {
+            // Create a temporary file to write updated data
+            File tempFile = new File("src/data/vehicle_temp.csv");
+            FileWriter fwTemp = new FileWriter(tempFile, true);
+            BufferedWriter bwTemp = new BufferedWriter(fwTemp);
+            PrintWriter outTemp = new PrintWriter(bwTemp);
+
+            // Iterate through the vehicles
+            for (VehicleIO vehicle : vehicles) {
+                if (vehicle.getCarPlate().equals(carPlate)) {
+                    
+                    if(vehicle.getCarStatus() == 0)
+                        return "Sold.";
+                    // Update status and sales price
+                    vehicle.setCarStatus(0);
+                    vehicle.setSalesPrice(salesPrice);
+                }
+
+                // Write the updated or unchanged data to the temporary file
+                outTemp.println(vehicle.toString());
+            }
+
+            // Close the temporary file
+            outTemp.close();
+            bwTemp.close();
+            fwTemp.close();
+
+            // Copy the contents of the temporary file to the original file
+            Files.copy(tempFile.toPath(), new File("src/data/vehicle.csv").toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            // Delete the temporary file
+            tempFile.delete();
+
+            System.out.println("Successfully updated the file.");
+            return "Success";
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return "An error occurred.";
+        }
     }
     
 }
