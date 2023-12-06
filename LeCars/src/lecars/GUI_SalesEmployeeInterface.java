@@ -104,8 +104,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 // Get the input from the search field
                 String searchInput = salesSearchField.getText();
 
-                // fetching sales information
-                List<SalesIO> sales = SalesIO.getSalesInput();
+                // fetching sales information (Restricted to own employeeId)
+                List<SalesIO> sales = SalesIO.filterSalesByEmployeeId(employeeId);
 
                 // Create a StringBuilder to accumulate sales information
                 StringBuilder salesInfo = new StringBuilder();
@@ -254,8 +254,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         JPanel infoPanel = new JPanel();
 
         // Create a JTable to display sales information
-        String[][] rowData = parseRawInfo(infoContent);
-        JTable table = new JTable(rowData, columnNames);
+        String[][] rawData = parseRawInfo(infoContent);
+        JTable table = new JTable(rawData, columnNames);
 
         // Create a JScrollPane for the JTable
         JScrollPane scrollPane = new JScrollPane(table);
@@ -268,19 +268,18 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         infoFrame.setVisible(true);
     }
 
-// Helper method to parse raw information into a 2D array for JTable
-private String[][] parseRawInfo(String salesInfo) {
-    String[] rows = salesInfo.split("\n");
-    String[][] rowData = new String[rows.length - 1][5]; // Assume 5 columns for sales info, adjust if needed
+    // Helper method to parse raw information into a 2D array for JTable
+    private String[][] parseRawInfo(String salesInfo) {
+        String[] rows = salesInfo.split("\n");
+        String[][] rowData = new String[rows.length - 1][5]; // Assume 5 columns for sales info, adjust if needed
 
-    for (int i = 1; i < rows.length; i++) {
-        String[] columns = rows[i].split(",");
-        System.arraycopy(columns, 0, rowData[i - 1], 0, columns.length);
+        for (int i = 1; i < rows.length; i++) {
+            String[] columns = rows[i].split(",");
+            System.arraycopy(columns, 0, rowData[i - 1], 0, columns.length);
+        }
+
+        return rowData;
     }
-
-    return rowData;
-}
-
 
 
     private void showContentForMenu(String menuName) {

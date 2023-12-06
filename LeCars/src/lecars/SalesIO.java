@@ -69,7 +69,9 @@ public class SalesIO {
     }
 
     public String toString(){
-        return salesId+","+dateTime+","+carPlate+","+custId+","+employeeId;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = dateTime.format(formatter);
+        return salesId+","+formattedDateTime+","+carPlate+","+custId+","+employeeId;
     }
     
     public static void main(String[] args) {

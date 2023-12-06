@@ -276,6 +276,8 @@ public class VehicleIO {
             FileWriter fwTemp = new FileWriter(tempFile, true);
             BufferedWriter bwTemp = new BufferedWriter(fwTemp);
             PrintWriter outTemp = new PrintWriter(bwTemp);
+            
+            outTemp.println("carPlate,carModel,acquirePrice,carStatus,salesPrice");
 
             // Iterate through the vehicles
             for (VehicleIO vehicle : vehicles) {
