@@ -109,6 +109,10 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                 // Create a StringBuilder to accumulate sales information
                 StringBuilder salesInfo = new StringBuilder();
+                
+                // add dummy value at the start
+                // dk why the first line always cannot be printed, so this is the way lol 
+                salesInfo.append("-,-,-,-,-\n");
                 String[] columnNames = {"Sales ID", "Date/Time", "Car Plate", "Customer ID", "Employee ID"};
 
                 if (searchInput == null || searchInput.isEmpty()) {
@@ -175,6 +179,11 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                 // Create a StringBuilder to accumulate sales information
                 StringBuilder vehicleInfo = new StringBuilder();
+                
+                // add dummy value at the start
+                // dk why the first line always cannot be printed, so this is the way lol 
+                vehicleInfo.append("-,-,-,-,-\n");
+                
                 String[] columnNames = {"Car Plate", "Car Model", "Acquire Price", "Car Status", "Sales Price"};
 
                 if (searchInput == null || searchInput.isEmpty()) {
