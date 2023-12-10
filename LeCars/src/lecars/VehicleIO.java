@@ -241,7 +241,7 @@ public class VehicleIO {
     
     //add new vehicle
     //carPlate,carModel,acquirePrice,carStatus,salesPrice
-    public static String addNewVehicle(String carPlate,String carModel,String acquirePrice,String carStatus,String salesPrice) {
+    public static String addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice) {
         List<VehicleIO> vehicles = getVehicleInput();
         
         boolean isDuplicate = vehicles.stream().anyMatch(vehicle -> vehicle.getCarPlate().equals(carPlate));

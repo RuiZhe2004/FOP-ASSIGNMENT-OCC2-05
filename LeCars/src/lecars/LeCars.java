@@ -25,11 +25,11 @@ public class LeCars {
         
         //String[][] employee = EmployeeIO.getEmployeeInput();
         //String[][] salesEmployee = EmployeeIO.separateEmployee(employee)[0];
-        //String[][] managementEmployee = EmployeeIO.separateEmployee(employee)[1];
+        //String[][] managementE^mployee = EmployeeIO.separateEmployee(employee)[1];
         
         //String[][] sales = SalesIO.getSalesInput();
         
-        List<VehicleIO> vehicle = VehicleIO.getVehicleInput();
+        //List<VehicleIO> vehicle = VehicleIO.getVehicleInput();
         
                
     }

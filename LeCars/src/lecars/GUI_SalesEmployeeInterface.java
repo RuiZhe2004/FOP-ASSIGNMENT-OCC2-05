@@ -393,6 +393,119 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         });
         vehiclePanel.add(vehicleButton, BorderLayout.EAST);
         contentPanel.add(createPanel("Vehicle", vehiclePanel));
+        
+        JButton addNewVehicleButton = new JButton("Add New Vehicle");
+        addNewVehicleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a JDialog for the add new sales interface
+                JDialog addNewVehicleDialog = new JDialog();
+                addNewVehicleDialog.setTitle("Add New Vehicle");
+                addNewVehicleDialog.setSize(500, 300);
+                addNewVehicleDialog.setModal(true);
+                addNewVehicleDialog.setLocationRelativeTo(null); // Center the dialog on the screen
+
+                // Create components for the interface (JLabels, JTextFields, JButton)
+
+                JLabel carPlateLabel = new JLabel("Car Plate:");
+                JTextField carPlateField = new JTextField();
+                carPlateField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+                
+                JLabel carModelLabel = new JLabel("Car Model:");
+                JTextField carModelField = new JTextField();
+                carModelField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel acquirePriceLabel = new JLabel("Acquire Price:");
+                JTextField acquirePriceField = new JTextField();
+                acquirePriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+                
+                JLabel carStatusLabel = new JLabel("Car Status:");
+                JTextField carStatusField = new JTextField(0);
+                carStatusField.setEditable(false);
+                carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+                
+                JLabel salesPriceLabel = new JLabel("Sales Price:");
+                JTextField salesPriceField = new JTextField(0);
+                salesPriceField.setEditable(false);
+                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JButton confirmButton = new JButton("Confirm");
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Retrieve values from input fields
+                        String carPlate = carPlateField.getText();
+                        String carModel = carModelField.getText();
+                        double acquirePrice = Double.parseDouble(acquirePriceField.getText());
+                        
+                        int carStatus = 1;
+
+                        double salesPrice = 0.0;  // Default value
+
+                                    
+                        // Call the method to add new sales entry
+                        // addNewVehicle(String carPlate,String carModel,String acquirePrice,String carStatus,String salesPrice)
+                        VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
+
+                        // Close the add new vehicle interface
+                        addNewVehicleDialog.dispose();
+                    }
+                });
+
+                // Create a JPanel with GridBagLayout for the add new vehicles interface
+                JPanel addNewVehiclePanel = new JPanel(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+                gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
+
+                // Add carPlateLabel and carPlateField
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                addNewVehiclePanel.add(carPlateLabel, gbc);
+                gbc.gridx = 1;
+                addNewVehiclePanel.add(carPlateField, gbc);
+
+                // Add carModelLabel and carModelField
+                gbc.gridx = 0;
+                gbc.gridy = 1;
+                addNewVehiclePanel.add(carModelLabel, gbc);
+                gbc.gridx = 1;
+                addNewVehiclePanel.add(carModelField, gbc);
+
+                // Add acquirePriceLabel and acquirePriceField
+                gbc.gridx = 0;
+                gbc.gridy = 2; // Changed from 1 to 2
+                addNewVehiclePanel.add(acquirePriceLabel, gbc);
+                gbc.gridx = 1;
+                addNewVehiclePanel.add(acquirePriceField, gbc);
+
+                // Add carStatusLabel and carStatusField
+                gbc.gridx = 0;
+                gbc.gridy = 3; // Changed from 2 to 3
+                addNewVehiclePanel.add(carStatusLabel, gbc);
+                gbc.gridx = 1;
+                addNewVehiclePanel.add(carStatusField, gbc);
+
+                // Add salesPriceLabel and salesPriceField
+                gbc.gridx = 0;
+                gbc.gridy = 4; // Changed from 3 to 4
+                addNewVehiclePanel.add(salesPriceLabel, gbc);
+                gbc.gridx = 1;
+                addNewVehiclePanel.add(salesPriceField, gbc);
+
+                // Add confirmButton
+                gbc.gridx = 0;
+                gbc.gridy = 5; // Changed from 4 to 5
+                gbc.gridwidth = 2; // This will make the button span across two columns
+                addNewVehiclePanel.add(confirmButton, gbc);
+
+
+                // Add the panel to the dialog and make it visible
+                addNewVehicleDialog.add(addNewVehiclePanel);
+                addNewVehicleDialog.setVisible(true);
+            }
+        });
+        vehiclePanel.add(addNewVehicleButton, BorderLayout.SOUTH);
     }
 
     private void initDynamicContent() {
