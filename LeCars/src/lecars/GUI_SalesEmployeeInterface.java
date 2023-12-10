@@ -205,9 +205,14 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                             
                             //////////////////////////////////////////////
                             //    validate got this cust or not first
-                                
-                                
-                                
+                            // Validate if the customer exists
+                            CustIO foundCustomer = CustIO.searchCustById(custId);
+                            if (foundCustomer == null) {
+                                System.out.println("No such customer");
+                                // Close the add new sales interface
+                                addNewSalesDialog.dispose();
+                            }
+                                                                
                             ///////////////////////////////////////////////
                             //    validate got this car or not first
                             //    and then validate status is 1 or not

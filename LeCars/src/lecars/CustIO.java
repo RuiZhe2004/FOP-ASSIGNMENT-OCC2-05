@@ -131,7 +131,7 @@ public class CustIO {
     }
     
     // search by customer ID
-    private static CustIO searchCustById(String custId) {
+    public static CustIO searchCustById(String custId) {
         
         List<CustIO> cust = getcustInput();
         
