@@ -281,10 +281,11 @@ public class VehicleIO {
             PrintWriter outTemp = new PrintWriter(bwTemp);
             
             outTemp.println("carPlate,carModel,acquirePrice,carStatus,salesPrice");
-
+            
+            boolean searchFlag = false;
             // Iterate through the vehicles
             for (VehicleIO vehicle : vehicles) {
-                if (vehicle.getCarPlate().equals(carPlate)) {
+                if (vehicle.getCarPlate().equals(carPlate) && !searchFlag) {
                     System.out.println(vehicle.getCarPlate());
                     System.out.println(vehicle.getCarStatus());
                     if(vehicle.getCarStatus() == 0){
@@ -299,6 +300,7 @@ public class VehicleIO {
                     // Update status and sales price
                     vehicle.setCarStatus(0);
                     vehicle.setSalesPrice(salesPrice);
+                    searchFlag = true;
                 }
 
                 // Write the updated or unchanged data to the temporary file
@@ -315,9 +317,14 @@ public class VehicleIO {
 
             // Delete the temporary file
             tempFile.delete();
-
-            System.out.println("Successfully updated the file.");
-            return "Success";
+            
+            if (searchFlag) {
+                System.out.println("Successfully updated the file.");
+                return "Success";
+            } else{
+                System.out.println("The vehicle does not exist");
+                return "No such vehicle";
+            }
 
         } catch (IOException e) {
             System.out.println("An error occurred.");

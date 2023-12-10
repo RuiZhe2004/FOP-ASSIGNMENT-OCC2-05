@@ -202,6 +202,12 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                         try {
                             salesPrice = Double.parseDouble(salesPriceField.getText());
+                            
+                            //////////////////////////////////////////////
+                            //    validate got this cust or not first
+                                
+                                
+                                
                             ///////////////////////////////////////////////
                             //    validate got this car or not first
                             //    and then validate status is 1 or not
@@ -209,22 +215,21 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                             System.out.println(message);
                             
                             if(message.equals("Success")){
-                                //////////////////////////////////////////////
-                                //    validate got this cust or not first
-                                
                                 
                                 // Call the method to add new sales entry
                                 // addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime)
                                 SalesIO.addNewSales(carPlate, custId, employeeId, formattedDateTime);
                             } else if(message.equals("Sold.")){
                                 System.out.println("Sold");
+                            } else if(message.equals("No such vehicle")){
+                                System.out.println("No such vehicle");
                             }else{
                                 System.out.println("Error occured");
                             }
                             
                             
                         } catch (NumberFormatException ex) {
-                            // Handle the case where the input is not a valid double
+                            // Handle the case where the input is not a valid
                             ex.printStackTrace();  // Print the exception for debugging purposes
                         }
                         
