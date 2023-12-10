@@ -442,10 +442,17 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                         double salesPrice = 0.0;  // Default value
 
-                                    
-                        // Call the method to add new vehicle entry
-                        // addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice)
-                        VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
+                        VehicleIO carPlateExist = VehicleIO.searchByVehicleCarPlate(carPlate); 
+                        
+                        if(carPlateExist != null) {
+                            System.out.println("Car plate been taken.");
+                            JOptionPane.showMessageDialog(addNewVehicleDialog, "Cannot register the car plate", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(addNewVehicleDialog, "Vehicle successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            // Call the method to add new vehicle entry
+                            // addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice)
+                            VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
+                        }
 
                         // Close the add new vehicle interface
                         addNewVehicleDialog.dispose();
