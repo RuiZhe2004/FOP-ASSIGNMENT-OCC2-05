@@ -209,33 +209,39 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                             CustIO foundCustomer = CustIO.searchCustById(custId);
                             if (foundCustomer == null) {
                                 System.out.println("No such customer");
-                                // Close the add new sales interface
-                                addNewSalesDialog.dispose();
-                            }
-                                                                
-                            ///////////////////////////////////////////////
-                            //    validate got this car or not first
-                            //    and then validate status is 1 or not
-                            String message = VehicleIO.soldVehicle(carPlate, salesPrice);
-                            System.out.println(message);
-                            
-                            if(message.equals("Success")){
+                                JOptionPane.showMessageDialog(addNewSalesDialog, "No such customer", "Error", JOptionPane.ERROR_MESSAGE);
                                 
-                                // Call the method to add new sales entry
-                                // addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime)
-                                SalesIO.addNewSales(carPlate, custId, employeeId, formattedDateTime);
-                            } else if(message.equals("Sold.")){
-                                System.out.println("Sold");
-                            } else if(message.equals("No such vehicle")){
-                                System.out.println("No such vehicle");
-                            }else{
-                                System.out.println("Error occured");
+                            } else {
+                                                                
+                                ///////////////////////////////////////////////
+                                //    validate got this car or not first
+                                //    and then validate status is 1 or not
+                                String message = VehicleIO.soldVehicle(carPlate, salesPrice);
+                                System.out.println(message);
+
+                                if(message.equals("Success")){
+                                    // Show success dialog
+                                    JOptionPane.showMessageDialog(addNewSalesDialog, "Sale successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                    
+                                    // Call the method to add new sales entry
+                                    // addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime)
+                                    SalesIO.addNewSales(carPlate, custId, employeeId, formattedDateTime);
+                                } else if(message.equals("Sold.")){
+                                    System.out.println("Sold");
+                                    JOptionPane.showMessageDialog(addNewSalesDialog, "Vehicle is already sold", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                } else if(message.equals("No such vehicle")){
+                                    System.out.println("No such vehicle");
+                                    JOptionPane.showMessageDialog(addNewSalesDialog, "No such vehicle", "Error", JOptionPane.ERROR_MESSAGE);
+                                }else{
+                                    System.out.println("Error occured");
+                                    JOptionPane.showMessageDialog(addNewSalesDialog, "Error occurred", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
-                            
                             
                         } catch (NumberFormatException ex) {
                             // Handle the case where the input is not a valid
                             ex.printStackTrace();  // Print the exception for debugging purposes
+                            JOptionPane.showMessageDialog(addNewSalesDialog, "Error occurred", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         
                         
