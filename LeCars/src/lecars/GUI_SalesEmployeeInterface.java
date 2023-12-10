@@ -149,6 +149,157 @@ public class GUI_SalesEmployeeInterface extends JFrame {
             }
         });
         salesPanel.add(salesButton, BorderLayout.EAST);
+        
+        JButton addNewSalesButton = new JButton("Add New Sales");
+        addNewSalesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a JDialog for the add new sales interface
+                JDialog addNewSalesDialog = new JDialog();
+                addNewSalesDialog.setTitle("Add New Sales");
+                addNewSalesDialog.setSize(500, 300);
+                addNewSalesDialog.setModal(true);
+                addNewSalesDialog.setLocationRelativeTo(null); // Center the dialog on the screen
+
+                // Create components for the interface (JLabels, JTextFields, JButton)
+                JLabel salesIdLabel = new JLabel("Sales Id:");
+                JTextField salesIdField = new JTextField(SalesIO.getNextUniqueSalesId());
+                salesIdField.setEditable(false);
+                salesIdField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel dateTimeLabel = new JLabel("Date/Time:");
+                JTextField dateTimeField = new JTextField(SalesIO.getCurrentDateTime());
+                dateTimeField.setEditable(false);
+                dateTimeField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel employeeIdLabel = new JLabel("Employee Id:");
+                JTextField employeeIdField = new JTextField(employeeId);
+                employeeIdField.setEditable(false);
+                employeeIdField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel carPlateLabel = new JLabel("Car Plate:");
+                JTextField carPlateField = new JTextField();
+                carPlateField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel custIdLabel = new JLabel("Customer ID:");
+                JTextField custIdField = new JTextField();
+                custIdField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+                
+                JLabel salesPriceLabel = new JLabel("Sales Price:");
+                JTextField salesPriceField = new JTextField();
+                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JButton confirmButton = new JButton("Confirm");
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Retrieve values from input fields
+                        String carPlate = carPlateField.getText();
+                        String custId = custIdField.getText();
+                        String formattedDateTime = dateTimeField.getText();
+                        
+                        double salesPrice = 0.0;  // Default value
+
+                        try {
+                            salesPrice = Double.parseDouble(salesPriceField.getText());
+                            ///////////////////////////////////////////////
+                            //    validate got this car or not first
+                            //    and then validate status is 1 or not
+                            String message = VehicleIO.soldVehicle(carPlate, salesPrice);
+                            System.out.println(message);
+                            
+                            if(message.equals("Success")){
+                                //////////////////////////////////////////////
+                                //    validate got this cust or not first
+                                
+                                
+                                // Call the method to add new sales entry
+                                // addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime)
+                                SalesIO.addNewSales(carPlate, custId, employeeId, formattedDateTime);
+                            } else if(message.equals("Sold.")){
+                                System.out.println("Sold");
+                            }else{
+                                System.out.println("Error occured");
+                            }
+                            
+                            
+                        } catch (NumberFormatException ex) {
+                            // Handle the case where the input is not a valid double
+                            ex.printStackTrace();  // Print the exception for debugging purposes
+                        }
+                        
+                        
+
+                        // Close the add new sales interface
+                        addNewSalesDialog.dispose();
+                    }
+                });
+
+                // Create a JPanel with GridBagLayout for the add new sales interface
+                JPanel addNewSalesPanel = new JPanel(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+                gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
+
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                addNewSalesPanel.add(salesIdLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 0;
+                addNewSalesPanel.add(salesIdField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 1;
+                addNewSalesPanel.add(dateTimeLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 1;
+                addNewSalesPanel.add(dateTimeField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 2;
+                addNewSalesPanel.add(employeeIdLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 2;
+                addNewSalesPanel.add(employeeIdField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 3;
+                addNewSalesPanel.add(carPlateLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 3;
+                addNewSalesPanel.add(carPlateField, gbc);
+                
+                gbc.gridx = 0;
+                gbc.gridy = 4;
+                addNewSalesPanel.add(salesPriceLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 4;
+                addNewSalesPanel.add(salesPriceField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 5;
+                addNewSalesPanel.add(custIdLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 5;
+                addNewSalesPanel.add(custIdField, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 6;
+                addNewSalesPanel.add(confirmButton, gbc);
+
+                // Add the panel to the dialog and make it visible
+                addNewSalesDialog.add(addNewSalesPanel);
+                addNewSalesDialog.setVisible(true);
+            }
+        });
+        salesPanel.add(addNewSalesButton, BorderLayout.SOUTH);
+        
         contentPanel.add(createPanel("Sales", salesPanel));
 
     }

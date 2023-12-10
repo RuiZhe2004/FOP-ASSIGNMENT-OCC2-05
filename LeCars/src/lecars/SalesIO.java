@@ -144,23 +144,34 @@ public class SalesIO {
         return sales;        
     }
     
+    public static String getNextUniqueSalesId(){
+        //read and get the sales data
+        List<SalesIO> sales = getSalesInput();
+
+        // Get the last row of SalesId
+        String lastSalesId = sales.get(sales.size() - 1).getSalesId();
+        int intLastSalesId = Integer.parseInt(lastSalesId.substring(1)) + 1; // Increment and convert to int
+
+        // SalesId Auto Increment
+        String salesId = String.format("A%04d", intLastSalesId);
+        return salesId;
+    }
     
-    public static void addNewSales(String carPlate, String custId, String employeeId){
+    public static String getCurrentDateTime(){
+        // get the current date time
+        final OffsetDateTime dateTime = OffsetDateTime.now();
+        // Format the OffsetDateTime
+        String formattedDateTime = dateTime.format(formatter) + "Z";
+        return formattedDateTime;
+    }
+    
+    
+    public static void addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime){
         try {
             //read and get the sales data
             List<SalesIO> sales = getSalesInput();
 
-            // Get the last row of SalesId
-            String lastSalesId = sales.get(sales.size() - 1).getSalesId();
-            int intLastSalesId = Integer.parseInt(lastSalesId.substring(1)) + 1; // Increment and convert to int
-
-            // SalesId Auto Increment
-            String salesId = String.format("A%04d", intLastSalesId);
-
-            // get the current date time
-            final OffsetDateTime dateTime = OffsetDateTime.now();
-            // Format the OffsetDateTime
-            String formattedDateTime = dateTime.format(formatter) + "Z";
+            String salesId = getNextUniqueSalesId();
 
             // Construct an input string
             String lineOfData = String.format("%s,%s,%s,%s,%s", salesId, formattedDateTime, carPlate, custId, employeeId);

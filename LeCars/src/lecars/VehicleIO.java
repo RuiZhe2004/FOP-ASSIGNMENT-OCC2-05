@@ -90,6 +90,9 @@ public class VehicleIO {
     
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
+        for (VehicleIO vehicle : vehicles) {
+            System.out.println(vehicle.toString());
+        }
         System.out.println();
         
         //filter by status, not sold = 1
@@ -99,11 +102,11 @@ public class VehicleIO {
         //filterVehicleByStatus(0);
         
         //search by car plate
-//        VehicleIO vehicle = searchByVehicleCarPlate("PQR789");
-//        if(vehicle == null)
-//            System.out.println("No result");
-//        else
-//            System.out.println(vehicle.toString());
+        VehicleIO vehicle = searchByVehicleCarPlate("ABC9999");
+        if(vehicle == null)
+            System.out.println("No result");
+        else
+            System.out.println(vehicle.toString());
         
         //search by car model
         //filterByCarModel("Honda Civic");
@@ -282,9 +285,17 @@ public class VehicleIO {
             // Iterate through the vehicles
             for (VehicleIO vehicle : vehicles) {
                 if (vehicle.getCarPlate().equals(carPlate)) {
-                    
-                    if(vehicle.getCarStatus() == 0)
+                    System.out.println(vehicle.getCarPlate());
+                    System.out.println(vehicle.getCarStatus());
+                    if(vehicle.getCarStatus() == 0){
+                        // Close the temporary file
+                        outTemp.close();
+                        bwTemp.close();
+                        fwTemp.close();
+                        // Delete the temporary file
+                        tempFile.delete();
                         return "Sold.";
+                    }
                     // Update status and sales price
                     vehicle.setCarStatus(0);
                     vehicle.setSalesPrice(salesPrice);
