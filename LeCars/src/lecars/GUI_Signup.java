@@ -5,6 +5,7 @@
 package lecars;
 
 import lecars.GUI_Login;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -189,6 +190,19 @@ public class GUI_Signup extends javax.swing.JFrame {
 
     private void jSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSignupActionPerformed
         // TODO add your handling code here:
+        if (jnamebox.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please fill in full name");
+        }else if (jPasswordField1.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please fill in password");
+        }else if (jRetypepwField2.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please retype password");
+        }else if (!jPasswordField1.getText().equals(jRetypepwField2.getText())) {
+        JOptionPane.showMessageDialog(null, "Passwords do not match. Please retype your password.");
+        }else if (jsecretkeyField3.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please fill in secret key");
+        } else if (!jsecretkeyField3.getText().equals("abcde")) {
+        JOptionPane.showMessageDialog(null, "Invalid secret key");
+        }
     }//GEN-LAST:event_jSignupActionPerformed
 
     private void jLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginActionPerformed
