@@ -443,8 +443,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                         double salesPrice = 0.0;  // Default value
 
                                     
-                        // Call the method to add new sales entry
-                        // addNewVehicle(String carPlate,String carModel,String acquirePrice,String carStatus,String salesPrice)
+                        // Call the method to add new vehicle entry
+                        // addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice)
                         VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
 
                         // Close the add new vehicle interface
@@ -474,29 +474,29 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                 // Add acquirePriceLabel and acquirePriceField
                 gbc.gridx = 0;
-                gbc.gridy = 2; // Changed from 1 to 2
+                gbc.gridy = 2;
                 addNewVehiclePanel.add(acquirePriceLabel, gbc);
                 gbc.gridx = 1;
                 addNewVehiclePanel.add(acquirePriceField, gbc);
 
                 // Add carStatusLabel and carStatusField
                 gbc.gridx = 0;
-                gbc.gridy = 3; // Changed from 2 to 3
+                gbc.gridy = 3; 
                 addNewVehiclePanel.add(carStatusLabel, gbc);
                 gbc.gridx = 1;
                 addNewVehiclePanel.add(carStatusField, gbc);
 
                 // Add salesPriceLabel and salesPriceField
                 gbc.gridx = 0;
-                gbc.gridy = 4; // Changed from 3 to 4
+                gbc.gridy = 4; 
                 addNewVehiclePanel.add(salesPriceLabel, gbc);
                 gbc.gridx = 1;
                 addNewVehiclePanel.add(salesPriceField, gbc);
 
                 // Add confirmButton
                 gbc.gridx = 0;
-                gbc.gridy = 5; // Changed from 4 to 5
-                gbc.gridwidth = 2; // This will make the button span across two columns
+                gbc.gridy = 5; 
+                gbc.gridwidth = 2; 
                 addNewVehiclePanel.add(confirmButton, gbc);
 
 
