@@ -192,16 +192,22 @@ public class GUI_Signup extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (jnamebox.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Please fill in full name");
+            return;
         }else if (jPasswordField1.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Please fill in password");
+            return;
         }else if (jRetypepwField2.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Please retype password");
+            return;
         }else if (!jPasswordField1.getText().equals(jRetypepwField2.getText())) {
         JOptionPane.showMessageDialog(null, "Passwords do not match. Please retype your password.");
+            return;
         }else if (jsecretkeyField3.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Please fill in secret key");
+            return;
         } else if (!jsecretkeyField3.getText().equals("abcde")) {
         JOptionPane.showMessageDialog(null, "Invalid secret key");
+            return;
         }
         // Check if the full name already exists
         String enteredFullName = jnamebox.getText();
