@@ -203,6 +203,26 @@ public class GUI_Signup extends javax.swing.JFrame {
         } else if (!jsecretkeyField3.getText().equals("abcde")) {
         JOptionPane.showMessageDialog(null, "Invalid secret key");
         }
+        // Check if the full name already exists
+        String enteredFullName = jnamebox.getText();
+
+        if (EmployeeIO.searchEmployeeByEmployeeName(enteredFullName) != null) {
+            // User already exists
+            JOptionPane.showMessageDialog(null, "User already exists. Please choose a different full name.");
+        } else {
+            // Full name doesn't exist, proceed with registration
+
+            String result = SalesEmployee.registerNewUser(enteredFullName, jPasswordField1.getText());
+
+            // Check the result of the registration
+            if ("Success".equals(result)) {
+                // Registration successful
+                JOptionPane.showMessageDialog(null, "Registration successful!");
+            } else {
+                // Registration failed
+                JOptionPane.showMessageDialog(null, "Registration failed. Please try again.");
+            }
+        }
     }//GEN-LAST:event_jSignupActionPerformed
 
     private void jLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginActionPerformed
