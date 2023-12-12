@@ -420,14 +420,14 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 acquirePriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
                 
                 JLabel carStatusLabel = new JLabel("Car Status:");
-                JTextField carStatusField = new JTextField(0);
+                JTextField carStatusField = new JTextField(VehicleIO.getStatusSet());
                 carStatusField.setEditable(false);
                 carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
                 
-                JLabel salesPriceLabel = new JLabel("Sales Price:");
-                JTextField salesPriceField = new JTextField(0);
-                salesPriceField.setEditable(false);
-                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+//                JLabel salesPriceLabel = new JLabel("Sales Price:");
+//                JTextField salesPriceField = new JTextField();
+//                salesPriceField.setEditable(false);
+//                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
 
                 JButton confirmButton = new JButton("Confirm");
                 confirmButton.addActionListener(new ActionListener() {
@@ -493,17 +493,17 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 gbc.gridx = 1;
                 addNewVehiclePanel.add(carStatusField, gbc);
 
-                // Add salesPriceLabel and salesPriceField
-                gbc.gridx = 0;
-                gbc.gridy = 4; 
-                addNewVehiclePanel.add(salesPriceLabel, gbc);
-                gbc.gridx = 1;
-                addNewVehiclePanel.add(salesPriceField, gbc);
+//                // Add salesPriceLabel and salesPriceField
+//                gbc.gridx = 0;
+//                gbc.gridy = 4; 
+//                addNewVehiclePanel.add(salesPriceLabel, gbc);
+//                gbc.gridx = 1;
+//                addNewVehiclePanel.add(salesPriceField, gbc);
 
                 // Add confirmButton
-                gbc.gridx = 0;
-                gbc.gridy = 5; 
-                gbc.gridwidth = 2; 
+                gbc.gridx = 1;
+                gbc.gridy = 4; 
+                gbc.gridwidth = 1; 
                 addNewVehiclePanel.add(confirmButton, gbc);
 
 

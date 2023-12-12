@@ -126,6 +126,12 @@ public class VehicleIO {
         soldVehicle("ABC9999",200);
     }
     
+    public static String getStatusSet() {
+        final String STATUS = "1";
+        String currentStatus = STATUS;
+        return currentStatus;
+    }
+    
     public static List<VehicleIO> getVehicleInput() {
         List<VehicleIO> vehicles = new ArrayList<>();
 
@@ -243,6 +249,7 @@ public class VehicleIO {
     //carPlate,carModel,acquirePrice,carStatus,salesPrice
     public static String addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice) {
         List<VehicleIO> vehicles = getVehicleInput();
+        //carStatus = STATUS;
         
         boolean isDuplicate = vehicles.stream().anyMatch(vehicle -> vehicle.getCarPlate().equals(carPlate));
         
