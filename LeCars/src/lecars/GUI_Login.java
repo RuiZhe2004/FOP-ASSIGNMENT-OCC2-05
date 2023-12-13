@@ -5,6 +5,10 @@
 package lecars;
 
 import javax.swing.JOptionPane;
+import lecars.EmployeeIO;
+import lecars.EmployeeIO;
+import lecars.GUI_SalesEmployeeInterface;
+import lecars.GUI_SalesEmployeeInterface;
 
 /**
  *
@@ -36,6 +40,8 @@ public class GUI_Login extends javax.swing.JFrame {
         jReset = new javax.swing.JButton();
         jPassword = new javax.swing.JPasswordField();
         jshowpw = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jSignup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +69,7 @@ public class GUI_Login extends javax.swing.JFrame {
                 jLoginActionPerformed(evt);
             }
         });
+        getRootPane().setDefaultButton(jLogin);
 
         jReset.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jReset.setText("Reset");
@@ -86,40 +93,53 @@ public class GUI_Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Dont't have an account?");
+
+        jSignup.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jSignup.setForeground(new java.awt.Color(255, 51, 51));
+        jSignup.setText("Sign Up");
+        jSignup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSignupActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jReset)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLogin))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(juser, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                            .addComponent(jPassword)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
-                .addContainerGap(56, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jshowpw)
-                .addGap(46, 46, 46))
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(juser, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                                .addComponent(jPassword)))
+                        .addGap(134, 134, 134))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jSignup)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jReset)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLogin))
+                            .addComponent(jshowpw))
+                        .addGap(57, 57, 57))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(59, 59, 59)
                 .addComponent(jLabel1)
-                .addGap(58, 58, 58)
+                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(juser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -132,8 +152,10 @@ public class GUI_Login extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLogin)
-                    .addComponent(jReset))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addComponent(jReset)
+                    .addComponent(jLabel4)
+                    .addComponent(jSignup))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -152,8 +174,21 @@ public class GUI_Login extends javax.swing.JFrame {
         else if(jPassword.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Please fill in password");
         }
-        else if(juser.getText().contains("JL")&&jPassword.getText().contains("123")){
-            JOptionPane.showMessageDialog(null,"Login Successful");
+        else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 1){
+            //JOptionPane.showMessageDialog(null,"Login Management Successful");
+            
+        }
+        else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 0){
+            //JOptionPane.showMessageDialog(null,"Login Sales Successful");
+            String employeeId = EmployeeIO.searchEmployeeByEmployeeName(juser.getText()).getEmployeeId();
+            
+            GUI_SalesEmployeeInterface GUI_SalesEmployeeInterfaceFrame=new GUI_SalesEmployeeInterface(employeeId, juser.getText());
+            GUI_SalesEmployeeInterfaceFrame.setVisible(true);
+            // Set the frame size
+            GUI_SalesEmployeeInterfaceFrame.pack();
+            GUI_SalesEmployeeInterfaceFrame.setSize(800, 600);
+            GUI_SalesEmployeeInterfaceFrame.setLocationRelativeTo(null);
+            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null,"Wrong username or password","Message",JOptionPane.ERROR_MESSAGE);
@@ -179,6 +214,15 @@ public class GUI_Login extends javax.swing.JFrame {
             jPassword.setEchoChar('*');
         }
     }//GEN-LAST:event_jshowpwActionPerformed
+
+    private void jSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSignupActionPerformed
+        // TODO add your handling code here:
+        GUI_Signup GUI_SignupFrame=new GUI_Signup();
+        GUI_SignupFrame.setVisible(true);
+        GUI_SignupFrame.pack();
+        GUI_SignupFrame.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jSignupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,9 +263,11 @@ public class GUI_Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JButton jLogin;
     private javax.swing.JPasswordField jPassword;
     private javax.swing.JButton jReset;
+    private javax.swing.JButton jSignup;
     private javax.swing.JCheckBox jshowpw;
     private javax.swing.JTextField juser;
     // End of variables declaration//GEN-END:variables

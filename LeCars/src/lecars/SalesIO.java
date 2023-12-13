@@ -69,7 +69,9 @@ public class SalesIO {
     }
 
     public String toString(){
-        return salesId+","+dateTime+","+carPlate+","+custId+","+employeeId;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = dateTime.format(formatter);
+        return salesId+","+formattedDateTime+","+carPlate+","+custId+","+employeeId;
     }
     
     public static void main(String[] args) {
@@ -142,23 +144,34 @@ public class SalesIO {
         return sales;        
     }
     
+    public static String getNextUniqueSalesId(){
+        //read and get the sales data
+        List<SalesIO> sales = getSalesInput();
+
+        // Get the last row of SalesId
+        String lastSalesId = sales.get(sales.size() - 1).getSalesId();
+        int intLastSalesId = Integer.parseInt(lastSalesId.substring(1)) + 1; // Increment and convert to int
+
+        // SalesId Auto Increment
+        String salesId = String.format("A%04d", intLastSalesId);
+        return salesId;
+    }
     
-    public static void addNewSales(String carPlate, String custId, String employeeId){
+    public static String getCurrentDateTime(){
+        // get the current date time
+        final OffsetDateTime dateTime = OffsetDateTime.now();
+        // Format the OffsetDateTime
+        String formattedDateTime = dateTime.format(formatter) + "Z";
+        return formattedDateTime;
+    }
+    
+    
+    public static void addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime){
         try {
             //read and get the sales data
             List<SalesIO> sales = getSalesInput();
 
-            // Get the last row of SalesId
-            String lastSalesId = sales.get(sales.size() - 1).getSalesId();
-            int intLastSalesId = Integer.parseInt(lastSalesId.substring(1)) + 1; // Increment and convert to int
-
-            // SalesId Auto Increment
-            String salesId = String.format("A%04d", intLastSalesId);
-
-            // get the current date time
-            final OffsetDateTime dateTime = OffsetDateTime.now();
-            // Format the OffsetDateTime
-            String formattedDateTime = dateTime.format(formatter) + "Z";
+            String salesId = getNextUniqueSalesId();
 
             // Construct an input string
             String lineOfData = String.format("%s,%s,%s,%s,%s", salesId, formattedDateTime, carPlate, custId, employeeId);
@@ -182,7 +195,7 @@ public class SalesIO {
     //filtering 
     // by employeeId
     // can get the number of sales by employee
-    private static List<SalesIO> filterSalesByEmployeeId(String employeeId) {
+    public static List<SalesIO> filterSalesByEmployeeId(String employeeId) {
         List<SalesIO> filteredSales = new ArrayList<>();
         List<SalesIO> sales = getSalesInput();
         for (SalesIO sale : sales) {
@@ -206,7 +219,22 @@ public class SalesIO {
                 profit += vehicle.getSalesPrice() - vehicle.getAcquirePrice();
             }
         }
+        
         return profit;
+    }
+    
+    // get the sales price by EmployeeId
+    public static double getTotalSalesPriceByEmployeeId(String employeeId) {
+        List<SalesIO> filteredSales = filterSalesByEmployeeId(employeeId);
+
+        double totalSalesPrice = 0;
+        for (SalesIO sale : filteredSales) {
+            VehicleIO vehicle = VehicleIO.searchByVehicleCarPlate(sale.getCarPlate());
+            if (vehicle != null){
+                totalSalesPrice += vehicle.getSalesPrice();
+            }
+        }
+        return totalSalesPrice;
     }
     
     private static SalesIO searchByCustId(String custId) {

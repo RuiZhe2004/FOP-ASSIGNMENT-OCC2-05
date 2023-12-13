@@ -3,6 +3,8 @@ package lecars;
 import lecars.StreamReaderHandler;
 import java.io.*;
 import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class VehicleIO {
     private String carPlate;
@@ -88,36 +90,46 @@ public class VehicleIO {
     
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
+        for (VehicleIO vehicle : vehicles) {
+            System.out.println(vehicle.toString());
+        }
         System.out.println();
         
         //filter by status, not sold = 1
-        filterVehicleByStatus(1);
+        //filterVehicleByStatus(1);
         
         //filter by status, sold = 0
-        filterVehicleByStatus(0);
+        //filterVehicleByStatus(0);
         
         //search by car plate
-        VehicleIO vehicle = searchByVehicleCarPlate("PQR789");
+        VehicleIO vehicle = searchByVehicleCarPlate("ABC9999");
         if(vehicle == null)
             System.out.println("No result");
         else
             System.out.println(vehicle.toString());
         
         //search by car model
-        filterByCarModel("Honda Civic");
+        //filterByCarModel("Honda Civic");
         
         //filter by status 0 and car model
-        filterVehicleByStatusAndModel(0, "Honda Civic");
+        //filterVehicleByStatusAndModel(0, "Honda Civic");
         
         //filter by carPrice
-        filterVehicleByCarSales(10000);
+        //filterVehicleByCarSales(10000);
         
         //filter by carModel
-        filterByCarModel("Toyota Corolla");
+        //filterByCarModel("Toyota Corolla");
         
         //add new vehicle
-        addNewVehicle("CBA123","LECAR","10000","0","99999");
-            
+        //addNewVehicle("CBA123","LECAR","10000","0","99999");
+        
+        soldVehicle("ABC9999",200);
+    }
+    
+    public static String getStatusSet() {
+        final String STATUS = "1";
+        String currentStatus = STATUS;
+        return currentStatus;
     }
     
     public static List<VehicleIO> getVehicleInput() {
@@ -235,8 +247,9 @@ public class VehicleIO {
     
     //add new vehicle
     //carPlate,carModel,acquirePrice,carStatus,salesPrice
-    public static String addNewVehicle(String carPlate,String carModel,String acquirePrice,String carStatus,String salesPrice) {
+    public static String addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice) {
         List<VehicleIO> vehicles = getVehicleInput();
+        //carStatus = STATUS;
         
         boolean isDuplicate = vehicles.stream().anyMatch(vehicle -> vehicle.getCarPlate().equals(carPlate));
         
@@ -261,6 +274,70 @@ public class VehicleIO {
             }
         }
         
+    }
+    
+    //vehicle sold
+    public static String soldVehicle(String carPlate, double salesPrice) {
+        List<VehicleIO> vehicles = getVehicleInput();
+             
+        try {
+            // Create a temporary file to write updated data
+            File tempFile = new File("src/data/vehicle_temp.csv");
+            FileWriter fwTemp = new FileWriter(tempFile, true);
+            BufferedWriter bwTemp = new BufferedWriter(fwTemp);
+            PrintWriter outTemp = new PrintWriter(bwTemp);
+            
+            outTemp.println("carPlate,carModel,acquirePrice,carStatus,salesPrice");
+            
+            boolean searchFlag = false;
+            // Iterate through the vehicles
+            for (VehicleIO vehicle : vehicles) {
+                if (vehicle.getCarPlate().equals(carPlate) && !searchFlag) {
+                    System.out.println(vehicle.getCarPlate());
+                    System.out.println(vehicle.getCarStatus());
+                    if(vehicle.getCarStatus() == 0){
+                        // Close the temporary file
+                        outTemp.close();
+                        bwTemp.close();
+                        fwTemp.close();
+                        // Delete the temporary file
+                        tempFile.delete();
+                        return "Sold.";
+                    }
+                    // Update status and sales price
+                    vehicle.setCarStatus(0);
+                    vehicle.setSalesPrice(salesPrice);
+                    searchFlag = true;
+                }
+
+                // Write the updated or unchanged data to the temporary file
+                outTemp.println(vehicle.toString());
+            }
+
+            // Close the temporary file
+            outTemp.close();
+            bwTemp.close();
+            fwTemp.close();
+
+            // Copy the contents of the temporary file to the original file
+            Files.copy(tempFile.toPath(), new File("src/data/vehicle.csv").toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            // Delete the temporary file
+            tempFile.delete();
+            
+            if (searchFlag) {
+                System.out.println("Successfully updated the file.");
+                return "Success";
+            } else{
+                System.out.println("The vehicle does not exist");
+                return "No such vehicle";
+            }
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return "An error occurred.";
+        }
     }
     
 }
