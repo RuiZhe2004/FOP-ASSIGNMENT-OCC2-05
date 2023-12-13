@@ -111,7 +111,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 
                 // to handle the case where nothing show in the table
                 if(custInfo.toString().equals(""))
-                    custInfo.append("-,-,-,-,-\n");
+                    custInfo.append("-,-,-,-\n");
 
                 // Show the accumulated sales information in a single pane
                 showInfoInterface("Customer Info", custInfo.toString(), columnNames);
@@ -138,7 +138,6 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
                 JLabel custNameLabel = new JLabel("Customer Name:");
                 JTextField custNameField = new JTextField();
-                custNameField.setEditable(false);
                 custNameField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
 
                 JLabel phoneNumLabel = new JLabel("Handphone Number:");
@@ -157,6 +156,12 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                         String custName = custNameField.getText();
                         String phoneNum = phoneNumField.getText();
                         String postcode = postcodeField.getText();
+                        
+                        JOptionPane.showMessageDialog(addNewCustDialog, "Customer successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                    
+                        // Call the method to add new customer entry
+                        // addCustSales(String carPlate, String custId, String employeeId, String formattedDateTime)
+                        CustIO.addNewCust(custName, phoneNum, postcode);
                     }
                 });
 
@@ -208,10 +213,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 
             }
         });
-
-        customerPanel.add(customerButton, BorderLayout.EAST);
+        customerPanel.add(addNewCustButton, BorderLayout.SOUTH);
         contentPanel.add(createPanel("Customer", customerPanel));
-
     }
     
     private void sales(){
