@@ -94,16 +94,16 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                     // Search for specific items based on searchInput
                     for (CustIO custs : cust) {
                         // Add logic to process matching items
-                         if (custs.getCustId().equals(searchInput)) {
+                         if (custs.getCustId().contains(searchInput)) {
                             custInfo.append(custs.toString()).append("\n");
                          }
-                         else if (custs.getCustName().equals(searchInput)) {
+                         else if (custs.getCustName().contains(searchInput)) {
                             custInfo.append(custs.toString()).append("\n");
                          }
-                         else if (custs.getphoneNum().equals(searchInput)) {
+                         else if (custs.getphoneNum().contains(searchInput)) {
                             custInfo.append(custs.toString()).append("\n");
                          }
-                         else if (custs.getpostcode().equals(searchInput)) {
+                         else if (custs.getpostcode().contains(searchInput)) {
                             custInfo.append(custs.toString()).append("\n");
                          }
                     }
@@ -259,16 +259,16 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                     // Search for specific items based on searchInput
                     for (SalesIO sale : sales) {
                         // Add logic to process matching items
-                         if (sale.getSalesId().equals(searchInput)) {
+                         if (sale.getSalesId().contains(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
-                         else if (sale.getCarPlate().equals(searchInput)) {
+                         else if (sale.getCarPlate().contains(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
-                         else if (sale.getCustId().equals(searchInput)) {
+                         else if (sale.getCustId().contains(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
-                         else if (sale.getEmployeeId().equals(searchInput)) {
+                         else if (sale.getEmployeeId().contains(searchInput)) {
                             salesInfo.append(sale.toString()).append("\n");
                          }
                     }
@@ -497,19 +497,19 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                     // Search for specific items based on searchInput
                     for (VehicleIO vehicle : vehicles) {
                         // Add logic to process matching items
-                         if (vehicle.getCarPlate().equals(searchInput)) {
+                         if (vehicle.getCarPlate().contains(searchInput)) {
                             vehicleInfo.append(vehicle.toString()).append("\n");
                          }
-                         else if (vehicle.getCarModel().equals(searchInput)) {
+                         else if (vehicle.getCarModel().contains(searchInput)) {
                             vehicleInfo.append(vehicle.toString()).append("\n");
                          }
-                         else if ((vehicle.getAcquirePrice()+"").equals(searchInput)) {
+                         else if ((vehicle.getAcquirePrice()+"").contains(searchInput)) {
                             vehicleInfo.append(vehicle.toString()).append("\n");
                          }
-                         else if ((vehicle.getCarStatus()+"").equals(searchInput)) {
+                         else if ((vehicle.getCarStatus()+"").contains(searchInput)) {
                             vehicleInfo.append(vehicle.toString()).append("\n");
                          }
-                         else if ((vehicle.getSalesPrice()+"").equals(searchInput)) {
+                         else if ((vehicle.getSalesPrice()+"").contains(searchInput)) {
                             vehicleInfo.append(vehicle.toString()).append("\n");
                          }
                     }
