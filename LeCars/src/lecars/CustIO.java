@@ -171,15 +171,26 @@ public class CustIO {
         
         return null;
     }
+    
+    public static String getNextUniqueCustId(){
+        //read and get the sales data
+        List<CustIO> cust = getcustInput();
+
+        // Get the last row of SalesId
+        String lastCustId = cust.get(cust.size() - 1).getCustId();
+        int LastCustId = Integer.parseInt(lastCustId.substring(1)) + 1; 
+
+        String nextCustId = String.format("C%04d", LastCustId);
+        
+        return nextCustId;
+    }
+    
     // add new customer by increasing ID
     public static void addNewCust(String custName, String phoneNum, String postcode){
         try {
-            List<CustIO> cust = getcustInput();
+            List<CustIO> cust = getcustInput(); 
 
-            String lastCustId = cust.get(cust.size() - 1).getCustId();
-            int LastCustId = Integer.parseInt(lastCustId.substring(1)) + 1; 
-
-            String nextCustId = String.format("C%04d", LastCustId);
+            String nextCustId = getNextUniqueCustId();
 
             String newData = String.format("%s,%s,%s,%s", nextCustId, custName, phoneNum, postcode);
 

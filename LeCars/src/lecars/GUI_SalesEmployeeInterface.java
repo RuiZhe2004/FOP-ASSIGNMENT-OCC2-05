@@ -60,7 +60,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         customerPanel.setLayout(new BorderLayout());
 
         JTextField customerSearchField = new JTextField(""); // Declare the search field
-        customerSearchField.setPreferredSize(new Dimension(200,30));
+        customerSearchField.setPreferredSize(new Dimension(200,30)); // Set preferred size
         
         JLabel customerSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
@@ -74,6 +74,137 @@ public class GUI_SalesEmployeeInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Get the input from the search field
                 String searchInput = customerSearchField.getText();
+                
+                // fetching customer information (Restrict employee to gain access to own customer only)
+                List<CustIO> cust = SalesIO.filterCustByEmployeeId(employeeId);
+                
+                // Create a string builder to accumulate the customer information
+                StringBuilder custInfo = new StringBuilder();
+                
+                custInfo.append("-,-,-,-\n");
+                String[] columnNames = {"Customer ID", "Customer Name", "Phone Number", "Postcode"};
+                
+                if (searchInput == null || searchInput.isEmpty()) {
+                    // Display all items
+                    for (CustIO custs : cust) {
+                        // Add logic to process each sale item
+                        custInfo.append(custs.toString()).append("\n");
+                    }
+                } else {
+                    // Search for specific items based on searchInput
+                    for (CustIO custs : cust) {
+                        // Add logic to process matching items
+                         if (custs.getCustId().equals(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                         else if (custs.getCustName().equals(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                         else if (custs.getphoneNum().equals(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                         else if (custs.getpostcode().equals(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                    }
+                }
+                
+                // to handle the case where nothing show in the table
+                if(custInfo.toString().equals(""))
+                    custInfo.append("-,-,-,-,-\n");
+
+                // Show the accumulated sales information in a single pane
+                showInfoInterface("Customer Info", custInfo.toString(), columnNames);
+            }
+        });
+        customerPanel.add(customerButton, BorderLayout.EAST);
+        
+        JButton addNewCustButton = new JButton("Add New Customer");
+        addNewCustButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a JDialog for the add new sales interface
+                JDialog addNewCustDialog = new JDialog();
+                addNewCustDialog.setTitle("Add New Customer");
+                addNewCustDialog.setSize(500, 300);
+                addNewCustDialog.setModal(true);
+                addNewCustDialog.setLocationRelativeTo(null); // Center the dialog on the screen
+
+                // Create components for the interface (JLabels, JTextFields, JButton)
+                JLabel custIdLabel = new JLabel("Customer Id:");
+                JTextField custIdField = new JTextField(CustIO.getNextUniqueCustId());
+                custIdField.setEditable(false);
+                custIdField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel custNameLabel = new JLabel("Customer Name:");
+                JTextField custNameField = new JTextField();
+                custNameField.setEditable(false);
+                custNameField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel phoneNumLabel = new JLabel("Handphone Number:");
+                JTextField phoneNumField = new JTextField();
+                phoneNumField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JLabel postcodeLabel = new JLabel("Postcode:");
+                JTextField postcodeField = new JTextField();
+                postcodeField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+
+                JButton confirmButton = new JButton("Confirm");
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Retrieve values from input fields
+                        String custName = custNameField.getText();
+                        String phoneNum = phoneNumField.getText();
+                        String postcode = postcodeField.getText();
+                    }
+                });
+
+                // Create a JPanel with GridBagLayout for the add new sales interface
+                JPanel addNewCustPanel = new JPanel(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+                gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
+
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                addNewCustPanel.add(custIdLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 0;
+                addNewCustPanel.add(custIdField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 1;
+                addNewCustPanel.add(custNameLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 1;
+                addNewCustPanel.add(custNameField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 2;
+                addNewCustPanel.add(phoneNumLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 2;
+                addNewCustPanel.add(phoneNumField, gbc);
+
+                gbc.gridx = 0;
+                gbc.gridy = 3;
+                addNewCustPanel.add(postcodeLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 3;
+                addNewCustPanel.add(postcodeField, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 4;
+                addNewCustPanel.add(confirmButton, gbc);
+
+                // Add the panel to the dialog and make it visible
+                addNewCustDialog.add(addNewCustPanel);
+                addNewCustDialog.setVisible(true);
                 
             }
         });
