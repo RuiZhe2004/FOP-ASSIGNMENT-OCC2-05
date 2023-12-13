@@ -672,13 +672,13 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 String searchInput = employeeSearchField.getText();
                 
                 // fetching employee information 
-                List<EmployeeIO> emp = EmployeeIO.getEmployeeInput();
+                List<EmployeeIO> emp = EmployeeIO.getEmployeeInputwithoutpw();
                 
                 // Create a string builder to accumulate the employee information
                 StringBuilder employeeInfo = new StringBuilder();
                 
-                employeeInfo.append("-,-,-,-\n");
-                String[] columnNames = {"Employee ID", "Employee Name", "Employee Status", "Employee Password"};
+                employeeInfo.append("-,-,-\n");
+                String[] columnNames = {"Employee ID", "Employee Name", "Employee Status"};
                 
                 if (searchInput == null || searchInput.isEmpty()) {
                     // Display all items
@@ -699,15 +699,12 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                          else if ((emps.getEmployeeStatus()+"").contains(searchInput)) {
                             employeeInfo.append(emps.toString()).append("\n");
                          }
-                         else if (emps.getPassword().contains(searchInput)) {
-                            employeeInfo.append(emps.toString()).append("\n");
-                         }
                     }
                 }
                 
                 // to handle the case where nothing show in the table
                 if(employeeInfo.toString().equals(""))
-                    employeeInfo.append("-,-,-,-\n");
+                    employeeInfo.append("-,-,-\n");
 
                 // Show the accumulated sales information in a single pane
                 showInfoInterface("Employee Info", employeeInfo.toString(), columnNames);

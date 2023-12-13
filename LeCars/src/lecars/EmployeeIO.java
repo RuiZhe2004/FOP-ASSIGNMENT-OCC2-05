@@ -27,6 +27,14 @@ public class EmployeeIO {
         this.password = password;
     }
     
+    //without pw
+    public EmployeeIO(String employeeId, String employeeName, int employeeStatus) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeStatus = employeeStatus;
+    }
+    
+    
     public String getEmployeeId() {
         return employeeId;
     }
@@ -132,6 +140,45 @@ public class EmployeeIO {
         return employees;        
     }
     
+    public static List<EmployeeIO> getEmployeeInputwithoutpw() {
+        List<EmployeeIO> employees = new ArrayList<>();
+
+        // Get an InputStream for the resource file employee.csv
+        // Get an InputStream for the resource file employee.csv
+    InputStream resourceStream = EmployeeIO.class.getResourceAsStream("/data/employee.csv");
+
+    if (resourceStream != null) {
+        // Convert the InputStream to a String
+        String fileContent = StreamReaderHandler.convertStreamToString(resourceStream);
+
+        // Remove the unused row
+        fileContent = fileContent.replaceFirst("employeeId,employeeName,employeeStatus,password\\n", "");
+
+        // Split content
+        String[] lineSplit = fileContent.split("\\n");
+
+        for (String line : lineSplit) {
+            String[] attributes = line.split(",");
+
+            // Ensure there are enough attributes to create an EmployeeIO object
+            if (attributes.length >= 4) {
+                // Create EmployeeIO without including the password
+                EmployeeIO employee = new EmployeeIO(attributes[0], attributes[1], Integer.parseInt(attributes[2]));
+
+                // Assign values using setter methods
+                employee.setEmployeeId(attributes[0]);
+                employee.setEmployeeName(attributes[1]);
+                employee.setEmployeeStatus(Integer.parseInt(attributes[2]));
+
+                employees.add(employee);
+            }
+        }
+    } else {
+        System.err.println("Resource file not found.");
+    }
+    return employees;
+}
+
     //filtering 
     // by status
     public static List<EmployeeIO> filterEmployeeByStatus(int status) {
