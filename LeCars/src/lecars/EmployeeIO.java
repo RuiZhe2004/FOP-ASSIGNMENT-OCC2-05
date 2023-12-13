@@ -206,7 +206,7 @@ public class EmployeeIO {
         
         for (EmployeeIO employee : employees) {
             //so that it stops lol,:3
-            if (employee.employeeName.equals(employeeName)) {
+            if (employee.getEmployeeName().equals(employeeName)) {
                 return employee;
             }
         }

@@ -16,9 +16,8 @@ import static lecars.EmployeeIO.getEmployeeInput;
 
 public class SalesEmployee extends EmployeeIO {
     public static void main(String[] args) {
-        registerNewUser("Test","test");
+        registerNewUser("Abby","test");
 
-        SalesEmployee.login("Ahmad bin Abdullah", "3f7g9h2k");
     }
     
     public SalesEmployee(String employeeId, String employeeName, int employeeStatus, String password) {
