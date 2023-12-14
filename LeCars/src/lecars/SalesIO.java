@@ -95,16 +95,26 @@ public class SalesIO {
 //        SalesIO searchByCustId = searchByCustId("C0014");
 //        System.out.println("Target Customer: " + searchByCustId.toString());
 
-        List<SalesIO> sortedFilteredSales = filterSortedSalesByEmployeeId("E0014");
-        for (SalesIO sale : sortedFilteredSales) {            
-            System.out.println(sale.toString());
-        }
-        System.out.println();
+//        List<SalesIO> sortedFilteredSales = filterSortedSalesByEmployeeId("E0014");
+//        for (SalesIO sale : sortedFilteredSales) {            
+//            System.out.println(sale.toString());
+//        }
+//        System.out.println();
+//        
+//        Map<String, Double> aggregatecTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
+//        // Output the aggregated sales by year and month
+//        for (Map.Entry<String, Double> entry : aggregatecTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
+//            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+//        }
+
+//        List<SalesIO> filteredSalesPriceRange = filterSalesPriceRange(150000);
+//        for (SalesIO sale : filteredSalesPriceRange) {            
+//            System.out.println(sale.toString());
+//        }
         
-        Map<String, Double> aggregatecTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
-        // Output the aggregated sales by year and month
-        for (Map.Entry<String, Double> entry : aggregatecTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
-            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+        List<SalesIO> filteredSalesPriceRangeByEmployeeId = filterSalesPriceRangeByEmployeeId(100005,"E0002");
+        for (SalesIO sale : filteredSalesPriceRangeByEmployeeId) {            
+            System.out.println(sale.toString());
         }
     }
     
@@ -312,5 +322,39 @@ public class SalesIO {
         }
 
         return CustListByEmployeeID;
+    }
+    
+    public static List<SalesIO> filterSalesPriceRange(double priceAbove) {
+        List<SalesIO> filterSalesAbovePriceRange = new ArrayList<>();
+        List<String> filteredCarPlateAboveSalesPriceRange = new ArrayList<>();
+        List<SalesIO> sales = getSalesInput();
+        List<VehicleIO> vehicles = VehicleIO.getVehicleInput();
+        
+        for (VehicleIO vehicle : vehicles) {
+            if(vehicle.getSalesPrice() >= priceAbove){
+                filteredCarPlateAboveSalesPriceRange.add(vehicle.getCarPlate());
+            }
+        }
+        
+        for (SalesIO sale : sales){
+            if(filteredCarPlateAboveSalesPriceRange.contains(sale.getCarPlate())){
+                filterSalesAbovePriceRange.add(sale);
+            }
+        }
+
+        return filterSalesAbovePriceRange;
+    }
+    
+    public static List<SalesIO> filterSalesPriceRangeByEmployeeId(double priceAbove, String employeeId) {
+        List<SalesIO> filterSalesAbovePriceRangeByEmployeeId = new ArrayList<>();
+        List<SalesIO> filterSalesAbovePriceRange = filterSalesPriceRange(priceAbove);
+        
+        for (SalesIO sale : filterSalesAbovePriceRange){
+            if(sale.getEmployeeId().equals(employeeId)){
+                filterSalesAbovePriceRangeByEmployeeId.add(sale);
+            }
+        }
+        
+        return filterSalesAbovePriceRangeByEmployeeId;
     }
 }

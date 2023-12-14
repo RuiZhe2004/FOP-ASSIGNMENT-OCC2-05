@@ -16,7 +16,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
     private JPanel contentPanel;
     private JPanel homePanel;
     private JPanel customerPanel;
-    private JPanel salesPanel;
+    private JPanel salesFilterPanel;
+    private JPanel salesSearchPanel;
     private JPanel vehiclePanel;
     private JPanel employeePanel;
     private String employeeId = "test";
@@ -221,8 +222,11 @@ public class GUI_ManageEmployeeInterface extends JFrame {
     
     private void sales(){
         // Sales
-        salesPanel = new JPanel();
-        salesPanel.setLayout(new BorderLayout());
+        salesSearchPanel = new JPanel();
+        salesSearchPanel.setLayout(new BorderLayout());
+        
+        salesFilterPanel = new JPanel();
+        salesFilterPanel.setLayout(new BorderLayout());
 
         JTextField salesSearchField = new JTextField(""); // Declare the search field
         salesSearchField.setPreferredSize(new Dimension(200, 30)); // Set preferred size
@@ -230,8 +234,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         JLabel salesSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
         // Add the label and search field to the panel
-        salesPanel.add(salesSearchLabel, BorderLayout.WEST);
-        salesPanel.add(salesSearchField, BorderLayout.CENTER);
+        salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
+        salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
 
         JButton salesButton = new JButton("Search");
         salesButton.addActionListener(new ActionListener() {
@@ -284,7 +288,47 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 showInfoInterface("Sales Info", salesInfo.toString(), columnNames);
             }
         });
-        salesPanel.add(salesButton, BorderLayout.EAST);
+//        salesPanel.add(salesButton, BorderLayout.EAST);
+        
+        JTextField priceAboveField = new JTextField(""); // Declare the priceAboveField field
+        priceAboveField.setPreferredSize(new Dimension(200, 30)); // Set preferred size
+
+        JButton salesPriceFilterButton = new JButton("Filter by Sales Price");
+        salesPriceFilterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the price above from the text field
+                try {
+                    double priceAbove = Double.parseDouble(priceAboveField.getText());
+
+                    // Filter sales data based on the price above
+                    List<SalesIO> filteredSales = SalesIO.filterSalesPriceRangeByEmployeeId(priceAbove, employeeId);
+                    for (SalesIO sale : filteredSales) {            
+                        System.out.println(sale.toString());
+                    }
+                    
+                    // Create a StringBuilder to accumulate sales information
+                    StringBuilder salesInfo = new StringBuilder();
+
+                    // add dummy value at the start
+                    // dk why the first line always cannot be printed, so this is the way lol 
+                    salesInfo.append("-,-,-,-,-\n");
+                    // Display the filtered sales data
+                    String[] columnNames = {"Sales ID", "Date/Time", "Car Plate", "Customer ID", "Employee ID"};
+                    for (SalesIO sale : filteredSales) {
+                        // Add logic to process each sale item
+                        salesInfo.append(sale.toString()).append("\n");
+                    }
+                    showInfoInterface("Filtered Sales Info", salesInfo.toString(), columnNames);
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(salesSearchPanel, "Invalid input for price above", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+//        salesPanel.add(salesPriceFilterButton, BorderLayout.NORTH);
+
+
         
         JButton addNewSalesButton = new JButton("Add New Sales");
         addNewSalesButton.addActionListener(new ActionListener() {
@@ -450,9 +494,15 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 addNewSalesDialog.setVisible(true);
             }
         });
-        salesPanel.add(addNewSalesButton, BorderLayout.SOUTH);
+        salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
+        salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
+        salesSearchPanel.add(salesButton, BorderLayout.EAST);
+        salesFilterPanel.add(priceAboveField, BorderLayout.NORTH);
+        salesFilterPanel.add(salesPriceFilterButton, BorderLayout.SOUTH);
+        salesSearchPanel.add(addNewSalesButton, BorderLayout.SOUTH);
         
-        contentPanel.add(createPanel("Sales", salesPanel));
+        contentPanel.add(createPanel("Filter Sales", salesFilterPanel));
+        contentPanel.add(createPanel("Sales", salesSearchPanel));
 
     }
     
@@ -778,7 +828,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         } else if (menuName.equals("Customer")) {
             contentPanel.add(createPanel("Customer", customerPanel));
         } else if (menuName.equals("Sales")) {
-            contentPanel.add(createPanel("Sales", salesPanel));
+            contentPanel.add(createPanel("Filter Sales", salesFilterPanel));
+            contentPanel.add(createPanel("Sales", salesSearchPanel));
         } else if (menuName.equals("Vehicle")) {
             contentPanel.add(createPanel("Vehicle", vehiclePanel));
         } else if (menuName.equals("Employee")){
