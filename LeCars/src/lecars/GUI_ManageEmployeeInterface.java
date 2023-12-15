@@ -69,8 +69,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         JLabel customerSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
         // Add the label and search field to the panel
-        customerPanel.add(customerSearchLabel, BorderLayout.WEST);
-        customerPanel.add(customerSearchField, BorderLayout.CENTER);
+        //customerPanel.add(customerSearchLabel, BorderLayout.WEST);
+        //customerPanel.add(customerSearchField, BorderLayout.CENTER);
 
         JButton customerButton = new JButton("Search");
         customerButton.addActionListener(new ActionListener() {
@@ -121,7 +121,15 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 showInfoInterface("Customer Info", custInfo.toString(), columnNames);
             }
         });
-        customerPanel.add(customerButton, BorderLayout.EAST);
+        // Create a separate panel for search
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.add(customerSearchLabel, BorderLayout.WEST);
+        searchPanel.add(customerSearchField, BorderLayout.CENTER);
+        searchPanel.add(customerButton, BorderLayout.EAST);
+        //customerPanel.add(customerButton, BorderLayout.EAST);
+        
+        // Add search panel to the north position of vehicle panel
+        customerPanel.add(searchPanel, BorderLayout.NORTH);
         
         JButton addNewCustButton = new JButton("Add New Customer");
         addNewCustButton.addActionListener(new ActionListener() {
@@ -217,8 +225,46 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 
             }
         });
-        customerPanel.add(addNewCustButton, BorderLayout.SOUTH);
+        //customerPanel.add(addNewCustButton, BorderLayout.SOUTH);
         contentPanel.add(createPanel("Customer", customerPanel));
+        
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Customer");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File csvFile = fileChooser.getSelectedFile();
+                    
+                
+                    String inputFilePath = "src/data/cust.csv"; 
+
+                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
+
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            writer.println(line);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        // Create a separate panel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addNewCustButton);
+        buttonPanel.add(importDataButton);     
+        
+        // Add button panel below the search panel
+        customerPanel.add(buttonPanel, BorderLayout.CENTER);
     }
     
     private void sales(){
@@ -517,10 +563,6 @@ public class GUI_ManageEmployeeInterface extends JFrame {
 
         JLabel vehicleSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
-        // Add the label and search field to the panel
-        //vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
-        //vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
-
         JButton vehicleButton = new JButton("Search");
         vehicleButton.addActionListener(new ActionListener() {
             @Override
@@ -620,10 +662,6 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 carStatusField.setEditable(false);
                 carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
                 
-//                JLabel salesPriceLabel = new JLabel("Sales Price:");
-//                JTextField salesPriceField = new JTextField();
-//                salesPriceField.setEditable(false);
-//                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
 
                 JButton confirmButton = new JButton("Confirm");
                 confirmButton.addActionListener(new ActionListener() {
@@ -688,13 +726,6 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 addNewVehiclePanel.add(carStatusLabel, gbc);
                 gbc.gridx = 1;
                 addNewVehiclePanel.add(carStatusField, gbc);
-
-//                // Add salesPriceLabel and salesPriceField
-//                gbc.gridx = 0;
-//                gbc.gridy = 4; 
-//                addNewVehiclePanel.add(salesPriceLabel, gbc);
-//                gbc.gridx = 1;
-//                addNewVehiclePanel.add(salesPriceField, gbc);
 
                 // Add confirmButton
                 gbc.gridx = 1;
