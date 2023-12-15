@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
 import lecars.SalesIO;
 import lecars.VehicleIO;
 import lecars.CustIO;
@@ -517,8 +518,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         JLabel vehicleSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
         // Add the label and search field to the panel
-        vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
-        vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
+        //vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        //vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
 
         JButton vehicleButton = new JButton("Search");
         vehicleButton.addActionListener(new ActionListener() {
@@ -577,9 +578,18 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 
             }
         });
-        vehiclePanel.add(vehicleButton, BorderLayout.EAST);
-        contentPanel.add(createPanel("Vehicle", vehiclePanel));
+        //vehiclePanel.add(vehicleButton, BorderLayout.EAST);
+        // Create a separate panel for search
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        searchPanel.add(vehicleSearchField, BorderLayout.CENTER);
+        searchPanel.add(vehicleButton, BorderLayout.EAST);
+    
+        // Add search panel to the north position of vehicle panel
+        vehiclePanel.add(searchPanel, BorderLayout.NORTH);
         
+        contentPanel.add(createPanel("Vehicle", vehiclePanel));
+          
         JButton addNewVehicleButton = new JButton("Add New Vehicle");
         addNewVehicleButton.addActionListener(new ActionListener() {
             @Override
@@ -698,7 +708,46 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 addNewVehicleDialog.setVisible(true);
             }
         });
-        vehiclePanel.add(addNewVehicleButton, BorderLayout.SOUTH);
+        //vehiclePanel.add(addNewVehicleButton, BorderLayout.NORTH);
+        
+                     
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Vehicle");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File csvFile = fileChooser.getSelectedFile();
+                    
+                
+                    String inputFilePath = "src/data/vehicle.csv"; 
+
+                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
+                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
+
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            writer.println(line);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        // Create a separate panel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addNewVehicleButton);
+        buttonPanel.add(importDataButton);     
+        
+        // Add button panel below the search panel
+        vehiclePanel.add(buttonPanel, BorderLayout.CENTER);
     }
     private void employee(){
         // Customer
