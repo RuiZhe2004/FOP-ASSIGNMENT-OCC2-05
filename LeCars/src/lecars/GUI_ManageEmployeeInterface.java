@@ -1,6 +1,7 @@
 package lecars;
 
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -808,7 +809,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 StringBuilder employeeInfo = new StringBuilder();
                 
                 employeeInfo.append("-,-,-\n");
-                String[] columnNames = {"Employee ID", "Employee Name", "Employee Status"};
+                String[] columnNames = {"Employee ID", "Employee Name", "Employee Status"," "};
                 
                 if (searchInput == null || searchInput.isEmpty()) {
                     // Display all items
@@ -837,7 +838,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                     employeeInfo.append("-,-,-\n");
 
                 // Show the accumulated sales information in a single pane
-                showInfoInterface("Employee Info", employeeInfo.toString(), columnNames);
+                showInfoInterfaceEmp("Employee Info", employeeInfo.toString(), columnNames);
             }
         });
         employeePanel.add(employeeButton, BorderLayout.EAST);
@@ -917,6 +918,112 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         infoFrame.setLocationRelativeTo(null);
         infoFrame.setVisible(true);
     }
+    
+    private void showInfoInterfaceEmp(String infoTitle, String infoContent, String[] columnNames) {
+    JFrame infoFrame = new JFrame(infoTitle);
+    JPanel infoPanel = new JPanel(new BorderLayout());
+
+    String[][] rawData = parseRawInfo(infoContent);
+    DefaultTableModel model = new DefaultTableModel(rawData, columnNames);
+
+ JTable table = new JTable(model);
+
+// Adding a button to each row
+TableColumn column = table.getColumnModel().getColumn(columnNames.length - 1);
+column.setCellRenderer(new ButtonRenderer());
+
+// Here you can set the cell editor for the button column
+column.setCellEditor(new ButtonEditor(new JCheckBox(), table)); // Pass the JTable instance
+
+JScrollPane scrollPane = new JScrollPane(table);
+infoPanel.add(scrollPane, BorderLayout.CENTER);
+
+infoFrame.getContentPane().add(infoPanel);
+infoFrame.setSize(800, 500);
+infoFrame.setLocationRelativeTo(null);
+infoFrame.setVisible(true);
+}
+
+class ButtonRenderer extends JButton implements TableCellRenderer {
+    public ButtonRenderer() {
+        setOpaque(true);
+        setText("View Details");
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        return this;
+    }
+}
+
+class ButtonEditor extends DefaultCellEditor {
+    protected JButton button;
+    private JTable table; // Store a reference to the table
+
+    public ButtonEditor(JCheckBox checkBox, JTable table) {
+        super(checkBox);
+        this.table = table; // Store the reference to the table
+        button = new JButton();
+        button.setOpaque(true);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    int selectedRow = table.convertRowIndexToModel(table.getEditingRow());
+    if (selectedRow != -1) {
+        Object employeeId = table.getValueAt(selectedRow, 0); // Assuming employee ID is in column 0
+        Object employeeName = table.getValueAt(selectedRow, 1); // Assuming employee name is in column 1
+
+        JFrame employeeDetailsFrame = new JFrame("Employee Info");
+        JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTH; // Aligns components at the top
+        gbc.insets = new Insets(10, 10, 5, 10); // Adjust insets for spacing
+
+        JLabel titleLabel = new JLabel("Employee Info", SwingConstants.CENTER);
+        Font titleFont = titleLabel.getFont();
+        titleLabel.setFont(titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)); // Making the title bold
+
+        JLabel employeeIdLabel = new JLabel("ID        : ");
+        JLabel employeeNameLabel = new JLabel("Name  : ");
+
+        JPanel infoPanel = new JPanel(new GridLayout(2, 2));
+        infoPanel.add(employeeIdLabel);
+        infoPanel.add(new JLabel(employeeId.toString()));
+        infoPanel.add(employeeNameLabel);
+        infoPanel.add(new JLabel(employeeName.toString()));
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        employeeDetailsPanel.add(titleLabel, gbc);
+
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+        employeeDetailsPanel.add(infoPanel, gbc);
+
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints centerGbc = new GridBagConstraints();
+        centerGbc.gridx = 0;
+        centerGbc.gridy = 0;
+        centerPanel.add(employeeDetailsPanel, centerGbc);
+
+        employeeDetailsFrame.getContentPane().add(centerPanel);
+        employeeDetailsFrame.setSize(400, 200);
+        employeeDetailsFrame.setLocationRelativeTo(null);
+        employeeDetailsFrame.setVisible(true);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        return button;
+    }
+}
 
     // Helper method to parse raw information into a 2D array for JTable
     private String[][] parseRawInfo(String salesInfo) {
