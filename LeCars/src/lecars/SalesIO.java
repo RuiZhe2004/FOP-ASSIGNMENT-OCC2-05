@@ -328,7 +328,7 @@ public class SalesIO {
         List<SalesIO> filterSalesAbovePriceRange = new ArrayList<>();
         List<String> filteredCarPlateAboveSalesPriceRange = new ArrayList<>();
         List<SalesIO> sales = getSalesInput();
-        List<VehicleIO> vehicles = VehicleIO.getVehicleInput();
+        List<VehicleIO> vehicles = VehicleIO.getSoldVehicleInput();
         
         for (VehicleIO vehicle : vehicles) {
             if(vehicle.getSalesPrice() >= priceAbove){
