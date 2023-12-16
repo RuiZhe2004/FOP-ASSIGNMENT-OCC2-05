@@ -1,6 +1,6 @@
 package lecars;
 
-import lecars.StreamReaderHandler;
+
 import java.io.*;
 import java.util.*;
 import java.nio.file.Files;
@@ -90,41 +90,60 @@ public class VehicleIO {
     
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
-        for (VehicleIO vehicle : vehicles) {
-            System.out.println(vehicle.toString());
-        }
-        System.out.println();
-        
-        //filter by status, not sold = 1
-        //filterVehicleByStatus(1);
-        
-        //filter by status, sold = 0
-        //filterVehicleByStatus(0);
-        
-        //search by car plate
-        VehicleIO vehicle = searchByVehicleCarPlate("ABC9999");
-        if(vehicle == null)
-            System.out.println("No result");
-        else
-            System.out.println(vehicle.toString());
-        
-        //search by car model
-        //filterByCarModel("Honda Civic");
-        
-        //filter by status 0 and car model
-        //filterVehicleByStatusAndModel(0, "Honda Civic");
-        
-        //filter by carPrice
-        //filterVehicleByCarSales(10000);
-        
-        //filter by carModel
-        //filterByCarModel("Toyota Corolla");
-        
-        //add new vehicle
-        //addNewVehicle("CBA123","LECAR","10000","0","99999");
-        
-        soldVehicle("ABC9999",200);
     }
+    
+    public static List<VehicleIO> getSoldVehicleInput() {
+        List<VehicleIO> vehicles = new ArrayList<>();
+
+        try {
+            // Create a BufferedReader to read the file
+            BufferedReader reader = new BufferedReader(new FileReader("src/data/vehicle.csv"));
+
+            // Skip the first line (header row)
+            reader.readLine();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] attributes = line.split(",");
+
+                // set soldPrice to null when it is not exist
+                Double soldPrice = null;
+
+                //if got price then parse, else =0
+                soldPrice=(attributes.length==5)?Double.parseDouble(attributes[4]):0;
+
+                // Check if salesPrice is not null
+                if (soldPrice != 0) {
+                    // attributes 0 = carPlate
+                    // attributes 1 = carModel
+                    // attributes 2 = acquirePrice
+                    // attributes 3 = carStatus
+                    // attributes 4 = salesPrice
+                    VehicleIO vehicle = new VehicleIO(attributes[0], attributes[1],
+                            Double.parseDouble(attributes[2]), Integer.parseInt(attributes[3]),
+                            soldPrice);
+
+                    // Assign values using setter methods
+                    vehicle.setCarPlate(attributes[0]);
+                    vehicle.setCarModel(attributes[1]);
+                    vehicle.setAcquirePrice(Double.parseDouble(attributes[2]));
+                    vehicle.setCarStatus(Integer.parseInt(attributes[3]));
+                    vehicle.setSalesPrice(soldPrice);
+
+                    vehicles.add(vehicle);
+                }
+            }
+
+            // Close the BufferedReader
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+
+        return vehicles;        
+    }
+
+
     
     public static String getStatusSet() {
         final String STATUS = "1";
