@@ -265,7 +265,7 @@ public class SalesIO {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
 
         for (SalesIO sale : sortedFilteredSales) {
-            VehicleIO vehicle = VehicleIO.searchByVehicleCarPlate(sale.getCarPlate());
+            VehicleIO vehicle = VehicleIO.searchBySoldVehicleCarPlate(sale.getCarPlate());
             if (vehicle != null) {
                 // Parse the dateTime field into LocalDateTime
                 OffsetDateTime saleDateTime = sale.dateTime();

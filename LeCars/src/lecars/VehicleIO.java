@@ -1,6 +1,6 @@
 package lecars;
 
-
+import lecars.StreamReaderHandler;
 import java.io.*;
 import java.util.*;
 import java.nio.file.Files;
@@ -90,6 +90,46 @@ public class VehicleIO {
     
     public static void main(String[] args) {
         List<VehicleIO> vehicles = getVehicleInput();
+        for (VehicleIO vehicle : vehicles) {
+            System.out.println(vehicle.toString());
+        }
+        System.out.println();
+        
+        //filter by status, not sold = 1
+        //filterVehicleByStatus(1);
+        
+        //filter by status, sold = 0
+        //filterVehicleByStatus(0);
+        
+        //search by car plate
+        VehicleIO vehicle = searchByVehicleCarPlate("ABC9999");
+        if(vehicle == null)
+            System.out.println("No result");
+        else
+            System.out.println(vehicle.toString());
+        
+        //search by car model
+        //filterByCarModel("Honda Civic");
+        
+        //filter by status 0 and car model
+        //filterVehicleByStatusAndModel(0, "Honda Civic");
+        
+        //filter by carPrice
+        //filterVehicleByCarSales(10000);
+        
+        //filter by carModel
+        //filterByCarModel("Toyota Corolla");
+        
+        //add new vehicle
+        //addNewVehicle("CBA123","LECAR","10000","0","99999");
+        
+        soldVehicle("ABC9999",200);
+    }
+    
+    public static String getStatusSet() {
+        final String STATUS = "1";
+        String currentStatus = STATUS;
+        return currentStatus;
     }
     
     public static List<VehicleIO> getSoldVehicleInput() {
@@ -142,13 +182,16 @@ public class VehicleIO {
 
         return vehicles;        
     }
-
-
     
-    public static String getStatusSet() {
-        final String STATUS = "1";
-        String currentStatus = STATUS;
-        return currentStatus;
+    public static VehicleIO searchBySoldVehicleCarPlate(String carPlate) {
+        List<VehicleIO> vehicles = getSoldVehicleInput();
+        
+        for (VehicleIO vehicle : vehicles) {
+            if (vehicle.carPlate.equals(carPlate)) {
+                return vehicle;
+            }
+        }
+        return null;
     }
     
     public static List<VehicleIO> getVehicleInput() {

@@ -564,6 +564,10 @@ public class GUI_ManageEmployeeInterface extends JFrame {
 
         JLabel vehicleSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
+        // Add the label and search field to the panel
+        //vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        //vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
+
         JButton vehicleButton = new JButton("Search");
         vehicleButton.addActionListener(new ActionListener() {
             @Override
@@ -663,6 +667,10 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 carStatusField.setEditable(false);
                 carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
                 
+//                JLabel salesPriceLabel = new JLabel("Sales Price:");
+//                JTextField salesPriceField = new JTextField();
+//                salesPriceField.setEditable(false);
+//                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
 
                 JButton confirmButton = new JButton("Confirm");
                 confirmButton.addActionListener(new ActionListener() {
@@ -727,6 +735,13 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 addNewVehiclePanel.add(carStatusLabel, gbc);
                 gbc.gridx = 1;
                 addNewVehiclePanel.add(carStatusField, gbc);
+
+//                // Add salesPriceLabel and salesPriceField
+//                gbc.gridx = 0;
+//                gbc.gridy = 4; 
+//                addNewVehiclePanel.add(salesPriceLabel, gbc);
+//                gbc.gridx = 1;
+//                addNewVehiclePanel.add(salesPriceField, gbc);
 
                 // Add confirmButton
                 gbc.gridx = 1;
