@@ -23,7 +23,7 @@ public class ManageEmployee {
         System.out.println(getEmployeeBonus("E0010",0));
     }
 
-    private static void newManageEmployee(String employeeId, String employeeName) {
+    public static void newManageEmployee(String employeeId, String employeeName) {
         
         //load the list of all employees
         List<EmployeeIO> employees = getEmployeeInput();

@@ -984,10 +984,10 @@ class ButtonEditor extends DefaultCellEditor {
             @Override
             public void actionPerformed(ActionEvent e) {
                     int selectedRow = table.convertRowIndexToModel(table.getEditingRow());
-            if (selectedRow != -1) {
-                Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
-                Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
-                Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
+                    if (selectedRow != -1) {
+                        Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
+                        Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
+                        Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
 
                 JFrame employeeDetailsFrame = new JFrame("Employee Info");
                 JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
@@ -1035,8 +1035,41 @@ class ButtonEditor extends DefaultCellEditor {
                     changeToAdminButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            // Logic to change employee status to admin
-                            // For example: setStatusToAdmin(employeeId.toString());
+                            JFrame newManagePanelFrame = new JFrame("Add New Management Employee");
+                            JPanel newManagePanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
+
+                            GridBagConstraints gbcNew = new GridBagConstraints();
+                            newManagePanel.setLayout(new GridBagLayout());
+
+                            // Secret key label and text field
+                            JLabel secretKeyLabel = new JLabel("Secret key: ");
+                            JTextField secretKeyField = new JTextField(20);
+
+                            // Confirm button
+                            JButton confirmButton = new JButton("Confirm");
+
+                            // Set up grid bag constraints
+                            gbcNew.gridx = 0;
+                            gbcNew.gridy = 0;
+                            gbcNew.insets = new Insets(10, 10, 5, 10);
+                            gbcNew.anchor = GridBagConstraints.WEST;
+                            newManagePanel.add(secretKeyLabel, gbcNew);
+
+                            gbcNew.gridx++;
+                            newManagePanel.add(secretKeyField, gbcNew);
+
+                            gbcNew.gridx = 1;
+                            gbcNew.gridy++;
+                            gbcNew.anchor = GridBagConstraints.EAST;
+                            gbcNew.fill = GridBagConstraints.NONE;
+                            gbcNew.insets = new Insets(10, 0, 10, 10);
+                            newManagePanel.add(confirmButton, gbcNew);
+
+                            JFrame NewManagePanelFrame = new JFrame("Add New Management Employee");
+                            NewManagePanelFrame.getContentPane().add(newManagePanel);
+                            NewManagePanelFrame.setSize(400, 200);
+                            NewManagePanelFrame.setLocationRelativeTo(null);
+                            NewManagePanelFrame.setVisible(true);
                         }
                     });
 
@@ -1048,16 +1081,16 @@ class ButtonEditor extends DefaultCellEditor {
                 }
 
 
-                JPanel centerPanel = new JPanel(new GridBagLayout());
-                GridBagConstraints centerGbc = new GridBagConstraints();
-                centerGbc.gridx = 0;
-                centerGbc.gridy = 0;
-                centerPanel.add(employeeDetailsPanel, centerGbc);
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints centerGbc = new GridBagConstraints();
+        centerGbc.gridx = 0;
+        centerGbc.gridy = 0;
+        centerPanel.add(employeeDetailsPanel, centerGbc);
 
-                employeeDetailsFrame.getContentPane().add(centerPanel);
-                employeeDetailsFrame.setSize(400, 200);
-                employeeDetailsFrame.setLocationRelativeTo(null);
-                employeeDetailsFrame.setVisible(true);
+        employeeDetailsFrame.getContentPane().add(centerPanel);
+        employeeDetailsFrame.setSize(400, 200);
+        employeeDetailsFrame.setLocationRelativeTo(null);
+        employeeDetailsFrame.setVisible(true);
                 }
             }
         });
