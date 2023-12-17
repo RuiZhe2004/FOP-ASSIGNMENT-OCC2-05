@@ -1047,6 +1047,24 @@ class ButtonEditor extends DefaultCellEditor {
 
                             // Confirm button
                             JButton confirmButton = new JButton("Confirm");
+                            confirmButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                            String secretKey = "abcde"; 
+
+                            // Check if the entered secret key matches
+                            if (secretKeyField.getText().equals(secretKey)) {
+                            // Call the method to make the employee a management level
+                            Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
+                            Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
+                            ManageEmployee.newManageEmployee(employeeId.toString(), employeeName.toString());
+
+                            JOptionPane.showMessageDialog(newManagePanelFrame, "Successfully added the employee as a management employee.");
+                            } else {
+                            JOptionPane.showMessageDialog(newManagePanelFrame, "Incorrect secret key.");
+                            }
+                        }
+                    });
 
                             // Set up grid bag constraints
                             gbcNew.gridx = 0;
