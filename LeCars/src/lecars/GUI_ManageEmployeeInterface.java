@@ -935,28 +935,27 @@ public class GUI_ManageEmployeeInterface extends JFrame {
     }
     
     private void showInfoInterfaceEmp(String infoTitle, String infoContent, String[] columnNames) {
-    JFrame infoFrame = new JFrame(infoTitle);
+        JFrame infoFrame = new JFrame(infoTitle);
     JPanel infoPanel = new JPanel(new BorderLayout());
 
     String[][] rawData = parseRawInfo(infoContent);
     DefaultTableModel model = new DefaultTableModel(rawData, columnNames);
 
- JTable table = new JTable(model);
+    JTable table = new JTable(model);
 
-// Adding a button to each row
-TableColumn column = table.getColumnModel().getColumn(columnNames.length - 1);
-column.setCellRenderer(new ButtonRenderer());
+    // Adding a button to each row
+    TableColumn column = table.getColumnModel().getColumn(columnNames.length - 1);
+    ButtonEditor buttonEditor = new ButtonEditor(new JCheckBox(), table, infoFrame); // Pass the infoFrame reference
+    column.setCellRenderer(new ButtonRenderer());
+    column.setCellEditor(buttonEditor);
 
-// Here you can set the cell editor for the button column
-column.setCellEditor(new ButtonEditor(new JCheckBox(), table)); // Pass the JTable instance
+    JScrollPane scrollPane = new JScrollPane(table);
+    infoPanel.add(scrollPane, BorderLayout.CENTER);
 
-JScrollPane scrollPane = new JScrollPane(table);
-infoPanel.add(scrollPane, BorderLayout.CENTER);
-
-infoFrame.getContentPane().add(infoPanel);
-infoFrame.setSize(800, 500);
-infoFrame.setLocationRelativeTo(null);
-infoFrame.setVisible(true);
+    infoFrame.getContentPane().add(infoPanel);
+    infoFrame.setSize(800, 500);
+    infoFrame.setLocationRelativeTo(null);
+    infoFrame.setVisible(true);
 }
 
 class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -977,10 +976,12 @@ class ButtonEditor extends DefaultCellEditor {
     private JFrame employeeDetailsFrame; // Declare the frames at the class level
     private JFrame newManagePanelFrame;
     private JFrame NewManagePanelFrame;
+    private JFrame infoFrame;
 
-    public ButtonEditor(JCheckBox checkBox, JTable table) {
+    public ButtonEditor(JCheckBox checkBox, JTable table, JFrame infoFrame) {
         super(checkBox);
         this.table = table; // Store the reference to the table
+        this.infoFrame = infoFrame; // Store the reference to the infoFrame
         button = new JButton();
         button.setOpaque(true);
         button.addActionListener(new ActionListener() {
@@ -1066,6 +1067,9 @@ class ButtonEditor extends DefaultCellEditor {
                             JOptionPane.showMessageDialog(null, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
 
                             // Close frames and hide panels
+                            if (infoFrame != null) {
+                                infoFrame.dispose(); // Closes the infoFrame
+                            }
                             if (employeeDetailsFrame != null) {
                                 employeeDetailsFrame.dispose(); // Closes the Employee Details frame
                             }
@@ -1129,6 +1133,10 @@ class ButtonEditor extends DefaultCellEditor {
         employeeDetailsFrame.setLocationRelativeTo(null);
         employeeDetailsFrame.setVisible(true);
                 }
+                    if (infoFrame != null) {
+                        infoFrame.dispose(); // Closes the infoFrame
+                    }
+                    
                     if (employeeDetailsFrame != null) {
                         employeeDetailsFrame.dispose(); // Closes the Employee Details frame
                     }
