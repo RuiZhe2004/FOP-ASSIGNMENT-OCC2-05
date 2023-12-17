@@ -1122,16 +1122,16 @@ class ButtonEditor extends DefaultCellEditor {
                 }
 
 
-        JPanel centerPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints centerGbc = new GridBagConstraints();
-        centerGbc.gridx = 0;
-        centerGbc.gridy = 0;
-        centerPanel.add(employeeDetailsPanel, centerGbc);
+                    JPanel centerPanel = new JPanel(new GridBagLayout());
+                    GridBagConstraints centerGbc = new GridBagConstraints();
+                    centerGbc.gridx = 0;
+                    centerGbc.gridy = 0;
+                    centerPanel.add(employeeDetailsPanel, centerGbc);
 
-        employeeDetailsFrame.getContentPane().add(centerPanel);
-        employeeDetailsFrame.setSize(400, 200);
-        employeeDetailsFrame.setLocationRelativeTo(null);
-        employeeDetailsFrame.setVisible(true);
+                    employeeDetailsFrame.getContentPane().add(centerPanel);
+                    employeeDetailsFrame.setSize(400, 200);
+                    employeeDetailsFrame.setLocationRelativeTo(null);
+                    employeeDetailsFrame.setVisible(true);
                 }
                     if (infoFrame != null) {
                         infoFrame.dispose(); // Closes the infoFrame
