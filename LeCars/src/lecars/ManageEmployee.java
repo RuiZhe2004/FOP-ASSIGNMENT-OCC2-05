@@ -73,7 +73,7 @@ public class ManageEmployee {
         }
     }
     
-    private static double getEmployeeSalary(String employeeId, int employeeStatus){
+    public static double getEmployeeSalary(String employeeId, int employeeStatus){
         double basicSalary = 0;
         double maxAllowance = 0;
         
@@ -115,7 +115,7 @@ public class ManageEmployee {
         return salary;
     }
     
-    private static double getEmployeeBonus(String employeeId, int employeeStatus){
+    public static double getEmployeeBonus(String employeeId, int employeeStatus){
         double bonus = 0;
         
         OffsetDateTime currentDate = OffsetDateTime.now();

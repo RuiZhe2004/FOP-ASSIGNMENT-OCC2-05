@@ -985,8 +985,9 @@ class ButtonEditor extends DefaultCellEditor {
             public void actionPerformed(ActionEvent e) {
                     int selectedRow = table.convertRowIndexToModel(table.getEditingRow());
     if (selectedRow != -1) {
-        Object employeeId = table.getValueAt(selectedRow, 0); // Assuming employee ID is in column 0
-        Object employeeName = table.getValueAt(selectedRow, 1); // Assuming employee name is in column 1
+        Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
+        Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
+        Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
 
         JFrame employeeDetailsFrame = new JFrame("Employee Info");
         JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
@@ -1003,12 +1004,21 @@ class ButtonEditor extends DefaultCellEditor {
 
         JLabel employeeIdLabel = new JLabel("ID        : ");
         JLabel employeeNameLabel = new JLabel("Name  : ");
+        JLabel employeeSalaryLabel = new JLabel("Salary : ");
+        JLabel employeeBonusLabel = new JLabel("Bonus  : ");
 
-        JPanel infoPanel = new JPanel(new GridLayout(2, 2));
+        double salary = ManageEmployee.getEmployeeSalary(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
+        double bonus = ManageEmployee.getEmployeeBonus(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
+
+        JPanel infoPanel = new JPanel(new GridLayout(4, 1)); // Two rows, four columns for labels and values
         infoPanel.add(employeeIdLabel);
         infoPanel.add(new JLabel(employeeId.toString()));
         infoPanel.add(employeeNameLabel);
         infoPanel.add(new JLabel(employeeName.toString()));
+        infoPanel.add(employeeSalaryLabel);
+        infoPanel.add(new JLabel(String.valueOf(salary)));
+        infoPanel.add(employeeBonusLabel);
+        infoPanel.add(new JLabel(String.valueOf(bonus)));
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
