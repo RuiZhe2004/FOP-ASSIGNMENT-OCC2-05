@@ -1059,13 +1059,14 @@ class ButtonEditor extends DefaultCellEditor {
                             Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
                             ManageEmployee.newManageEmployee(employeeId.toString(), employeeName.toString());
 
-                            JOptionPane.showMessageDialog(newManagePanelFrame, "Successfully added the employee as a management employee.");
+                            String successMessage = "Successfully added " + employeeId + ", " + employeeName + " as a management employee.";
+                                JOptionPane.showMessageDialog(null, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
                             } else {
-                            JOptionPane.showMessageDialog(newManagePanelFrame, "Incorrect secret key.");
+                                JOptionPane.showMessageDialog(null, "Incorrect secret key.", "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
                     });
-
+                            
                             // Set up grid bag constraints
                             gbcNew.gridx = 0;
                             gbcNew.gridy = 0;
@@ -1088,6 +1089,7 @@ class ButtonEditor extends DefaultCellEditor {
                             NewManagePanelFrame.setSize(400, 200);
                             NewManagePanelFrame.setLocationRelativeTo(null);
                             NewManagePanelFrame.setVisible(true);
+                            // Add the panel to the dialog and make it visible
                         }
                     });
 
