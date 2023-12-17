@@ -974,6 +974,9 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private JTable table; // Store a reference to the table
+    private JFrame employeeDetailsFrame; // Declare the frames at the class level
+    private JFrame newManagePanelFrame;
+    private JFrame NewManagePanelFrame;
 
     public ButtonEditor(JCheckBox checkBox, JTable table) {
         super(checkBox);
@@ -989,7 +992,7 @@ class ButtonEditor extends DefaultCellEditor {
                         Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
                         Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
 
-                JFrame employeeDetailsFrame = new JFrame("Employee Info");
+                JFrame employeeDetailsFrame = new JFrame("Employee Details");
                 JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
 
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -998,7 +1001,7 @@ class ButtonEditor extends DefaultCellEditor {
                 gbc.anchor = GridBagConstraints.NORTH; // Aligns components at the top
                 gbc.insets = new Insets(10, 10, 5, 10); // Adjust insets for spacing
 
-                JLabel titleLabel = new JLabel("Employee Info", SwingConstants.CENTER);
+                JLabel titleLabel = new JLabel("Employee Details", SwingConstants.CENTER);
                 Font titleFont = titleLabel.getFont();
                 titleLabel.setFont(titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)); // Making the title bold
 
@@ -1035,7 +1038,7 @@ class ButtonEditor extends DefaultCellEditor {
                     changeToAdminButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            JFrame newManagePanelFrame = new JFrame("Add New Management Employee");
+                            newManagePanelFrame = new JFrame("Add New Management Employee");
                             JPanel newManagePanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
 
                             GridBagConstraints gbcNew = new GridBagConstraints();
@@ -1060,7 +1063,21 @@ class ButtonEditor extends DefaultCellEditor {
                             ManageEmployee.newManageEmployee(employeeId.toString(), employeeName.toString());
 
                             String successMessage = "Successfully added " + employeeId + ", " + employeeName + " as a management employee.";
-                                JOptionPane.showMessageDialog(null, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                            // Close frames and hide panels
+                            if (employeeDetailsFrame != null) {
+                                employeeDetailsFrame.dispose(); // Closes the Employee Details frame
+                            }
+
+                            if (newManagePanelFrame != null) {
+                                newManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                            }
+                            
+                            if (NewManagePanelFrame != null) {
+                                NewManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                            }
+
                             } else {
                                 JOptionPane.showMessageDialog(null, "Incorrect secret key.", "Error", JOptionPane.ERROR_MESSAGE);
                             }
@@ -1084,7 +1101,7 @@ class ButtonEditor extends DefaultCellEditor {
                             gbcNew.insets = new Insets(10, 0, 10, 10);
                             newManagePanel.add(confirmButton, gbcNew);
 
-                            JFrame NewManagePanelFrame = new JFrame("Add New Management Employee");
+                            NewManagePanelFrame = new JFrame("Add New Management Employee");
                             NewManagePanelFrame.getContentPane().add(newManagePanel);
                             NewManagePanelFrame.setSize(400, 200);
                             NewManagePanelFrame.setLocationRelativeTo(null);
@@ -1112,6 +1129,17 @@ class ButtonEditor extends DefaultCellEditor {
         employeeDetailsFrame.setLocationRelativeTo(null);
         employeeDetailsFrame.setVisible(true);
                 }
+                    if (employeeDetailsFrame != null) {
+                        employeeDetailsFrame.dispose(); // Closes the Employee Details frame
+                    }
+
+                    if (newManagePanelFrame != null) {
+                        newManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                    }
+                    
+                    if (NewManagePanelFrame != null) {
+                        newManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                    }
             }
         });
     }
