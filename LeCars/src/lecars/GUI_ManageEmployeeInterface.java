@@ -984,61 +984,80 @@ class ButtonEditor extends DefaultCellEditor {
             @Override
             public void actionPerformed(ActionEvent e) {
                     int selectedRow = table.convertRowIndexToModel(table.getEditingRow());
-    if (selectedRow != -1) {
-        Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
-        Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
-        Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
+            if (selectedRow != -1) {
+                Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
+                Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
+                Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
 
-        JFrame employeeDetailsFrame = new JFrame("Employee Info");
-        JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
+                JFrame employeeDetailsFrame = new JFrame("Employee Info");
+                JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH; // Aligns components at the top
-        gbc.insets = new Insets(10, 10, 5, 10); // Adjust insets for spacing
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.anchor = GridBagConstraints.NORTH; // Aligns components at the top
+                gbc.insets = new Insets(10, 10, 5, 10); // Adjust insets for spacing
 
-        JLabel titleLabel = new JLabel("Employee Info", SwingConstants.CENTER);
-        Font titleFont = titleLabel.getFont();
-        titleLabel.setFont(titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)); // Making the title bold
+                JLabel titleLabel = new JLabel("Employee Info", SwingConstants.CENTER);
+                Font titleFont = titleLabel.getFont();
+                titleLabel.setFont(titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)); // Making the title bold
 
-        JLabel employeeIdLabel = new JLabel("ID        : ");
-        JLabel employeeNameLabel = new JLabel("Name  : ");
-        JLabel employeeSalaryLabel = new JLabel("Salary : ");
-        JLabel employeeBonusLabel = new JLabel("Bonus  : ");
+                JLabel employeeIdLabel = new JLabel("ID        : ");
+                JLabel employeeNameLabel = new JLabel("Name  : ");
+                JLabel employeeSalaryLabel = new JLabel("Salary : ");
+                JLabel employeeBonusLabel = new JLabel("Bonus  : ");
 
-        double salary = ManageEmployee.getEmployeeSalary(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
-        double bonus = ManageEmployee.getEmployeeBonus(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
+                double salary = ManageEmployee.getEmployeeSalary(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
+                double bonus = ManageEmployee.getEmployeeBonus(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
 
-        JPanel infoPanel = new JPanel(new GridLayout(4, 1)); // Two rows, four columns for labels and values
-        infoPanel.add(employeeIdLabel);
-        infoPanel.add(new JLabel(employeeId.toString()));
-        infoPanel.add(employeeNameLabel);
-        infoPanel.add(new JLabel(employeeName.toString()));
-        infoPanel.add(employeeSalaryLabel);
-        infoPanel.add(new JLabel(String.valueOf(salary)));
-        infoPanel.add(employeeBonusLabel);
-        infoPanel.add(new JLabel(String.valueOf(bonus)));
+                JPanel infoPanel = new JPanel(new GridLayout(4, 1)); // Two rows, four columns for labels and values
+                infoPanel.add(employeeIdLabel);
+                infoPanel.add(new JLabel(employeeId.toString()));
+                infoPanel.add(employeeNameLabel);
+                infoPanel.add(new JLabel(employeeName.toString()));
+                infoPanel.add(employeeSalaryLabel);
+                infoPanel.add(new JLabel(String.valueOf(salary)));
+                infoPanel.add(employeeBonusLabel);
+                infoPanel.add(new JLabel(String.valueOf(bonus)));
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        employeeDetailsPanel.add(titleLabel, gbc);
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                employeeDetailsPanel.add(titleLabel, gbc);
 
-        gbc.gridy++;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.NONE;
-        employeeDetailsPanel.add(infoPanel, gbc);
+                gbc.gridy++;
+                gbc.anchor = GridBagConstraints.WEST;
+                gbc.fill = GridBagConstraints.NONE;
+                employeeDetailsPanel.add(infoPanel, gbc);
 
-        JPanel centerPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints centerGbc = new GridBagConstraints();
-        centerGbc.gridx = 0;
-        centerGbc.gridy = 0;
-        centerPanel.add(employeeDetailsPanel, centerGbc);
+                // Add button for changing to admin if employee status is 0
+                if (Integer.parseInt(employeeStatus.toString()) == 0) {
+                    JButton changeToAdminButton = new JButton("Change to Admin");
+                    changeToAdminButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Logic to change employee status to admin
+                            // For example: setStatusToAdmin(employeeId.toString());
+                        }
+                    });
 
-        employeeDetailsFrame.getContentPane().add(centerPanel);
-        employeeDetailsFrame.setSize(400, 200);
-        employeeDetailsFrame.setLocationRelativeTo(null);
-        employeeDetailsFrame.setVisible(true);
+                    gbc.gridy++;
+                    gbc.insets = new Insets(10, 0, 10, 0); // Adjust insets for spacing
+                    gbc.anchor = GridBagConstraints.CENTER; // Align button to the center
+                    gbc.fill = GridBagConstraints.HORIZONTAL; // Allow the button to expand horizontally
+                    employeeDetailsPanel.add(changeToAdminButton, gbc);
+                }
+
+
+                JPanel centerPanel = new JPanel(new GridBagLayout());
+                GridBagConstraints centerGbc = new GridBagConstraints();
+                centerGbc.gridx = 0;
+                centerGbc.gridy = 0;
+                centerPanel.add(employeeDetailsPanel, centerGbc);
+
+                employeeDetailsFrame.getContentPane().add(centerPanel);
+                employeeDetailsFrame.setSize(400, 200);
+                employeeDetailsFrame.setLocationRelativeTo(null);
+                employeeDetailsFrame.setVisible(true);
                 }
             }
         });
