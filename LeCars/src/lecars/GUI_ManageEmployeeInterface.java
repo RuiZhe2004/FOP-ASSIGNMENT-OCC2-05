@@ -12,6 +12,7 @@ import lecars.SalesIO;
 import lecars.VehicleIO;
 import lecars.CustIO;
 import lecars.EmployeeIO;
+import lecars.StreamReaderHandler;
 
 public class GUI_ManageEmployeeInterface extends JFrame {
 
@@ -239,26 +240,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setSize(500, 300);
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
-
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/cust.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/cust.csv"; 
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
         // Create a separate panel for buttons
@@ -554,25 +538,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
 
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/sales.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/sales.csv"; 
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
         
@@ -809,25 +777,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
 
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/vehicle.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/vehicle.csv";
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
         //vehiclePanel.add(vehicleButton, BorderLayout.EAST);
@@ -922,25 +874,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
 
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/employee.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/employee.csv";
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
         
