@@ -29,7 +29,7 @@ public class StreamReaderHandler {
             return null;
         }
     }
-    
+    // method that allows the user to select a CSV file using a JFileChooser. The selected CSV file's contents are then copied to a specified output file.
     public void copySelectedCsvFile(String outputFilePath) {
         // Use a file chooser to let the user select a CSV file
         JFileChooser fileChooser = new JFileChooser();
