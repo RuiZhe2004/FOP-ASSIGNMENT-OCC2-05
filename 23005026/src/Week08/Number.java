@@ -12,9 +12,9 @@ import java.util.*;
 
 public class Number {
    private static int[] number;
+   private Random r = new Random();
    
    public Number () {
-      Random r = new Random();
       number = new int[10];
       for (int i = 1; i <= 10; i++) {
          number[i-1] = r.nextInt(101);
@@ -22,7 +22,6 @@ public class Number {
    }
    
    public Number (int n) {
-      Random r = new Random();
       number = new int[n];
       for (int i = 1; i <= n; i++) {
          number[i-1] = r.nextInt(101); 
@@ -30,7 +29,6 @@ public class Number {
    }
    
    public Number (int n, int range) {
-      Random r = new Random();
       number = new int[n];
       for (int i = 1; i <= n; i++) {
          number[i-1] = r.nextInt(range + 1); 
