@@ -12,6 +12,7 @@ import lecars.SalesIO;
 import lecars.VehicleIO;
 import lecars.CustIO;
 import lecars.EmployeeIO;
+import lecars.StreamReaderHandler;
 
 public class GUI_ManageEmployeeInterface extends JFrame {
 
@@ -20,6 +21,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
     private JPanel customerPanel;
     private JPanel salesFilterPanel;
     private JPanel salesSearchPanel;
+    private JPanel buttonPanel;
+    private JPanel salesPanel;
     private JPanel vehiclePanel;
     private JPanel employeePanel;
     private String employeeId = "test";
@@ -237,26 +240,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setSize(500, 300);
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
-
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/cust.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/cust.csv"; 
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
         // Create a separate panel for buttons
@@ -281,9 +267,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
 
         JLabel salesSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
-        // Add the label and search field to the panel
-        salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
-        salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
+//        // Add the label and search field to the panel
+//        salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
+//        salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
 
         JButton salesButton = new JButton("Search");
         salesButton.addActionListener(new ActionListener() {
@@ -542,15 +528,50 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 addNewSalesDialog.setVisible(true);
             }
         });
+        
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Sales");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+
+                String outputFilePath = "src/data/sales.csv"; 
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
+            }
+        });
+        
         salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
         salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
         salesSearchPanel.add(salesButton, BorderLayout.EAST);
+
         salesFilterPanel.add(priceAboveField, BorderLayout.NORTH);
         salesFilterPanel.add(salesPriceFilterButton, BorderLayout.SOUTH);
-        salesSearchPanel.add(addNewSalesButton, BorderLayout.SOUTH);
+
+//        contentPanel.add(createPanel("Filter Sales", salesFilterPanel),BorderLayout.WEST);
+
+        salesPanel = new JPanel();
+        salesPanel.setLayout(new BorderLayout());
+
         
-        contentPanel.add(createPanel("Filter Sales", salesFilterPanel));
-        contentPanel.add(createPanel("Sales", salesSearchPanel));
+
+        buttonPanel = new JPanel();
+        buttonPanel.add(addNewSalesButton,  BorderLayout.NORTH);
+        buttonPanel.add(importDataButton, BorderLayout.SOUTH);     
+        
+        salesSearchPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+//System.out.println("salesPanel size: " + salesPanel.getSize());
+//System.out.println("buttonPanel size: " + buttonPanel.getSize());
+//
+//        if (buttonPanel.isVisible()) {
+//            System.out.println("button panel visible.");
+//        } else {
+//            System.out.println("not visible.");
+//        }
 
     }
     
@@ -625,17 +646,6 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 
             }
         });
-        //vehiclePanel.add(vehicleButton, BorderLayout.EAST);
-        // Create a separate panel for search
-        JPanel searchPanel = new JPanel(new BorderLayout());
-        searchPanel.add(vehicleSearchLabel, BorderLayout.WEST);
-        searchPanel.add(vehicleSearchField, BorderLayout.CENTER);
-        searchPanel.add(vehicleButton, BorderLayout.EAST);
-    
-        // Add search panel to the north position of vehicle panel
-        vehiclePanel.add(searchPanel, BorderLayout.NORTH);
-        
-        contentPanel.add(createPanel("Vehicle", vehiclePanel));
           
         JButton addNewVehicleButton = new JButton("Add New Vehicle");
         addNewVehicleButton.addActionListener(new ActionListener() {
@@ -767,27 +777,23 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
 
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/vehicle.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/vehicle.csv";
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
+        //vehiclePanel.add(vehicleButton, BorderLayout.EAST);
+        // Create a separate panel for search
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        searchPanel.add(vehicleSearchField, BorderLayout.CENTER);
+        searchPanel.add(vehicleButton, BorderLayout.EAST);
+    
+        // Add search panel to the north position of vehicle panel
+        vehiclePanel.add(searchPanel, BorderLayout.NORTH);
+        
+        contentPanel.add(createPanel("Vehicle", vehiclePanel));
+        
         // Create a separate panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addNewVehicleButton);
@@ -868,25 +874,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 importDataDialog.setModal(true);
                 importDataDialog.setLocationRelativeTo(null);                     
 
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileChooser.getSelectedFile();
-                    
-                
-                    String inputFilePath = "src/data/employee.csv"; 
-
-                    try (BufferedReader reader = new BufferedReader(new FileReader(csvFile));
-                         PrintWriter writer = new PrintWriter(new FileWriter(inputFilePath))) {
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            writer.println(line);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                String outputFilePath = "src/data/employee.csv";
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
             }
         });
         
