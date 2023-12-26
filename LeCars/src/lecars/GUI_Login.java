@@ -176,7 +176,15 @@ public class GUI_Login extends javax.swing.JFrame {
         }
         else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 1){
             //JOptionPane.showMessageDialog(null,"Login Management Successful");
+            String employeeId = EmployeeIO.searchEmployeeByEmployeeName(juser.getText()).getEmployeeId();
             
+            GUI_ManageEmployeeInterface GUI_ManageEmployeeInterfaceFrame=new GUI_ManageEmployeeInterface(employeeId, juser.getText());
+            GUI_ManageEmployeeInterfaceFrame.setVisible(true);
+            // Set the frame size
+            GUI_ManageEmployeeInterfaceFrame.pack();
+            GUI_ManageEmployeeInterfaceFrame.setSize(800, 600);
+            GUI_ManageEmployeeInterfaceFrame.setLocationRelativeTo(null);
+            this.dispose();
         }
         else if(EmployeeIO.validateLogin(juser.getText(), jPassword.getText()) == 0){
             //JOptionPane.showMessageDialog(null,"Login Sales Successful");

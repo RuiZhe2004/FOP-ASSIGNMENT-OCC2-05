@@ -10,6 +10,7 @@ import java.time.*;
 import java.time.format.*;
 
 
+
 public class SalesIO {
     
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -75,24 +76,46 @@ public class SalesIO {
     }
     
     public static void main(String[] args) {
-        List<SalesIO> sales = getSalesInput();
-        //addNewSales("test","testCustId","testEmployeeId");
-        List<SalesIO> filteredSales = filterSalesByEmployeeId("E0014");
-        for (SalesIO sale : filteredSales) {            
+//        List<SalesIO> sales = getSalesInput();
+//        //addNewSales("test","testCustId","testEmployeeId");
+//        List<SalesIO> filteredSales = filterSalesByEmployeeId("E0014");
+//        for (SalesIO sale : filteredSales) {            
+//            System.out.println(sale.toString());
+//        }
+//        System.out.println();
+//        System.out.printf("RM%.2f%n", getProfitByEmployeeId("E0012"));
+//        
+//        List<CustIO> cust = getcustInput();
+//        List<CustIO> filteredCust = filterCustByEmployeeId("E0014");
+//        for (CustIO customer : filteredCust) {            
+//            System.out.println(customer.toString());
+//        }
+//        System.out.println();
+//        
+//        SalesIO searchByCustId = searchByCustId("C0014");
+//        System.out.println("Target Customer: " + searchByCustId.toString());
+
+//        List<SalesIO> sortedFilteredSales = filterSortedSalesByEmployeeId("E0014");
+//        for (SalesIO sale : sortedFilteredSales) {            
+//            System.out.println(sale.toString());
+//        }
+//        System.out.println();
+//        
+//        Map<String, Double> aggregatecTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
+//        // Output the aggregated sales by year and month
+//        for (Map.Entry<String, Double> entry : aggregatecTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
+//            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+//        }
+
+//        List<SalesIO> filteredSalesPriceRange = filterSalesPriceRange(150000);
+//        for (SalesIO sale : filteredSalesPriceRange) {            
+//            System.out.println(sale.toString());
+//        }
+        
+        List<SalesIO> filteredSalesPriceRangeByEmployeeId = filterSalesPriceRangeByEmployeeId(100005,"E0002");
+        for (SalesIO sale : filteredSalesPriceRangeByEmployeeId) {            
             System.out.println(sale.toString());
         }
-        System.out.println();
-        System.out.printf("RM%.2f%n", getProfitByEmployeeId("E0012"));
-        
-        List<CustIO> cust = getcustInput();
-        List<CustIO> filteredCust = filterCustByEmployeeId("E0014");
-        for (CustIO customer : filteredCust) {            
-            System.out.println(customer.toString());
-        }
-        System.out.println();
-        
-        SalesIO searchByCustId = searchByCustId("C0014");
-        System.out.println("Target Customer: " + searchByCustId.toString());
     }
     
     public static List<SalesIO> getSalesInput() {
@@ -208,6 +231,15 @@ public class SalesIO {
         return filteredSales;
     }
     
+    public static List<SalesIO> filterSortedSalesByEmployeeId(String employeeId) {
+        List<SalesIO> sortedFilteredSales = filterSalesByEmployeeId(employeeId);
+        
+        Collections.sort(sortedFilteredSales, Comparator.comparing(SalesIO::dateTime));
+        
+        return sortedFilteredSales;
+        
+    }
+    
     // get the profit by EmployeeId
     private static double getProfitByEmployeeId(String employeeId) {
         List<SalesIO> filteredSales = filterSalesByEmployeeId(employeeId);
@@ -223,18 +255,30 @@ public class SalesIO {
         return profit;
     }
     
-    // get the sales price by EmployeeId
-    public static double getTotalSalesPriceByEmployeeId(String employeeId) {
-        List<SalesIO> filteredSales = filterSalesByEmployeeId(employeeId);
+    // Aggregate the total sales price by year and month for a specific employee
+    public static Map<String, Double> aggregateTotalSalesPriceByYearMonthByEmployeeId(String employeeId) {
+        List<SalesIO> sortedFilteredSales = filterSortedSalesByEmployeeId(employeeId);
 
-        double totalSalesPrice = 0;
-        for (SalesIO sale : filteredSales) {
-            VehicleIO vehicle = VehicleIO.searchByVehicleCarPlate(sale.getCarPlate());
-            if (vehicle != null){
-                totalSalesPrice += vehicle.getSalesPrice();
+        // Use a Map to store the aggregated sales for each YearMonth
+        Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = new HashMap<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+        for (SalesIO sale : sortedFilteredSales) {
+            VehicleIO vehicle = VehicleIO.searchBySoldVehicleCarPlate(sale.getCarPlate());
+            if (vehicle != null) {
+                // Parse the dateTime field into LocalDateTime
+                OffsetDateTime saleDateTime = sale.dateTime();
+
+                // Generate a key as "yyyy-MM" from the LocalDateTime
+                String key = saleDateTime.format(formatter);
+
+                // Add sales price to the existing total or initialize if not present
+                aggregatedTotalSalesPriceByYearMonthByEmployeeId.merge(key, vehicle.getSalesPrice(), Double::sum);
             }
         }
-        return totalSalesPrice;
+
+        return aggregatedTotalSalesPriceByYearMonthByEmployeeId;
     }
     
     private static SalesIO searchByCustId(String custId) {
@@ -278,5 +322,39 @@ public class SalesIO {
         }
 
         return CustListByEmployeeID;
+    }
+    
+    public static List<SalesIO> filterSalesPriceRange(double priceAbove) {
+        List<SalesIO> filterSalesAbovePriceRange = new ArrayList<>();
+        List<String> filteredCarPlateAboveSalesPriceRange = new ArrayList<>();
+        List<SalesIO> sales = getSalesInput();
+        List<VehicleIO> vehicles = VehicleIO.getSoldVehicleInput();
+        
+        for (VehicleIO vehicle : vehicles) {
+            if(vehicle.getSalesPrice() >= priceAbove){
+                filteredCarPlateAboveSalesPriceRange.add(vehicle.getCarPlate());
+            }
+        }
+        
+        for (SalesIO sale : sales){
+            if(filteredCarPlateAboveSalesPriceRange.contains(sale.getCarPlate())){
+                filterSalesAbovePriceRange.add(sale);
+            }
+        }
+
+        return filterSalesAbovePriceRange;
+    }
+    
+    public static List<SalesIO> filterSalesPriceRangeByEmployeeId(double priceAbove, String employeeId) {
+        List<SalesIO> filterSalesAbovePriceRangeByEmployeeId = new ArrayList<>();
+        List<SalesIO> filterSalesAbovePriceRange = filterSalesPriceRange(priceAbove);
+        
+        for (SalesIO sale : filterSalesAbovePriceRange){
+            if(sale.getEmployeeId().equals(employeeId)){
+                filterSalesAbovePriceRangeByEmployeeId.add(sale);
+            }
+        }
+        
+        return filterSalesAbovePriceRangeByEmployeeId;
     }
 }

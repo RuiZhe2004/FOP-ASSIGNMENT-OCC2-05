@@ -132,6 +132,68 @@ public class VehicleIO {
         return currentStatus;
     }
     
+    public static List<VehicleIO> getSoldVehicleInput() {
+        List<VehicleIO> vehicles = new ArrayList<>();
+
+        try {
+            // Create a BufferedReader to read the file
+            BufferedReader reader = new BufferedReader(new FileReader("src/data/vehicle.csv"));
+
+            // Skip the first line (header row)
+            reader.readLine();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] attributes = line.split(",");
+
+                // set soldPrice to null when it is not exist
+                Double soldPrice = null;
+
+                //if got price then parse, else =0
+                soldPrice=(attributes.length==5)?Double.parseDouble(attributes[4]):0;
+
+                // Check if salesPrice is not null
+                if (soldPrice != 0) {
+                    // attributes 0 = carPlate
+                    // attributes 1 = carModel
+                    // attributes 2 = acquirePrice
+                    // attributes 3 = carStatus
+                    // attributes 4 = salesPrice
+                    VehicleIO vehicle = new VehicleIO(attributes[0], attributes[1],
+                            Double.parseDouble(attributes[2]), Integer.parseInt(attributes[3]),
+                            soldPrice);
+
+                    // Assign values using setter methods
+                    vehicle.setCarPlate(attributes[0]);
+                    vehicle.setCarModel(attributes[1]);
+                    vehicle.setAcquirePrice(Double.parseDouble(attributes[2]));
+                    vehicle.setCarStatus(Integer.parseInt(attributes[3]));
+                    vehicle.setSalesPrice(soldPrice);
+
+                    vehicles.add(vehicle);
+                }
+            }
+
+            // Close the BufferedReader
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+
+        return vehicles;        
+    }
+    
+    public static VehicleIO searchBySoldVehicleCarPlate(String carPlate) {
+        List<VehicleIO> vehicles = getSoldVehicleInput();
+        
+        for (VehicleIO vehicle : vehicles) {
+            if (vehicle.carPlate.equals(carPlate)) {
+                return vehicle;
+            }
+        }
+        return null;
+    }
+    
     public static List<VehicleIO> getVehicleInput() {
         List<VehicleIO> vehicles = new ArrayList<>();
 

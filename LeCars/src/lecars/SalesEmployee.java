@@ -16,7 +16,7 @@ import static lecars.EmployeeIO.getEmployeeInput;
 
 public class SalesEmployee extends EmployeeIO {
     public static void main(String[] args) {
-        registerNewUser("Test","test");
+        registerNewUser("Hekk","test");
 
         SalesEmployee.login("Ahmad bin Abdullah", "3f7g9h2k");
     }
@@ -93,5 +93,3 @@ public class SalesEmployee extends EmployeeIO {
         }
     }
 }
-
-

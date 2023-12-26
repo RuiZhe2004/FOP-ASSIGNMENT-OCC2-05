@@ -1,27 +1,34 @@
 package lecars;
 
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
 import lecars.SalesIO;
 import lecars.VehicleIO;
 import lecars.CustIO;
+import lecars.EmployeeIO;
+import lecars.StreamReaderHandler;
 
-public class GUI_SalesEmployeeInterface extends JFrame {
+public class GUI_ManageEmployeeInterface extends JFrame {
 
     private JPanel contentPanel;
     private JPanel homePanel;
     private JPanel customerPanel;
-    private JPanel salesSearchPanel;
     private JPanel salesFilterPanel;
+    private JPanel salesSearchPanel;
+    private JPanel buttonPanel;
+    private JPanel salesPanel;
     private JPanel vehiclePanel;
+    private JPanel employeePanel;
     private String employeeId = "test";
     private String employeeName = "test";
 
-    public GUI_SalesEmployeeInterface(String employeeId, String employeeName) {
+    public GUI_ManageEmployeeInterface(String employeeId, String employeeName) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         initComponents();
@@ -47,7 +54,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 GUI_LoginFrame.setVisible(true);
                 GUI_LoginFrame.pack();
                 GUI_LoginFrame.setLocationRelativeTo(null);
-                GUI_SalesEmployeeInterface.this.dispose();
+                GUI_ManageEmployeeInterface.this.dispose();
                 
             }
         });
@@ -66,8 +73,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         JLabel customerSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
         // Add the label and search field to the panel
-        customerPanel.add(customerSearchLabel, BorderLayout.WEST);
-        customerPanel.add(customerSearchField, BorderLayout.CENTER);
+        //customerPanel.add(customerSearchLabel, BorderLayout.WEST);
+        //customerPanel.add(customerSearchField, BorderLayout.CENTER);
 
         JButton customerButton = new JButton("Search");
         customerButton.addActionListener(new ActionListener() {
@@ -118,7 +125,15 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 showInfoInterface("Customer Info", custInfo.toString(), columnNames);
             }
         });
-        customerPanel.add(customerButton, BorderLayout.EAST);
+        // Create a separate panel for search
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.add(customerSearchLabel, BorderLayout.WEST);
+        searchPanel.add(customerSearchField, BorderLayout.CENTER);
+        searchPanel.add(customerButton, BorderLayout.EAST);
+        //customerPanel.add(customerButton, BorderLayout.EAST);
+        
+        // Add search panel to the north position of vehicle panel
+        customerPanel.add(searchPanel, BorderLayout.NORTH);
         
         JButton addNewCustButton = new JButton("Add New Customer");
         addNewCustButton.addActionListener(new ActionListener() {
@@ -214,8 +229,29 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 
             }
         });
-        customerPanel.add(addNewCustButton, BorderLayout.SOUTH);
+        //customerPanel.add(addNewCustButton, BorderLayout.SOUTH);
         contentPanel.add(createPanel("Customer", customerPanel));
+        
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Customer");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+                String outputFilePath = "src/data/cust.csv"; 
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
+            }
+        });
+        // Create a separate panel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addNewCustButton);
+        buttonPanel.add(importDataButton);     
+        
+        // Add button panel below the search panel
+        customerPanel.add(buttonPanel, BorderLayout.CENTER);
     }
     
     private void sales(){
@@ -231,9 +267,9 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 
         JLabel salesSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
-        // Add the label and search field to the panel
-        salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
-        salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
+//        // Add the label and search field to the panel
+//        salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
+//        salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
 
         JButton salesButton = new JButton("Search");
         salesButton.addActionListener(new ActionListener() {
@@ -492,15 +528,50 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 addNewSalesDialog.setVisible(true);
             }
         });
+        
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Sales");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+
+                String outputFilePath = "src/data/sales.csv"; 
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
+            }
+        });
+        
         salesSearchPanel.add(salesSearchLabel, BorderLayout.WEST);
         salesSearchPanel.add(salesSearchField, BorderLayout.CENTER);
         salesSearchPanel.add(salesButton, BorderLayout.EAST);
+
         salesFilterPanel.add(priceAboveField, BorderLayout.NORTH);
         salesFilterPanel.add(salesPriceFilterButton, BorderLayout.SOUTH);
-        salesSearchPanel.add(addNewSalesButton, BorderLayout.SOUTH);
+
+//        contentPanel.add(createPanel("Filter Sales", salesFilterPanel),BorderLayout.WEST);
+
+        salesPanel = new JPanel();
+        salesPanel.setLayout(new BorderLayout());
+
         
-        contentPanel.add(createPanel("Filter Sales", salesFilterPanel));
-        contentPanel.add(createPanel("Sales", salesSearchPanel));
+
+        buttonPanel = new JPanel();
+        buttonPanel.add(addNewSalesButton,  BorderLayout.NORTH);
+        buttonPanel.add(importDataButton, BorderLayout.SOUTH);     
+        
+        salesSearchPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+//System.out.println("salesPanel size: " + salesPanel.getSize());
+//System.out.println("buttonPanel size: " + buttonPanel.getSize());
+//
+//        if (buttonPanel.isVisible()) {
+//            System.out.println("button panel visible.");
+//        } else {
+//            System.out.println("not visible.");
+//        }
 
     }
     
@@ -515,8 +586,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         JLabel vehicleSearchLabel = new JLabel("Search:"); // Create a label for the search field
 
         // Add the label and search field to the panel
-        vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
-        vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
+        //vehiclePanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        //vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
 
         JButton vehicleButton = new JButton("Search");
         vehicleButton.addActionListener(new ActionListener() {
@@ -575,9 +646,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 
             }
         });
-        vehiclePanel.add(vehicleButton, BorderLayout.EAST);
-        contentPanel.add(createPanel("Vehicle", vehiclePanel));
-        
+          
         JButton addNewVehicleButton = new JButton("Add New Vehicle");
         addNewVehicleButton.addActionListener(new ActionListener() {
             @Override
@@ -696,7 +765,122 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 addNewVehicleDialog.setVisible(true);
             }
         });
-        vehiclePanel.add(addNewVehicleButton, BorderLayout.SOUTH);
+        //vehiclePanel.add(addNewVehicleButton, BorderLayout.NORTH);
+        
+                     
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Vehicle");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+
+                String outputFilePath = "src/data/vehicle.csv";
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
+            }
+        });
+        //vehiclePanel.add(vehicleButton, BorderLayout.EAST);
+        // Create a separate panel for search
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.add(vehicleSearchLabel, BorderLayout.WEST);
+        searchPanel.add(vehicleSearchField, BorderLayout.CENTER);
+        searchPanel.add(vehicleButton, BorderLayout.EAST);
+    
+        // Add search panel to the north position of vehicle panel
+        vehiclePanel.add(searchPanel, BorderLayout.NORTH);
+        
+        contentPanel.add(createPanel("Vehicle", vehiclePanel));
+        
+        // Create a separate panel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addNewVehicleButton);
+        buttonPanel.add(importDataButton);     
+        
+        // Add button panel below the search panel
+        vehiclePanel.add(buttonPanel, BorderLayout.CENTER);
+    }
+    private void employee(){
+        // Customer
+        employeePanel = new JPanel();
+        employeePanel.setLayout(new BorderLayout());
+
+        JTextField employeeSearchField = new JTextField(""); // Declare the search field
+        employeeSearchField.setPreferredSize(new Dimension(200,30)); // Set preferred size
+        
+        JLabel employeeSearchLabel = new JLabel("Search:"); // Create a label for the search field
+
+        // Add the label and search field to the panel
+        employeePanel.add(employeeSearchLabel, BorderLayout.WEST);
+        employeePanel.add(employeeSearchField, BorderLayout.CENTER);
+
+        JButton employeeButton = new JButton("Search");
+        employeeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the input from the search field
+                String searchInput = employeeSearchField.getText();
+                
+                // fetching employee information 
+                List<EmployeeIO> emp = EmployeeIO.getEmployeeInputwithoutpw();
+                
+                // Create a string builder to accumulate the employee information
+                StringBuilder employeeInfo = new StringBuilder();
+                
+                employeeInfo.append("-,-,-\n");
+                String[] columnNames = {"Employee ID", "Employee Name", "Employee Status"," "};
+                
+                if (searchInput == null || searchInput.isEmpty()) {
+                    // Display all items
+                    for (EmployeeIO emps : emp) {
+                        // Add logic to process each sale item
+                        employeeInfo.append(emps.toString()).append("\n");
+                    }
+                } else {
+                    // Search for specific items based on searchInput
+                    for (EmployeeIO emps : emp) {
+                        // Add logic to process matching items
+                         if (emps.getEmployeeId().contains(searchInput)) {
+                            employeeInfo.append(emps.toString()).append("\n");
+                         }
+                         else if (emps.getEmployeeName().contains(searchInput)) {
+                            employeeInfo.append(emps.toString()).append("\n");
+                         }
+                         else if ((emps.getEmployeeStatus()+"").contains(searchInput)) {
+                            employeeInfo.append(emps.toString()).append("\n");
+                         }
+                    }
+                }
+                
+                // to handle the case where nothing show in the table
+                if(employeeInfo.toString().equals(""))
+                    employeeInfo.append("-,-,-\n");
+
+                // Show the accumulated sales information in a single pane
+                showInfoInterfaceEmp("Employee Info", employeeInfo.toString(), columnNames);
+            }
+        });
+        employeePanel.add(employeeButton, BorderLayout.EAST);
+        contentPanel.add(createPanel("Employee", employeePanel));
+        
+        JButton importDataButton = new JButton("Import Data");
+        importDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JDialog importDataDialog = new JDialog();
+                importDataDialog.setTitle("Add New Employee");
+                importDataDialog.setSize(500, 300);
+                importDataDialog.setModal(true);
+                importDataDialog.setLocationRelativeTo(null);                     
+
+                String outputFilePath = "src/data/employee.csv";
+                StreamReaderHandler sh = new StreamReaderHandler();
+                sh.copySelectedCsvFile(outputFilePath);
+            }
+        });
+        
+        employeePanel.add(importDataButton, BorderLayout.SOUTH);
     }
 
     private void initDynamicContent() {
@@ -707,6 +891,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         customer();
         sales();
         vehicle();    
+        employee();
 
         // Set default content to Home
         showContentForMenu("Home");
@@ -738,6 +923,230 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         infoFrame.setLocationRelativeTo(null);
         infoFrame.setVisible(true);
     }
+    
+    private void showInfoInterfaceEmp(String infoTitle, String infoContent, String[] columnNames) {
+        JFrame infoFrame = new JFrame(infoTitle);
+    JPanel infoPanel = new JPanel(new BorderLayout());
+
+    String[][] rawData = parseRawInfo(infoContent);
+    DefaultTableModel model = new DefaultTableModel(rawData, columnNames);
+
+    JTable table = new JTable(model);
+
+    // Adding a button to each row
+    TableColumn column = table.getColumnModel().getColumn(columnNames.length - 1);
+    ButtonEditor buttonEditor = new ButtonEditor(new JCheckBox(), table, infoFrame); // Pass the infoFrame reference
+    column.setCellRenderer(new ButtonRenderer());
+    column.setCellEditor(buttonEditor);
+
+    JScrollPane scrollPane = new JScrollPane(table);
+    infoPanel.add(scrollPane, BorderLayout.CENTER);
+
+    infoFrame.getContentPane().add(infoPanel);
+    infoFrame.setSize(800, 500);
+    infoFrame.setLocationRelativeTo(null);
+    infoFrame.setVisible(true);
+}
+
+class ButtonRenderer extends JButton implements TableCellRenderer {
+    public ButtonRenderer() {
+        setOpaque(true);
+        setText("View Details");
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        return this;
+    }
+}
+
+class ButtonEditor extends DefaultCellEditor {
+    protected JButton button;
+    private JTable table; // Store a reference to the table
+    private JFrame employeeDetailsFrame; // Declare the frames at the class level
+    private JFrame newManagePanelFrame;
+    private JFrame NewManagePanelFrame;
+    private JFrame infoFrame;
+
+    public ButtonEditor(JCheckBox checkBox, JTable table, JFrame infoFrame) {
+        super(checkBox);
+        this.table = table; // Store the reference to the table
+        this.infoFrame = infoFrame; // Store the reference to the infoFrame
+        button = new JButton();
+        button.setOpaque(true);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    int selectedRow = table.convertRowIndexToModel(table.getEditingRow());
+                    if (selectedRow != -1) {
+                        Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
+                        Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
+                        Object employeeStatus = table.getValueAt(selectedRow,2);// employee status is in column 3
+
+                JFrame employeeDetailsFrame = new JFrame("Employee Details");
+                JPanel employeeDetailsPanel = new JPanel(new GridBagLayout());
+
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.anchor = GridBagConstraints.NORTH; // Aligns components at the top
+                gbc.insets = new Insets(10, 10, 5, 10); // Adjust insets for spacing
+
+                JLabel titleLabel = new JLabel("Employee Details", SwingConstants.CENTER);
+                Font titleFont = titleLabel.getFont();
+                titleLabel.setFont(titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)); // Making the title bold
+
+                JLabel employeeIdLabel = new JLabel("ID        : ");
+                JLabel employeeNameLabel = new JLabel("Name  : ");
+                JLabel employeeSalaryLabel = new JLabel("Salary : ");
+                JLabel employeeBonusLabel = new JLabel("Bonus  : ");
+
+                double salary = ManageEmployee.getEmployeeSalary(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
+                double bonus = ManageEmployee.getEmployeeBonus(employeeId.toString(), Integer.parseInt(employeeStatus.toString()));
+
+                JPanel infoPanel = new JPanel(new GridLayout(4, 1)); // Two rows, four columns for labels and values
+                infoPanel.add(employeeIdLabel);
+                infoPanel.add(new JLabel(employeeId.toString()));
+                infoPanel.add(employeeNameLabel);
+                infoPanel.add(new JLabel(employeeName.toString()));
+                infoPanel.add(employeeSalaryLabel);
+                infoPanel.add(new JLabel(String.valueOf(salary)));
+                infoPanel.add(employeeBonusLabel);
+                infoPanel.add(new JLabel(String.valueOf(bonus)));
+
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                employeeDetailsPanel.add(titleLabel, gbc);
+
+                gbc.gridy++;
+                gbc.anchor = GridBagConstraints.WEST;
+                gbc.fill = GridBagConstraints.NONE;
+                employeeDetailsPanel.add(infoPanel, gbc);
+
+                // Add button for changing to admin if employee status is 0
+                if (Integer.parseInt(employeeStatus.toString()) == 0) {
+                    JButton changeToAdminButton = new JButton("Change to Admin");
+                    changeToAdminButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            newManagePanelFrame = new JFrame("Add New Management Employee");
+                            JPanel newManagePanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
+
+                            GridBagConstraints gbcNew = new GridBagConstraints();
+                            newManagePanel.setLayout(new GridBagLayout());
+
+                            // Secret key label and text field
+                            JLabel secretKeyLabel = new JLabel("Secret key: ");
+                            JTextField secretKeyField = new JTextField(20);
+
+                            // Confirm button
+                            JButton confirmButton = new JButton("Confirm");
+                            confirmButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                            String secretKey = "abcde"; 
+
+                            // Check if the entered secret key matches
+                            if (secretKeyField.getText().equals(secretKey)) {
+                            // Call the method to make the employee a management level
+                            Object employeeId = table.getValueAt(selectedRow, 0); // employee ID is in column 1
+                            Object employeeName = table.getValueAt(selectedRow, 1); // employee name is in column 2
+                            ManageEmployee.newManageEmployee(employeeId.toString(), employeeName.toString());
+
+                            String successMessage = "Successfully added " + employeeId + ", " + employeeName + " as a management employee.";
+                            JOptionPane.showMessageDialog(null, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                            // Close frames and hide panels
+                            if (infoFrame != null) {
+                                infoFrame.dispose(); // Closes the infoFrame
+                            }
+                            if (employeeDetailsFrame != null) {
+                                employeeDetailsFrame.dispose(); // Closes the Employee Details frame
+                            }
+
+                            if (newManagePanelFrame != null) {
+                                newManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                            }
+                            
+                            if (NewManagePanelFrame != null) {
+                                NewManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                            }
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Incorrect secret key.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    });
+                            
+                            // Set up grid bag constraints
+                            gbcNew.gridx = 0;
+                            gbcNew.gridy = 0;
+                            gbcNew.insets = new Insets(10, 10, 5, 10);
+                            gbcNew.anchor = GridBagConstraints.WEST;
+                            newManagePanel.add(secretKeyLabel, gbcNew);
+
+                            gbcNew.gridx++;
+                            newManagePanel.add(secretKeyField, gbcNew);
+
+                            gbcNew.gridx = 1;
+                            gbcNew.gridy++;
+                            gbcNew.anchor = GridBagConstraints.EAST;
+                            gbcNew.fill = GridBagConstraints.NONE;
+                            gbcNew.insets = new Insets(10, 0, 10, 10);
+                            newManagePanel.add(confirmButton, gbcNew);
+
+                            NewManagePanelFrame = new JFrame("Add New Management Employee");
+                            NewManagePanelFrame.getContentPane().add(newManagePanel);
+                            NewManagePanelFrame.setSize(400, 200);
+                            NewManagePanelFrame.setLocationRelativeTo(null);
+                            NewManagePanelFrame.setVisible(true);
+                            // Add the panel to the dialog and make it visible
+                        }
+                    });
+
+                    gbc.gridy++;
+                    gbc.insets = new Insets(10, 0, 10, 0); // Adjust insets for spacing
+                    gbc.anchor = GridBagConstraints.CENTER; // Align button to the center
+                    gbc.fill = GridBagConstraints.HORIZONTAL; // Allow the button to expand horizontally
+                    employeeDetailsPanel.add(changeToAdminButton, gbc);
+                }
+
+
+                    JPanel centerPanel = new JPanel(new GridBagLayout());
+                    GridBagConstraints centerGbc = new GridBagConstraints();
+                    centerGbc.gridx = 0;
+                    centerGbc.gridy = 0;
+                    centerPanel.add(employeeDetailsPanel, centerGbc);
+
+                    employeeDetailsFrame.getContentPane().add(centerPanel);
+                    employeeDetailsFrame.setSize(400, 200);
+                    employeeDetailsFrame.setLocationRelativeTo(null);
+                    employeeDetailsFrame.setVisible(true);
+                }
+                    if (infoFrame != null) {
+                        infoFrame.dispose(); // Closes the infoFrame
+                    }
+                    
+                    if (employeeDetailsFrame != null) {
+                        employeeDetailsFrame.dispose(); // Closes the Employee Details frame
+                    }
+
+                    if (newManagePanelFrame != null) {
+                        newManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                    }
+                    
+                    if (NewManagePanelFrame != null) {
+                        newManagePanelFrame.dispose(); // Closes the Add New Management Employee frame
+                    }
+            }
+        });
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        return button;
+    }
+}
 
     // Helper method to parse raw information into a 2D array for JTable
     private String[][] parseRawInfo(String salesInfo) {
@@ -766,6 +1175,8 @@ public class GUI_SalesEmployeeInterface extends JFrame {
             contentPanel.add(createPanel("Sales", salesSearchPanel));
         } else if (menuName.equals("Vehicle")) {
             contentPanel.add(createPanel("Vehicle", vehiclePanel));
+        } else if (menuName.equals("Employee")){
+            contentPanel.add(createPanel("Employee", employeePanel));
         }
 
         contentPanel.revalidate();
@@ -783,11 +1194,13 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         JMenu customerMenu = new JMenu("Customer");
         JMenu salesMenu = new JMenu("Sales");
         JMenu vehicleMenu = new JMenu("Vehicle");
+        JMenu employeeMenu = new JMenu("Employee");
 
         JMenuItem homeMenuItem = new JMenuItem("Home");
         JMenuItem customerMenuItem = new JMenuItem("Customer");
         JMenuItem salesMenuItem = new JMenuItem("Sales");
         JMenuItem vehicleMenuItem = new JMenuItem("Vehicle");
+        JMenuItem employeeMenuItem = new JMenuItem("Employee");
 
         homeMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -816,16 +1229,25 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                 showContentForMenu("Vehicle");
             }
         });
+        
+        employeeMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showContentForMenu("Employee");
+            }
+        });
 
         homeMenu.add(homeMenuItem);
         customerMenu.add(customerMenuItem);
         salesMenu.add(salesMenuItem);
         vehicleMenu.add(vehicleMenuItem);
+        employeeMenu.add(employeeMenuItem);
 
         menuBar.add(homeMenu);
         menuBar.add(customerMenu);
         menuBar.add(salesMenu);
         menuBar.add(vehicleMenu);
+        menuBar.add(employeeMenu);
 
         setJMenuBar(menuBar);
     }

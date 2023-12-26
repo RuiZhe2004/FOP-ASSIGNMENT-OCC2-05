@@ -9,17 +9,21 @@ package lecars;
  * @author rz_rexton
  */
 import java.io.*;
-import java.util.List;
+import java.util.*;
 import static lecars.EmployeeIO.getEmployeeInput;
 import static lecars.EmployeeIO.filterEmployeeByStatus;
 import static lecars.SalesIO.getSalesInput;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class ManageEmployee {
     public static void main(String[] args) {
-        System.out.println(getProfitMargin());
+//        System.out.println(getProfitMargin());
+        System.out.println(getEmployeeSalary("E0010",1));
+        System.out.println(getEmployeeBonus("E0010",0));
     }
 
-    private static void newManageEmployee(String employeeId, String employeeName) {
+    public static void newManageEmployee(String employeeId, String employeeName) {
         
         //load the list of all employees
         List<EmployeeIO> employees = getEmployeeInput();
@@ -69,12 +73,29 @@ public class ManageEmployee {
         }
     }
     
-    private static double getEmployeeSalary(String employeeId, int employeeStatus){
+    public static double getEmployeeSalary(String employeeId, int employeeStatus){
         double basicSalary = 0;
         double maxAllowance = 0;
         
-        double totalSalesPrice = SalesIO.getTotalSalesPriceByEmployeeId(employeeId);
-        double commisionFee = totalSalesPrice * 0.01;
+        OffsetDateTime currentDate = OffsetDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String todayMonth = currentDate.format(formatter);
+//        System.out.println(todayMonth);
+//        todayMonth = "2023-07";
+        
+        Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = SalesIO.aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
+        // Output the aggregated sales by year and month
+//        for (Map.Entry<String, Double> entry : aggregatedTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
+//            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+//        }
+        
+        double totalSalesPriceThisMonth = 0;
+        
+        if (!(aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth) == null)) {
+            totalSalesPriceThisMonth = aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth);
+        }
+        
+        double commisionFee = totalSalesPriceThisMonth * 0.01;
         
         switch(employeeStatus){
             // management
@@ -94,20 +115,45 @@ public class ManageEmployee {
         return salary;
     }
     
-    private static double getEmployeeBonus(String employeeId, int employeeStatus){
+    public static double getEmployeeBonus(String employeeId, int employeeStatus){
         double bonus = 0;
         
-        List<SalesIO> sales = SalesIO.filterSalesByEmployeeId(employeeId);
-        int totalSales = sales.size();
+        OffsetDateTime currentDate = OffsetDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String todayMonth = currentDate.format(formatter);
+//        todayMonth = "2023-07";
         
+        int totalSales = 0;
+        List<SalesIO> sales = SalesIO.filterSalesByEmployeeId(employeeId);
+        for (SalesIO sale : sales) {
+            OffsetDateTime saleDateTime = sale.dateTime();
+            String extractYearMonth = saleDateTime.format(formatter);
+            if (extractYearMonth.equals(todayMonth)){
+                totalSales++;
+            }
+        }
+        System.out.println(totalSales);
+        
+        Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = SalesIO.aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
+        // Output the aggregated sales by year and month
+//        for (Map.Entry<String, Double> entry : aggregatedTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
+//            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+//        }
+                
         switch(employeeStatus){
             // management
             case 1:
-                double totalSalesPrice = SalesIO.getTotalSalesPriceByEmployeeId(employeeId);
-                if(totalSalesPrice >= 2500000.01)        bonus = totalSalesPrice *= 0.0135;
-                else if(totalSalesPrice >= 1600000.01)   bonus = totalSalesPrice *= 0.0125;
-                else if(totalSalesPrice >= 800000.01)    bonus = totalSalesPrice *= 0.0115;
-                else                                     bonus = totalSalesPrice *= 0.01;
+                double totalSalesPriceThisMonth = 0;
+        
+                if (!(aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth) == null)) {
+                    totalSalesPriceThisMonth = aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth);
+                }
+                
+                if (aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth) == null) totalSalesPriceThisMonth = 0;
+                if(totalSalesPriceThisMonth >= 2500000.01)        bonus = totalSalesPriceThisMonth *= 0.0135;
+                else if(totalSalesPriceThisMonth >= 1600000.01)   bonus = totalSalesPriceThisMonth *= 0.0125;
+                else if(totalSalesPriceThisMonth >= 800000.01)    bonus = totalSalesPriceThisMonth *= 0.0115;
+                else                                              bonus = totalSalesPriceThisMonth *= 0.01;
                 break;
                 
             // sales

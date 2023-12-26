@@ -224,6 +224,11 @@ public class GUI_Signup extends javax.swing.JFrame {
             if ("Success".equals(result)) {
                 // Registration successful
                 JOptionPane.showMessageDialog(null, "Registration successful!");
+                GUI_Login GUI_LoginFrame=new GUI_Login();
+                GUI_LoginFrame.setVisible(true);
+                GUI_LoginFrame.pack();
+                GUI_LoginFrame.setLocationRelativeTo(null);
+                this.dispose();
             } else {
                 // Registration failed
                 JOptionPane.showMessageDialog(null, "Registration failed. Please try again.");
