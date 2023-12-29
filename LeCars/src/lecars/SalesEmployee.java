@@ -11,7 +11,6 @@ package lecars;
 
 import java.io.*;
 import java.util.List;
-import static lecars.EmployeeIO.getEmployeeInput;
 
 
 public class SalesEmployee extends EmployeeIO {
@@ -23,6 +22,10 @@ public class SalesEmployee extends EmployeeIO {
     
     public SalesEmployee(String employeeId, String employeeName, int employeeStatus, String password) {
         super(employeeId, employeeName, employeeStatus, password); // Calls the superclass constructor
+    }
+    
+    public SalesEmployee(String employeeId, String employeeName, int employeeStatus) {
+        super(employeeId, employeeName, employeeStatus); // Calls the superclass constructor
     }
     
     public static String registerNewUser(String employeeName, String password) {

@@ -8,6 +8,9 @@ import java.io.*;
 import java.util.*;
 import java.time.*;
 import java.time.format.*;
+import static lecars.EmployeeIO.getEmployeeInput;
+import static lecars.ManageEmployee.getEmployeeBonus;
+import static lecars.ManageEmployee.getEmployeeSalary;
 
 
 
@@ -101,21 +104,27 @@ public class SalesIO {
 //        }
 //        System.out.println();
 //        
-//        Map<String, Double> aggregatecTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
+//        Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
 //        // Output the aggregated sales by year and month
-//        for (Map.Entry<String, Double> entry : aggregatecTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
+//        for (Map.Entry<String, Double> entry : aggregatedTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
 //            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
 //        }
+
+        Map<String, Double> aggregatedProfitMarginByYearMonth = aggregateProfitMarginByYearMonth();
+        // Output the aggregated sales by year and month
+        for (Map.Entry<String, Double> entry : aggregatedProfitMarginByYearMonth.entrySet()) {
+            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+        }
 
 //        List<SalesIO> filteredSalesPriceRange = filterSalesPriceRange(150000);
 //        for (SalesIO sale : filteredSalesPriceRange) {            
 //            System.out.println(sale.toString());
 //        }
         
-        List<SalesIO> filteredSalesPriceRangeByEmployeeId = filterSalesPriceRangeByEmployeeId(100005,"E0002");
-        for (SalesIO sale : filteredSalesPriceRangeByEmployeeId) {            
-            System.out.println(sale.toString());
-        }
+//        List<SalesIO> filteredSalesPriceRangeByEmployeeId = filterSalesPriceRangeByEmployeeId(100005,"E0002");
+//        for (SalesIO sale : filteredSalesPriceRangeByEmployeeId) {            
+//            System.out.println(sale.toString());
+//        }
     }
     
     public static List<SalesIO> getSalesInput() {
@@ -279,6 +288,33 @@ public class SalesIO {
         }
 
         return aggregatedTotalSalesPriceByYearMonthByEmployeeId;
+    }
+    
+    // Aggregate the profit margin by year and month
+    public static Map<String, Double> aggregateProfitMarginByYearMonth() {
+        List<SalesIO> sortedFilteredSales = getSalesInput();
+        Collections.sort(sortedFilteredSales, Comparator.comparing(SalesIO::dateTime));
+
+        // Use a Map to store the aggregated sales for each YearMonth
+        Map<String, Double> aggregatedProfitMarginByYearMonth = new HashMap<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+        for (SalesIO sale : sortedFilteredSales) {
+            VehicleIO vehicle = VehicleIO.searchBySoldVehicleCarPlate(sale.getCarPlate());
+            if (vehicle != null) {
+                // Parse the dateTime field into LocalDateTime
+                OffsetDateTime saleDateTime = sale.dateTime();
+
+                // Generate a key as "yyyy-MM" from the LocalDateTime
+                String key = saleDateTime.format(formatter);
+                
+                // Add sales price to the existing total or initialize if not present
+                aggregatedProfitMarginByYearMonth.merge(key, vehicle.getSalesPrice() - vehicle.getAcquirePrice(), Double::sum);
+            }
+        }
+
+        return aggregatedProfitMarginByYearMonth;
     }
     
     private static SalesIO searchByCustId(String custId) {
