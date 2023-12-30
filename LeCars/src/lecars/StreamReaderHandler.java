@@ -8,28 +8,52 @@ import java.io.*;
 import javax.swing.JFileChooser;
 import java.nio.charset.StandardCharsets;
 
-/**
- *
- * @author szeyu
- */
 public class StreamReaderHandler {
     
-    public static String convertStreamToString(InputStream is) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
+    /**
+    * Convert InputStream to a String.
+    *
+    * <pre>
+    * Pseudocode:
+    * 1) Create a BufferedReader using the InputStream and UTF-8 encoding.
+    * 2) Create a StringBuilder to store the converted String.
+    * 3) Read each line from the BufferedReader and append it to the StringBuilder.
+    * 4) Return the String from the StringBuilder.
+    * </pre>
+    *
+    * @param is : the InputStream to convert to String
+    * @return the converted String, or null if an IOException occurs
+    */
+   public static String convertStreamToString(InputStream is) {
+       try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+           StringBuilder stringBuilder = new StringBuilder();
+           String line;
 
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
-            }
+           while ((line = reader.readLine()) != null) {
+               stringBuilder.append(line).append("\n");
+           }
 
-            return stringBuilder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    // method that allows the user to select a CSV file using a JFileChooser. The selected CSV file's contents are then copied to a specified output file.
+           return stringBuilder.toString();
+       } catch (IOException e) {
+           e.printStackTrace();
+           return null;
+       }
+   }
+
+    /**
+     * Copy the content of a selected CSV file to corresponding output file.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Create a JFileChooser and display to the user.
+     * 2) If the user selects a file, read each line from the selected CSV file.
+     * 3) Write each line to the specified output file.
+     * 4) Handle any IOExceptions that occur during file copying.
+     * </pre>
+     * 
+     * @method copySelectedCsvFile
+     * @param outputFilePath the path to the output file
+     */
     public void copySelectedCsvFile(String outputFilePath) {
         // Use a file chooser to let the user select a CSV file
         JFileChooser fileChooser = new JFileChooser();
