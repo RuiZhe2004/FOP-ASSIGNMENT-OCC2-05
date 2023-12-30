@@ -72,16 +72,23 @@ public class CustIO {
     }
     
     /**
+     * Read and parses customer data from a CSV file, including customer ID, name, phone number, and postcode.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get an InputStream for the resource file cust.csv.
+     * 2) Convert the InputStream to a String.
+     * 3) Remove the first line (header row) from the String.
+     * 4) Split the String into lines.
+     * 5) For each line, split it into attributes.
+     * 6) Create a CustIO object for each set of attributes.
+     * 7) Add the CustIO object to a list.
+     * 8) Return the list of CustIO objects.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method getcustInput
+     * @return A list of CustIO objects representing the customers in the CSV file.
+     * @see CustIO
      */
     public static List<CustIO> getcustInput() {
         List<CustIO> cust = new ArrayList<>();
@@ -129,16 +136,18 @@ public class CustIO {
     }
     
     /**
+     * Search for a customer by name.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all customers using the getcustInput() method.
+     * 2) Iterate through the list of customers and search for the customer with the given name.
+     * 3) Return the found customer, or null if no such customer is found.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param custName : search for the name of the customer
+     * @return the customer with the given name, or null if no such customer is found
+     * @see CustIO#getcustInput()
      */
     // search by customer name
     private static CustIO searchCustByName(String custName) {
@@ -155,16 +164,18 @@ public class CustIO {
     }
     
     /**
+     * Search for a customer by customer ID.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all customers using the getcustInput() method.
+     * 2) Iterate through the list of customers and search for the customer with the given ID.
+     * 3) Return the found customer, or null if no such customer is found.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param custId : search for the ID of the customer
+     * @return the customer with the given ID, or null if no such customer is found
+     * @see CustIO#getcustInput()
      */
     // search by customer ID
     public static CustIO searchCustById(String custId) {
@@ -181,16 +192,18 @@ public class CustIO {
     }
     
     /**
+     * Search for a customer by phone number.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all customers using the getcustInput() method.
+     * 2) Iterate through the list of customers and search for the customer with the given phone number.
+     * 3) Return the found customer, or null if no such customer is found.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param phoneNum : search for the phone number of the customer
+     * @return the customer with the given phone number, or null if no such customer is found
+     * @see CustIO#getcustInput()
      */
     // search by hp no
     private static CustIO searchCustByHPno(String phoneNum) {
@@ -207,16 +220,18 @@ public class CustIO {
     }
     
     /**
+     * Search for a customer by postcode.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all customers using the getcustInput() method.
+     * 2) Iterate through the list of customers and search for the customer with the given postcode.
+     * 3) Return the found customer, or null if no such customer is found.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param custpostcode : search for the postcode of the customer
+     * @return the customer with the given postcode, or null if no such customer is found
+     * @see CustIO#getcustInput()
      */
     // search by postcode
     private static CustIO searchCustByPostcode(String custpostcode) {
@@ -233,16 +248,19 @@ public class CustIO {
     }
     
     /**
+     * Generate the next unique customer ID.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all existing customers using the getcustInput() method.
+     * 2) Get the last customer ID from the list.
+     * 3) Increment the last customer ID by 1.
+     * 4) Format the new customer ID as "CXXXX", where XXXX is the 4-digit customer ID.
+     * 5) Return the new customer ID.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @return the next unique customer ID
+     * @see CustIO#getcustInput()
      */
     public static String getNextUniqueCustId(){
         //read and get the sales data
@@ -258,16 +276,22 @@ public class CustIO {
     }
     
     /**
+     * Add a new customer to the customer CSV file.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all existing customers using the getcustInput() method.
+     * 2) Generate a new unique customer ID.
+     * 3) Create a new customer record in CSV format.
+     * 4) Open the customer CSV file in append mode.
+     * 5) Write the new customer record to the file.
+     * 6) Close the file.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param custName : name of the new customer
+     * @param phoneNum : phone number of the new customer
+     * @param postcode : postcode of the new customer
+     * @see CustIO#getcustInput()
      */
     // add new customer by increasing ID
     public static void addNewCust(String custName, String phoneNum, String postcode){
