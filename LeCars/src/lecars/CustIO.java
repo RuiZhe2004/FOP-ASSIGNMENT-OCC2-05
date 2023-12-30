@@ -71,6 +71,18 @@ public class CustIO {
         System.out.println("Target Customer : " + targetCustomer.toString());
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static List<CustIO> getcustInput() {
         List<CustIO> cust = new ArrayList<>();
 
@@ -116,6 +128,18 @@ public class CustIO {
         return cust;        
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // search by customer name
     private static CustIO searchCustByName(String custName) {
         
@@ -130,6 +154,18 @@ public class CustIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // search by customer ID
     public static CustIO searchCustById(String custId) {
         
@@ -144,6 +180,18 @@ public class CustIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // search by hp no
     private static CustIO searchCustByHPno(String phoneNum) {
         
@@ -158,6 +206,18 @@ public class CustIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // search by postcode
     private static CustIO searchCustByPostcode(String custpostcode) {
         
@@ -172,6 +232,18 @@ public class CustIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static String getNextUniqueCustId(){
         //read and get the sales data
         List<CustIO> cust = getcustInput();
@@ -185,6 +257,18 @@ public class CustIO {
         return nextCustId;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // add new customer by increasing ID
     public static void addNewCust(String custName, String phoneNum, String postcode){
         try {

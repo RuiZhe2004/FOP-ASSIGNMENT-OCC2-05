@@ -1,16 +1,12 @@
 package lecars;
 
 import lecars.StreamReaderHandler;
-import lecars.EmployeeIO;
 import lecars.VehicleIO;
 import static lecars.CustIO.*;
 import java.io.*;
 import java.util.*;
 import java.time.*;
 import java.time.format.*;
-import static lecars.EmployeeIO.getEmployeeInput;
-import static lecars.ManageEmployee.getEmployeeBonus;
-import static lecars.ManageEmployee.getEmployeeSalary;
 
 
 
@@ -127,6 +123,21 @@ public class SalesIO {
 //        }
     }
     
+    /**
+     * <pre>
+     * To get the list of sales objects
+     * Pseudocode
+     * 1) Get the stream content from the sales.csv file and then convert to string
+     * 2) remove the title
+     * 3) split them line by line
+     * 4) split them by ','
+     * 5) store them into Sales Object according to their types
+     * </pre>
+     * 
+     * @method    getSalesInput
+     * @return   List<SalesIO>
+     * @see      convertStreamToString()
+     */
     public static List<SalesIO> getSalesInput() {
         List<SalesIO> sales = new ArrayList<>();
 
@@ -176,10 +187,31 @@ public class SalesIO {
         return sales;        
     }
     
+    /**
+     * <pre>
+     * To get the next unique sales ID according to autoincrement function
+     * Pseudocode
+     * 1) Get the list of sales objects
+     * 2) If null list is obtains mean no record hence return the first ID which is A0001
+     * 3) Find the last row
+     * 4) Ignore the first char and read the integer after it
+     * 5) Auto increment it
+     * 6) return it
+     * </pre>
+     * 
+     * @method   getNextUniqueSalesId
+     * @return   List<SalesIO> sales - List of sales objects
+     * @see      getSalesInput()
+     */
     public static String getNextUniqueSalesId(){
         //read and get the sales data
         List<SalesIO> sales = getSalesInput();
-
+        
+        // if the sales is null mean no record
+        if(sales == null){
+            return "A0001";
+        }
+        
         // Get the last row of SalesId
         String lastSalesId = sales.get(sales.size() - 1).getSalesId();
         int intLastSalesId = Integer.parseInt(lastSalesId.substring(1)) + 1; // Increment and convert to int
@@ -189,6 +221,18 @@ public class SalesIO {
         return salesId;
     }
     
+    /**
+     * <pre>
+     * To convert the current date time object to a string format
+     * Pseudocode
+     * 1) Get the current date time object
+     * 2) Convert to String and then plus a 'Z' at the back
+     * 3) return it
+     * </pre>
+     * 
+     * @method   getCurrentDateTime
+     * @return   String formattedDateTime - the datetime object in string which contain the 'Z' at the back
+     */
     public static String getCurrentDateTime(){
         // get the current date time
         final OffsetDateTime dateTime = OffsetDateTime.now();
@@ -197,7 +241,25 @@ public class SalesIO {
         return formattedDateTime;
     }
     
-    
+    /**
+     * <pre>
+     * To add new sales object to sales.csv file
+     * Pseudocode
+     * 1) get the list of sales object
+     * 2) get the next unique sales id
+     * 3) convert the input data into a line of String
+     * 4) append to the sales.csv file
+     * </pre>
+     * 
+     * @method   addNewSales
+     * @param    carPlate           the unique car plate of a vehicle
+     * @param    custID             the unique id of a customer
+     * @param    employeeId         the unique id of an employee
+     * @param    formattedDateTime  date time object in string which contain the 'Z' at the back
+     * @return   void
+     * @see      getSalesInput()
+     * @see      getNextUniqueSalesId()
+     */
     public static void addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime){
         try {
             //read and get the sales data
@@ -224,6 +286,19 @@ public class SalesIO {
         }
     }
     
+    /**
+     * <pre>
+     * To get the number of sales by an employee
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   filterSalesByEmployeeId
+     * @param    employeeId         the unique id of an employee
+     * @return   List<SalesIO> filteredSales - the filtered sales by an employee
+     * @see      getSalesInput()
+     * @see      getEmployeeId()
+     */
     //filtering 
     // by employeeId
     // can get the number of sales by employee
@@ -240,6 +315,18 @@ public class SalesIO {
         return filteredSales;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   filterSortedSalesByEmployeeId
+     * @param    employeeId         the unique id of an employee
+     * @return   List<SalesIO> sortedFilteredSales - the sorted filtered sales by an employee
+     * @see      filterSalesByEmployeeId(String employeeId)
+     */
     public static List<SalesIO> filterSortedSalesByEmployeeId(String employeeId) {
         List<SalesIO> sortedFilteredSales = filterSalesByEmployeeId(employeeId);
         
@@ -249,6 +336,18 @@ public class SalesIO {
         
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // get the profit by EmployeeId
     private static double getProfitByEmployeeId(String employeeId) {
         List<SalesIO> filteredSales = filterSalesByEmployeeId(employeeId);
@@ -264,6 +363,18 @@ public class SalesIO {
         return profit;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // Aggregate the total sales price by year and month for a specific employee
     public static Map<String, Double> aggregateTotalSalesPriceByYearMonthByEmployeeId(String employeeId) {
         List<SalesIO> sortedFilteredSales = filterSortedSalesByEmployeeId(employeeId);
@@ -290,6 +401,18 @@ public class SalesIO {
         return aggregatedTotalSalesPriceByYearMonthByEmployeeId;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // Aggregate the profit margin by year and month
     public static Map<String, Double> aggregateProfitMarginByYearMonth() {
         List<SalesIO> sortedFilteredSales = getSalesInput();
@@ -317,6 +440,18 @@ public class SalesIO {
         return aggregatedProfitMarginByYearMonth;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     private static SalesIO searchByCustId(String custId) {
         List<SalesIO> sales = getSalesInput();
         
@@ -328,6 +463,18 @@ public class SalesIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static List<CustIO> filterCustByEmployeeId(String employeeID) {
         List<SalesIO> filteredCustID = new ArrayList<>();
         List<SalesIO> sales = getSalesInput();
@@ -360,6 +507,18 @@ public class SalesIO {
         return CustListByEmployeeID;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static List<SalesIO> filterSalesPriceRange(double priceAbove) {
         List<SalesIO> filterSalesAbovePriceRange = new ArrayList<>();
         List<String> filteredCarPlateAboveSalesPriceRange = new ArrayList<>();
@@ -381,6 +540,18 @@ public class SalesIO {
         return filterSalesAbovePriceRange;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static List<SalesIO> filterSalesPriceRangeByEmployeeId(double priceAbove, String employeeId) {
         List<SalesIO> filterSalesAbovePriceRangeByEmployeeId = new ArrayList<>();
         List<SalesIO> filterSalesAbovePriceRange = filterSalesPriceRange(priceAbove);

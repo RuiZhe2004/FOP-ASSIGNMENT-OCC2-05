@@ -10,13 +10,11 @@ package lecars;
  */
 import java.io.*;
 import java.util.*;
-import static lecars.SalesIO.getSalesInput;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class ManageEmployee extends EmployeeIO{
     public static void main(String[] args) {
-//        System.out.println(getProfitMargin());
         System.out.println(getEmployeeSalary("E0010",1));
         System.out.println(getEmployeeBonus("E0010",0));
         System.out.println(getProfitMarginThisMonth());
@@ -124,19 +122,6 @@ public class ManageEmployee extends EmployeeIO{
      * @param    employeeStatus the status of the employee
      *                          1 for management employee
      *                          0 for sales employee
-     * @param   basicSalary   the basic salary of an employee
-     *                        sales employee = 1200
-     *                        management employee = 2200
-     * @param   maxAllowance   the max allowance of an employee
-     * sales employee = 250
-     * management employee = 350
-     * @param   todayYearMonth   the current year and month
-     * @param   aggregatedTotalSalesPriceByYearMonthByEmployeeId   The total sales prices which are aggregated by year and month of an employee
-     * @param   totalSalesPriceThisMonth   The total sales prices which of this year and this month of an employee
-     * @param   commissionFee   The commission fee of this month
-     *                          1% from the total sales price this month
-     * @param   salary   The salary of an employee this month
-     *                   salary = commission fee + basic salary + max allowance
      * @return   double salary   The salary of an employee according to the sales record this month
      */    
     public static double getEmployeeSalary(String employeeId, int employeeStatus){
@@ -208,12 +193,6 @@ public class ManageEmployee extends EmployeeIO{
      * @method    getEmployeeSalary
      * @param    employeeID  a unique employee ID
      * @param    employeeStatus the status of the employee
-     *                          1 for management employee
-     *                          0 for sales employee
-     * @param   todayYearMonth   the current year and month
-     * @param   totalSales   the total sales of an employee this year and this month
-     * @param   aggregatedTotalSalesPriceByYearMonthByEmployeeId   The total sales prices which are aggregated by year and month of an employee
-     * @param   totalSalesPriceThisMonth   The total sales prices which of this year and this month of an employee
      * @return   double bonus   The bonus of an employee according to the sales record this month
      */ 
     public static double getEmployeeBonus(String employeeId, int employeeStatus){
@@ -280,9 +259,6 @@ public class ManageEmployee extends EmployeeIO{
      * </pre>
      * 
      * @method  getProfitMarginThisMonth
-     * @param   sales  a list of sales object
-     * @param   vehicle a vehicle object
-     * @param   totalProfitMarginThisMonth    The profit margin of the company this month
      * @return  double totalProfitMarginThisMonth   The profit margin of the company this month
      * @see     aggregateProfitMarginByYearMonth()
      * @see     getEmployeeInput()
