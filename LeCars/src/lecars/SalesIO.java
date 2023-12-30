@@ -290,7 +290,9 @@ public class SalesIO {
      * <pre>
      * To get the number of sales by an employee
      * Pseudocode
-     * 1) 
+     * 1) Get the list of all sales using the getSalesInput() method.
+     * 2) Iterate through the list of sales and filter by the given employee ID.
+     * 3) Return the filtered list of sales.
      * </pre>
      * 
      * @method   filterSalesByEmployeeId
@@ -319,7 +321,9 @@ public class SalesIO {
      * <pre>
      * To 
      * Pseudocode
-     * 1) 
+     * 1) Get the list of sales for the given employee using the filterSalesByEmployeeId() method.
+     * 2) Sort the list of sales by date/time in ascending order.
+     * 3) Return the sorted list of sales.
      * </pre>
      * 
      * @method   filterSortedSalesByEmployeeId
@@ -337,16 +341,22 @@ public class SalesIO {
     }
     
     /**
+     * Gets the total profit for a given employee.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of sales for the given employee using the filterSalesByEmployeeId() method.
+     * 2) Initialize a variable to store the total profit.
+     * 3) Iterate through the list of sales.
+     * 4) For each sale, get the corresponding vehicle using the searchByVehicleCarPlate() method.
+     * 5) If the vehicle is found, add the profit (sales price - acquire price) to the total profit.
+     * 6) Return the total profit.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param employeeId : filter employee ID
+     * @return the total profit for the given employee
+     * @see SalesIO#filterSalesByEmployeeId(String)
+     * @see VehicleIO#searchByVehicleCarPlate(String)
      */
     // get the profit by EmployeeId
     private static double getProfitByEmployeeId(String employeeId) {
@@ -364,16 +374,22 @@ public class SalesIO {
     }
     
     /**
+     * Aggregates the total sales price by year and month for a specific employee.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of sales for the given employee using the filterSortedSalesByEmployeeId() method.
+     * 2) Initialize a map to store the aggregated sales for each year and month.
+     * 3) Iterate through the list of sales.
+     * 4) For each sale, get the corresponding vehicle using the searchBySoldVehicleCarPlate() method.
+     * 5) If the vehicle is found, add the sales price to the existing total for the year and month, or initialize the total to the sales price if the year and month do not exist in the map.
+     * 6) Return the map containing the aggregated sales price for each year and month.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param employeeId : filter employee ID
+     * @return a map containing the aggregated sales price for each year and month for the given employee
+     * @see SalesIO#filterSortedSalesByEmployeeId(String)
+     * @see VehicleIO#searchBySoldVehicleCarPlate(String)
      */
     // Aggregate the total sales price by year and month for a specific employee
     public static Map<String, Double> aggregateTotalSalesPriceByYearMonthByEmployeeId(String employeeId) {
@@ -403,16 +419,25 @@ public class SalesIO {
     }
     
     /**
+     * Aggregates the profit margin by year and month.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all sales using the getSalesInput() method.
+     * 2) Sort the list of sales by date/time in ascending order.
+     * 3) Initialize a map to store the aggregated profit margin for each year and month.
+     * 4) Iterate through the sorted list of sales.
+     * 5) For each sale, get the corresponding vehicle using the searchBySoldVehicleCarPlate() method.
+     * 6) If the vehicle is found, calculate the profit margin for the sale by subtracting the acquire price from the sales price.
+     * 7) Parse the date/time field of the sale into a YearMonth object.
+     * 8) Generate a key for the map using the YearMonth object.
+     * 9) Add the profit margin for the sale to the existing total for the key, or initialize the total to the profit margin if the key does not exist.
+     *10) Return the map containing the aggregated profit margin for each year and month.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @return a map containing the aggregated profit margin for each year and month
+     * @see SalesIO#getSalesInput()
+     * @see VehicleIO#searchBySoldVehicleCarPlate(String)
      */
     // Aggregate the profit margin by year and month
     public static Map<String, Double> aggregateProfitMarginByYearMonth() {
@@ -442,16 +467,18 @@ public class SalesIO {
     }
     
     /**
+     * Searches for a sales record by customer ID.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all sales using the getSalesInput() method.
+     * 2) Iterate through the list of sales and search for the sale with the given customer ID.
+     * 3) Return the found sales record, or null if no such record is found.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param custId : search for customer ID
+     * @return the sales record with the given customer ID, or null if no such record is found
+     * @see SalesIO#getSalesInput()
      */
     private static SalesIO searchByCustId(String custId) {
         List<SalesIO> sales = getSalesInput();
@@ -465,16 +492,22 @@ public class SalesIO {
     }
     
     /**
+     * Filters the list of customers by a given employee ID.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all sales using the getSalesInput() method.
+     * 2) Filter the list of sales by the given employee ID.
+     * 3) Get the list of customer IDs from the filtered list of sales.
+     * 4) Get the list of all customers using the getcustInput() method.
+     * 5) Filter the list of customers by the list of customer IDs obtained in step 3.
+     * 6) Return the filtered list of customers.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param employeeID : filter employee ID
+     * @return a list of customers associated with the given employee ID
+     * @see SalesIO#getSalesInput()
+     * @see CustIO#getcustInput()
      */
     public static List<CustIO> filterCustByEmployeeId(String employeeID) {
         List<SalesIO> filteredCustID = new ArrayList<>();
@@ -509,16 +542,20 @@ public class SalesIO {
     }
     
     /**
+     * Filters the list of sales by a minimum sales price.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all sales using the getSalesInput() method.
+     * 2) Get the list of all sold vehicles using the getSoldVehicleInput() method.
+     * 3) Iterate through the list of sold vehicles and filter the sales based on the given price.
+     * 4) Return the filtered list of sales.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param priceAbove : filter minimum sales price
+     * @return a list of sales with a sales price greater than or equal to the given price
+     * @see SalesIO#getSalesInput()
+     * @see VehicleIO#getSoldVehicleInput()
      */
     public static List<SalesIO> filterSalesPriceRange(double priceAbove) {
         List<SalesIO> filterSalesAbovePriceRange = new ArrayList<>();
@@ -542,16 +579,19 @@ public class SalesIO {
     }
     
     /**
+     * Filters the list of sales by a minimum sales price and employee ID.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of sales with a sales price greater than or equal to the given price using the filterSalesPriceRange() method.
+     * 2) Iterate through the filtered list of sales and filter by the given employee ID.
+     * 3) Return the filtered list of sales.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @param priceAbove : filter minimum sales price
+     * @param employeeId : filter employee ID
+     * @return a list of sales with a sales price greater than or equal to the given price and the given employee ID
+     * @see SalesIO#filterSalesPriceRange(double)
      */
     public static List<SalesIO> filterSalesPriceRangeByEmployeeId(double priceAbove, String employeeId) {
         List<SalesIO> filterSalesAbovePriceRangeByEmployeeId = new ArrayList<>();
