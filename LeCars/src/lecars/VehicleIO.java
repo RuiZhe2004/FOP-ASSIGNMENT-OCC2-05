@@ -137,6 +137,7 @@ public class VehicleIO {
      * </pre>
      *
      * @method getStatusSet()
+     * @param -
      * @return the status set = 1
      * @see #STATUS
      */
@@ -231,7 +232,7 @@ public class VehicleIO {
      * </pre>
      *
      * @method searchBySoldVehicleCarPlate()
-     * @param carPlate the car plate of the vehicle to search for
+     * @param carPlate : the car plate of the vehicle to search for
      * @return the vehicle with the given car plate, or null if no such vehicle is found
      * @see #getSoldVehicleInput()
      */
@@ -262,6 +263,7 @@ public class VehicleIO {
      * </pre>
      *
      * @method getVehicleInput()
+     * @param -
      * @return A list of VehicleIO objects representing the vehicles in the CSV file.
      * @see VehicleIO
      */
