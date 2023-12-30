@@ -100,17 +100,17 @@ public class SalesIO {
 //        }
 //        System.out.println();
 //        
-//        Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
+        Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = aggregateTotalSalesPriceByYearMonthByEmployeeId("E0001");
 //        // Output the aggregated sales by year and month
-//        for (Map.Entry<String, Double> entry : aggregatedTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
-//            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
-//        }
-
-        Map<String, Double> aggregatedProfitMarginByYearMonth = aggregateProfitMarginByYearMonth();
-        // Output the aggregated sales by year and month
-        for (Map.Entry<String, Double> entry : aggregatedProfitMarginByYearMonth.entrySet()) {
+        for (Map.Entry<String, Double> entry : aggregatedTotalSalesPriceByYearMonthByEmployeeId.entrySet()) {
             System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
         }
+
+//        Map<String, Double> aggregatedProfitMarginByYearMonth = aggregateProfitMarginByYearMonth();
+//        // Output the aggregated sales by year and month
+//        for (Map.Entry<String, Double> entry : aggregatedProfitMarginByYearMonth.entrySet()) {
+//            System.out.println("Year-Month: " + entry.getKey() + ", Total Sales: " + entry.getValue());
+//        }
 
 //        List<SalesIO> filteredSalesPriceRange = filterSalesPriceRange(150000);
 //        for (SalesIO sale : filteredSalesPriceRange) {            
@@ -385,6 +385,7 @@ public class SalesIO {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
 
         for (SalesIO sale : sortedFilteredSales) {
+            System.out.println(sale.toString());
             VehicleIO vehicle = VehicleIO.searchBySoldVehicleCarPlate(sale.getCarPlate());
             if (vehicle != null) {
                 // Parse the dateTime field into LocalDateTime

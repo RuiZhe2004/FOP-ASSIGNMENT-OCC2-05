@@ -12,6 +12,7 @@ import lecars.SalesIO;
 import lecars.VehicleIO;
 import lecars.CustIO;
 import lecars.EmployeeIO;
+import lecars.ManageEmployee;
 import lecars.StreamReaderHandler;
 
 public class GUI_ManageEmployeeInterface extends JFrame {
@@ -39,7 +40,9 @@ public class GUI_ManageEmployeeInterface extends JFrame {
     private void home(){
         // Home
         homePanel = new JPanel();
-        homePanel.setLayout(new GridLayout(3, 2));
+        homePanel.setLayout(new GridLayout(4, 2));
+        homePanel.add(new JLabel("Company Profit Margin this Month:"));
+        homePanel.add(new JLabel(String.format("RM %.2f",ManageEmployee.getProfitMarginThisMonth()))); // profit margin this month field
         homePanel.add(new JLabel("ID:"));
         homePanel.add(new JLabel(this.employeeId)); // ID field
         homePanel.add(new JLabel("Name:"));
@@ -327,7 +330,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         JTextField priceAboveField = new JTextField(""); // Declare the priceAboveField field
         priceAboveField.setPreferredSize(new Dimension(200, 30)); // Set preferred size
 
-        JButton salesPriceFilterButton = new JButton("Filter by Sales Price");
+        JButton salesPriceFilterButton = new JButton("Sales Price Above");
         salesPriceFilterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -353,7 +356,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                         // Add logic to process each sale item
                         salesInfo.append(sale.toString()).append("\n");
                     }
-                    showInfoInterface("Filtered Sales Info", salesInfo.toString(), columnNames);
+                    showInfoInterface("Sales Price Above", salesInfo.toString(), columnNames);
 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(salesSearchPanel, "Invalid input for price above", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1010,9 +1013,9 @@ class ButtonEditor extends DefaultCellEditor {
                 infoPanel.add(employeeNameLabel);
                 infoPanel.add(new JLabel(employeeName.toString()));
                 infoPanel.add(employeeSalaryLabel);
-                infoPanel.add(new JLabel(String.valueOf(salary)));
+                infoPanel.add(new JLabel(String.format("RM %.2f",salary)));
                 infoPanel.add(employeeBonusLabel);
-                infoPanel.add(new JLabel(String.valueOf(bonus)));
+                infoPanel.add(new JLabel(String.format("RM %.2f",bonus)));
 
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -1185,7 +1188,7 @@ class ButtonEditor extends DefaultCellEditor {
 
     private void initComponents() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Sales Employee Interface");
+        setTitle("Management Employee Interface");
         setSize(800, 600);
         setLocationRelativeTo(null);
 
