@@ -17,7 +17,7 @@ public class ManageEmployee extends EmployeeIO{
     public static void main(String[] args) {
         System.out.println(getEmployeeSalary("E0001",1));
 //        System.out.println(getEmployeeBonus("E0001",1));
-//        System.out.println(getProfitMarginThisMonth());
+        System.out.println(getProfitMarginThisMonth());
     }
     
     public ManageEmployee(String employeeId, String employeeName, int employeeStatus, String password) {
@@ -267,7 +267,7 @@ public class ManageEmployee extends EmployeeIO{
      * @see     getEmployeeId()
      * @see     getEmployeeStatus()
      */     
-    private static double getProfitMarginThisMonth(){
+    public static double getProfitMarginThisMonth(){
         // profit from sales
         double totalProfitMarginThisMonth = 0;
         
