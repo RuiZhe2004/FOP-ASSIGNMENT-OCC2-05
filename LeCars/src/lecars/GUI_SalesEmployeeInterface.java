@@ -605,93 +605,80 @@ public class GUI_SalesEmployeeInterface extends JFrame {
             JTextField carStatusField = new JTextField(VehicleIO.getStatusSet());
             carStatusField.setEditable(false);
             carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
-                
-//                JLabel salesPriceLabel = new JLabel("Sales Price:");
-//                JTextField salesPriceField = new JTextField();
-//                salesPriceField.setEditable(false);
-//                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
 
-JButton confirmButton = new JButton("Confirm");
-confirmButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Retrieve values from input fields
-        String carPlate = carPlateField.getText();
-        String carModel = carModelField.getText();
-        double acquirePrice = Double.parseDouble(acquirePriceField.getText());
-        
-        int carStatus = 1;
-        
-        double salesPrice = 0.0;  // Default value
-        
-        VehicleIO carPlateExist = VehicleIO.searchByVehicleCarPlate(carPlate);
-        
-        if(carPlateExist != null) {
-            System.out.println("Car plate been taken.");
-            JOptionPane.showMessageDialog(addNewVehicleDialog, "Cannot register the car plate", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(addNewVehicleDialog, "Vehicle successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-            // Call the method to add new vehicle entry
-            // addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice)
-            VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
-        }
-        
-        // Close the add new vehicle interface
-        addNewVehicleDialog.dispose();
-    }
-});
+            JButton confirmButton = new JButton("Confirm");
+            confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Retrieve values from input fields
+                String carPlate = carPlateField.getText();
+                String carModel = carModelField.getText();
+                double acquirePrice = Double.parseDouble(acquirePriceField.getText());
 
-// Create a JPanel with GridBagLayout for the add new vehicles interface
-JPanel addNewVehiclePanel = new JPanel(new GridBagLayout());
-GridBagConstraints gbc = new GridBagConstraints();
-gbc.anchor = GridBagConstraints.WEST; // Align components to the left
-gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
+                int carStatus = 1;
 
-// Add carPlateLabel and carPlateField
-gbc.gridx = 0;
-gbc.gridy = 0;
-addNewVehiclePanel.add(carPlateLabel, gbc);
-gbc.gridx = 1;
-addNewVehiclePanel.add(carPlateField, gbc);
+                double salesPrice = 0.0;  // Default value
 
-// Add carModelLabel and carModelField
-gbc.gridx = 0;
-gbc.gridy = 1;
-addNewVehiclePanel.add(carModelLabel, gbc);
-gbc.gridx = 1;
-addNewVehiclePanel.add(carModelField, gbc);
+                VehicleIO carPlateExist = VehicleIO.searchByVehicleCarPlate(carPlate);
 
-// Add acquirePriceLabel and acquirePriceField
-gbc.gridx = 0;
-gbc.gridy = 2;
-addNewVehiclePanel.add(acquirePriceLabel, gbc);
-gbc.gridx = 1;
-addNewVehiclePanel.add(acquirePriceField, gbc);
+                if(carPlateExist != null) {
+                    System.out.println("Car plate been taken.");
+                    JOptionPane.showMessageDialog(addNewVehicleDialog, "Cannot register the car plate", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(addNewVehicleDialog, "Vehicle successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    // Call the method to add new vehicle entry
+                    VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
+                }
 
-// Add carStatusLabel and carStatusField
-gbc.gridx = 0;
-gbc.gridy = 3;
-addNewVehiclePanel.add(carStatusLabel, gbc);
-gbc.gridx = 1;
-addNewVehiclePanel.add(carStatusField, gbc);
+                // Close the add new vehicle interface
+                addNewVehicleDialog.dispose();
+            }
+        });
 
-//                // Add salesPriceLabel and salesPriceField
-//                gbc.gridx = 0;
-//                gbc.gridy = 4; 
-//                addNewVehiclePanel.add(salesPriceLabel, gbc);
-//                gbc.gridx = 1;
-//                addNewVehiclePanel.add(salesPriceField, gbc);
+            // Create a JPanel with GridBagLayout for the add new vehicles interface
+            JPanel addNewVehiclePanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+            gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
 
-// Add confirmButton
-gbc.gridx = 1;
-gbc.gridy = 4;
-gbc.gridwidth = 1;
-addNewVehiclePanel.add(confirmButton, gbc);
+            // Add carPlateLabel and carPlateField
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            addNewVehiclePanel.add(carPlateLabel, gbc);
+            gbc.gridx = 1;
+            addNewVehiclePanel.add(carPlateField, gbc);
+
+            // Add carModelLabel and carModelField
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            addNewVehiclePanel.add(carModelLabel, gbc);
+            gbc.gridx = 1;
+            addNewVehiclePanel.add(carModelField, gbc);
+
+            // Add acquirePriceLabel and acquirePriceField
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            addNewVehiclePanel.add(acquirePriceLabel, gbc);
+            gbc.gridx = 1;
+            addNewVehiclePanel.add(acquirePriceField, gbc);
+
+            // Add carStatusLabel and carStatusField
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            addNewVehiclePanel.add(carStatusLabel, gbc);
+            gbc.gridx = 1;
+            addNewVehiclePanel.add(carStatusField, gbc);
+
+            // Add confirmButton
+            gbc.gridx = 1;
+            gbc.gridy = 4;
+            gbc.gridwidth = 1;
+            addNewVehiclePanel.add(confirmButton, gbc);
 
 
-// Add the panel to the dialog and make it visible
-addNewVehicleDialog.add(addNewVehiclePanel);
-addNewVehicleDialog.setVisible(true);
+            // Add the panel to the dialog and make it visible
+            addNewVehicleDialog.add(addNewVehiclePanel);
+            addNewVehicleDialog.setVisible(true);
         });
         vehiclePanel.add(addNewVehicleButton, BorderLayout.SOUTH);
     }
