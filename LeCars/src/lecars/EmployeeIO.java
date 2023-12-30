@@ -94,6 +94,25 @@ public class EmployeeIO {
         System.out.println("Target Employee : " + targetEmployee.toString());
     }
     
+    /**
+     * Reads and parses employee data from a CSV file, including employee ID, name, status, and password.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Get an InputStream for the resource file employee.csv.
+     * 2) Convert the InputStream to a String.
+     * 3) Remove the first line (header row) from the String.
+     * 4) Split the String into lines.
+     * 5) For each line, split it into attributes.
+     * 6) Parse the attributes to create an EmployeeIO object.
+     * 7) Add the EmployeeIO object to a list.
+     * 8) Return the list of EmployeeIO objects.
+     * </pre>
+     *
+     * @method getEmployeeInput
+     * @return A list of EmployeeIO objects representing the employees in the CSV file.
+     * @see EmployeeIO
+     */
     public static List<EmployeeIO> getEmployeeInput() {
         List<EmployeeIO> employees = new ArrayList<>();
 
@@ -140,45 +159,80 @@ public class EmployeeIO {
         return employees;        
     }
     
+    
+    /**
+     * Reads and parses employee data from a CSV file, including employee ID, name, and status, but not password.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Get an InputStream for the resource file employee.csv.
+     * 2) Convert the InputStream to a String.
+     * 3) Remove the first line (header row) from the String.
+     * 4) Split the String into lines.
+     * 5) For each line, split it into attributes.
+     * 6) Ensure there are enough attributes to create an EmployeeIO object.
+     * 7) Create an EmployeeIO object without the password.
+     * 8) Assign values to the EmployeeIO object using setter methods.
+     * 9) Add the EmployeeIO object to a list.
+     * 10) Return the list of EmployeeIO objects.
+     * </pre>
+     *
+     * @method getEmployeeInputwithoutpw
+     * @return A list of EmployeeIO objects representing the employees in the CSV file, without passwords.
+     * @see EmployeeIO
+     */
     public static List<EmployeeIO> getEmployeeInputwithoutpw() {
         List<EmployeeIO> employees = new ArrayList<>();
 
         // Get an InputStream for the resource file employee.csv
-        // Get an InputStream for the resource file employee.csv
-    InputStream resourceStream = EmployeeIO.class.getResourceAsStream("/data/employee.csv");
+        InputStream resourceStream = EmployeeIO.class.getResourceAsStream("/data/employee.csv");
 
-    if (resourceStream != null) {
-        // Convert the InputStream to a String
-        String fileContent = StreamReaderHandler.convertStreamToString(resourceStream);
+        if (resourceStream != null) {
+            // Convert the InputStream to a String
+            String fileContent = StreamReaderHandler.convertStreamToString(resourceStream);
 
-        // Remove the unused row
-        fileContent = fileContent.replaceFirst("employeeId,employeeName,employeeStatus,password\\n", "");
+            // Remove the unused row
+            fileContent = fileContent.replaceFirst("employeeId,employeeName,employeeStatus,password\\n", "");
 
-        // Split content
-        String[] lineSplit = fileContent.split("\\n");
+            // Split content
+            String[] lineSplit = fileContent.split("\\n");
 
-        for (String line : lineSplit) {
-            String[] attributes = line.split(",");
+            for (String line : lineSplit) {
+                String[] attributes = line.split(",");
 
-            // Ensure there are enough attributes to create an EmployeeIO object
-            if (attributes.length >= 4) {
-                // Create EmployeeIO without including the password
-                EmployeeIO employee = new EmployeeIO(attributes[0], attributes[1], Integer.parseInt(attributes[2]));
+                // Ensure there are enough attributes to create an EmployeeIO object
+                if (attributes.length >= 4) {
+                    // Create EmployeeIO without including the password
+                    EmployeeIO employee = new EmployeeIO(attributes[0], attributes[1], Integer.parseInt(attributes[2]));
 
-                // Assign values using setter methods
-                employee.setEmployeeId(attributes[0]);
-                employee.setEmployeeName(attributes[1]);
-                employee.setEmployeeStatus(Integer.parseInt(attributes[2]));
+                    // Assign values using setter methods
+                    employee.setEmployeeId(attributes[0]);
+                    employee.setEmployeeName(attributes[1]);
+                    employee.setEmployeeStatus(Integer.parseInt(attributes[2]));
 
-                employees.add(employee);
+                    employees.add(employee);
+                }
             }
+        } else {
+            System.err.println("Resource file not found.");
         }
-    } else {
-        System.err.println("Resource file not found.");
-    }
     return employees;
-}
+    }
 
+    /**
+     * Filters the list of employees by the given status.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Get the list of all employees using the getEmployeeInput() method.
+     * 2) Iterate through the list of employees and filter by the given status.
+     * 3) Return the filtered list of employees.
+     * </pre>
+     *
+     * @param status the status to filter by
+     * @return a list of employees with the given status
+     * @see EmployeeIO#getEmployeeInput()
+     */
     //filtering 
     // by status
     public static List<EmployeeIO> filterEmployeeByStatus(int status) {
@@ -198,6 +252,20 @@ public class EmployeeIO {
         return filteredEmployee;
     }
     
+    /**
+     * Searches for an employee by employee name.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Get the list of all employees using the getEmployeeInput() method.
+     * 2) Iterate through the list of employees and search for the employee with the given name.
+     * 3) Return the found employee, or null if no such employee is found.
+     * </pre>
+     *
+     * @param employeeName the name of the employee to search for
+     * @return the employee with the given name, or null if no such employee is found
+     * @see EmployeeIO#getEmployeeInput()
+     */
     // searching
     // by employee name
     public static EmployeeIO searchEmployeeByEmployeeName(String employeeName) {
@@ -213,6 +281,20 @@ public class EmployeeIO {
         return null;
     }
     
+    /**
+     * Searches for an employee by employee ID.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Get the list of all employees using the getEmployeeInput() method.
+     * 2) Iterate through the list of employees and search for the employee with the given ID.
+     * 3) Return the found employee, or null if no such employee is found.
+     * </pre>
+     *
+     * @param employeeId the ID of the employee to search for
+     * @return the employee with the given ID, or null if no such employee is found
+     * @see EmployeeIO#getEmployeeInput()
+     */
     // searching
     // by employee id
     private static EmployeeIO searchEmployeeByEmployeeId(String employeeId) {
@@ -228,6 +310,22 @@ public class EmployeeIO {
         return null;
     }
     
+    /**
+     * Validates a user's login credentials.
+     *
+     * <pre>
+     * Pseudocode:
+     * 1) Get the list of all employees using the getEmployeeInput() method.
+     * 2) Iterate through the list of employees and search for the employee with the given username and password.
+     * 3) If a matching employee is found, return the employee's status.
+     * 4) If no matching employee is found, return -1.
+     * </pre>
+     *
+     * @param enteredUsername the username entered by the user
+     * @param enteredPassword the password entered by the user
+     * @return the employee's status if the credentials are valid, or -1 if the credentials are invalid
+     * @see EmployeeIO#getEmployeeInput()
+     */
     public static int validateLogin(String enteredUsername, String enteredPassword) {
         // read and get all the data of employees
         List<EmployeeIO> employees = getEmployeeInput();
