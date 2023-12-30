@@ -327,7 +327,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         JTextField priceAboveField = new JTextField(""); // Declare the priceAboveField field
         priceAboveField.setPreferredSize(new Dimension(200, 30)); // Set preferred size
 
-        JButton salesPriceFilterButton = new JButton("Filter by Sales Price");
+        JButton salesPriceFilterButton = new JButton("Sales Price Above");
         salesPriceFilterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -353,7 +353,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                         // Add logic to process each sale item
                         salesInfo.append(sale.toString()).append("\n");
                     }
-                    showInfoInterface("Filtered Sales Info", salesInfo.toString(), columnNames);
+                    showInfoInterface("Sales Price Above", salesInfo.toString(), columnNames);
 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(salesSearchPanel, "Invalid input for price above", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1185,7 +1185,7 @@ class ButtonEditor extends DefaultCellEditor {
 
     private void initComponents() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Sales Employee Interface");
+        setTitle("Management Employee Interface");
         setSize(800, 600);
         setLocationRelativeTo(null);
 
