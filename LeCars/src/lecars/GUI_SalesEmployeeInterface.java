@@ -291,7 +291,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         JTextField priceAboveField = new JTextField(""); // Declare the priceAboveField field
         priceAboveField.setPreferredSize(new Dimension(200, 30)); // Set preferred size
 
-        JButton salesPriceFilterButton = new JButton("Filter by Sales Price");
+        JButton salesPriceFilterButton = new JButton("Sales Price Above");
         salesPriceFilterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -317,7 +317,7 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                         // Add logic to process each sale item
                         salesInfo.append(sale.toString()).append("\n");
                     }
-                    showInfoInterface("Filtered Sales Info", salesInfo.toString(), columnNames);
+                    showInfoInterface("Sales Price Above", salesInfo.toString(), columnNames);
 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(salesSearchPanel, "Invalid input for price above", "Error", JOptionPane.ERROR_MESSAGE);
@@ -397,22 +397,26 @@ public class GUI_SalesEmployeeInterface extends JFrame {
                                 String message = VehicleIO.soldVehicle(carPlate, salesPrice);
                                 System.out.println(message);
 
-                                if(message.equals("Success")){
-                                    // Show success dialog
-                                    JOptionPane.showMessageDialog(addNewSalesDialog, "Sale successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                                    
-                                    // Call the method to add new sales entry
-                                    // addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime)
-                                    SalesIO.addNewSales(carPlate, custId, employeeId, formattedDateTime);
-                                } else if(message.equals("Sold.")){
-                                    System.out.println("Sold");
-                                    JOptionPane.showMessageDialog(addNewSalesDialog, "Vehicle is already sold", "Information", JOptionPane.INFORMATION_MESSAGE);
-                                } else if(message.equals("No such vehicle")){
-                                    System.out.println("No such vehicle");
-                                    JOptionPane.showMessageDialog(addNewSalesDialog, "No such vehicle", "Error", JOptionPane.ERROR_MESSAGE);
-                                }else{
-                                    System.out.println("Error occured");
-                                    JOptionPane.showMessageDialog(addNewSalesDialog, "Error occurred", "Error", JOptionPane.ERROR_MESSAGE);
+                                switch (message) {
+                                    case "Success":
+                                        // Show success dialog
+                                        JOptionPane.showMessageDialog(addNewSalesDialog, "Sale successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                        // Call the method to add new sales entry
+                                        // addNewSales(String carPlate, String custId, String employeeId, String formattedDateTime)
+                                        SalesIO.addNewSales(carPlate, custId, employeeId, formattedDateTime);
+                                        break;
+                                    case "Sold.":
+                                        System.out.println("Sold");
+                                        JOptionPane.showMessageDialog(addNewSalesDialog, "Vehicle is already sold", "Information", JOptionPane.INFORMATION_MESSAGE);
+                                        break;
+                                    case "No such vehicle":
+                                        System.out.println("No such vehicle");
+                                        JOptionPane.showMessageDialog(addNewSalesDialog, "No such vehicle", "Error", JOptionPane.ERROR_MESSAGE);
+                                        break;
+                                    default:
+                                        System.out.println("Error occured");
+                                        JOptionPane.showMessageDialog(addNewSalesDialog, "Error occurred", "Error", JOptionPane.ERROR_MESSAGE);
+                                        break;
                                 }
                             }
                             
@@ -519,163 +523,157 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         vehiclePanel.add(vehicleSearchField, BorderLayout.CENTER);
 
         JButton vehicleButton = new JButton("Search");
-        vehicleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the input from the search field
-                String searchInput = vehicleSearchField.getText();
-                
-                // fetching vehicle information
-                List<VehicleIO> vehicles = VehicleIO.getVehicleInput();
-
-                // Create a StringBuilder to accumulate sales information
-                StringBuilder vehicleInfo = new StringBuilder();
-                
-                // add dummy value at the start
-                // dk why the first line always cannot be printed, so this is the way lol 
-                vehicleInfo.append("-,-,-,-,-\n");
-                
-                String[] columnNames = {"Car Plate", "Car Model", "Acquire Price", "Car Status", "Sales Price"};
-
-                if (searchInput == null || searchInput.isEmpty()) {
-                    // Display all items
-                    for (VehicleIO vehicle : vehicles) {
-                        // Add logic to process each vehicle item
+        vehicleButton.addActionListener((ActionEvent e) -> {
+            // Get the input from the search field
+            String searchInput = vehicleSearchField.getText();
+            
+            // fetching vehicle information
+            List<VehicleIO> vehicles = VehicleIO.getVehicleInput();
+            
+            // Create a StringBuilder to accumulate sales information
+            StringBuilder vehicleInfo = new StringBuilder();
+            
+            // add dummy value at the start
+            // dk why the first line always cannot be printed, so this is the way lol
+            vehicleInfo.append("-,-,-,-,-\n");
+            
+            String[] columnNames = {"Car Plate", "Car Model", "Acquire Price", "Car Status", "Sales Price"};
+            
+            if (searchInput == null || searchInput.isEmpty()) {
+                // Display all items
+                for (VehicleIO vehicle : vehicles) {
+                    // Add logic to process each vehicle item
+                    vehicleInfo.append(vehicle.toString()).append("\n");
+                }
+            } else {
+                // Search for specific items based on searchInput
+                for (VehicleIO vehicle : vehicles) {
+                    // Add logic to process matching items
+                    if (vehicle.getCarPlate().contains(searchInput)) {
                         vehicleInfo.append(vehicle.toString()).append("\n");
                     }
-                } else {
-                    // Search for specific items based on searchInput
-                    for (VehicleIO vehicle : vehicles) {
-                        // Add logic to process matching items
-                         if (vehicle.getCarPlate().contains(searchInput)) {
-                            vehicleInfo.append(vehicle.toString()).append("\n");
-                         }
-                         else if (vehicle.getCarModel().contains(searchInput)) {
-                            vehicleInfo.append(vehicle.toString()).append("\n");
-                         }
-                         else if ((vehicle.getAcquirePrice()+"").contains(searchInput)) {
-                            vehicleInfo.append(vehicle.toString()).append("\n");
-                         }
-                         else if ((vehicle.getCarStatus()+"").contains(searchInput)) {
-                            vehicleInfo.append(vehicle.toString()).append("\n");
-                         }
-                         else if ((vehicle.getSalesPrice()+"").contains(searchInput)) {
-                            vehicleInfo.append(vehicle.toString()).append("\n");
-                         }
+                    else if (vehicle.getCarModel().contains(searchInput)) {
+                        vehicleInfo.append(vehicle.toString()).append("\n");
                     }
-                                        
+                    else if ((vehicle.getAcquirePrice()+"").contains(searchInput)) {                                        
+                        vehicleInfo.append(vehicle.toString()).append("\n");
+                    }
+                    else if ((vehicle.getCarStatus()+"").contains(searchInput)) {
+                        vehicleInfo.append(vehicle.toString()).append("\n");
+                    }
+                    else if ((vehicle.getSalesPrice()+"").contains(searchInput)) {
+                        vehicleInfo.append(vehicle.toString()).append("\n");
+                    }
                 }
                 
-                // to handle the case where nothing show in the table
-                if(vehicleInfo.toString().equals(""))
-                    vehicleInfo.append("-,-,-,-,-\n");
-
-                // Show the accumulated sales information in a single pane
-                showInfoInterface("Vehicles Info", vehicleInfo.toString(), columnNames);
-                
             }
+            
+            // to handle the case where nothing show in the table
+            if(vehicleInfo.toString().equals(""))
+                vehicleInfo.append("-,-,-,-,-\n");
+            
+            // Show the accumulated sales information in a single pane
+            showInfoInterface("Vehicles Info", vehicleInfo.toString(), columnNames);
         });
         vehiclePanel.add(vehicleButton, BorderLayout.EAST);
         contentPanel.add(createPanel("Vehicle", vehiclePanel));
         
         JButton addNewVehicleButton = new JButton("Add New Vehicle");
-        addNewVehicleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create a JDialog for the add new sales interface
-                JDialog addNewVehicleDialog = new JDialog();
-                addNewVehicleDialog.setTitle("Add New Vehicle");
-                addNewVehicleDialog.setSize(500, 300);
-                addNewVehicleDialog.setModal(true);
-                addNewVehicleDialog.setLocationRelativeTo(null); // Center the dialog on the screen
-
-                // Create components for the interface (JLabels, JTextFields, JButton)
-
-                JLabel carPlateLabel = new JLabel("Car Plate:");
-                JTextField carPlateField = new JTextField();
-                carPlateField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
-                
-                JLabel carModelLabel = new JLabel("Car Model:");
-                JTextField carModelField = new JTextField();
-                carModelField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
-
-                JLabel acquirePriceLabel = new JLabel("Acquire Price:");
-                JTextField acquirePriceField = new JTextField();
-                acquirePriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
-                
-                JLabel carStatusLabel = new JLabel("Car Status:");
-                JTextField carStatusField = new JTextField(VehicleIO.getStatusSet());
-                carStatusField.setEditable(false);
-                carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+        addNewVehicleButton.addActionListener((ActionEvent e) -> {
+            // Create a JDialog for the add new sales interface
+            JDialog addNewVehicleDialog = new JDialog();
+            addNewVehicleDialog.setTitle("Add New Vehicle");
+            addNewVehicleDialog.setSize(500, 300);
+            addNewVehicleDialog.setModal(true);
+            addNewVehicleDialog.setLocationRelativeTo(null); // Center the dialog on the screen
+            
+            // Create components for the interface (JLabels, JTextFields, JButton)
+            
+            JLabel carPlateLabel = new JLabel("Car Plate:");
+            JTextField carPlateField = new JTextField();
+            carPlateField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+            
+            JLabel carModelLabel = new JLabel("Car Model:");
+            JTextField carModelField = new JTextField();
+            carModelField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+            
+            JLabel acquirePriceLabel = new JLabel("Acquire Price:");
+            JTextField acquirePriceField = new JTextField();
+            acquirePriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
+            
+            JLabel carStatusLabel = new JLabel("Car Status:");
+            JTextField carStatusField = new JTextField(VehicleIO.getStatusSet());
+            carStatusField.setEditable(false);
+            carStatusField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
                 
 //                JLabel salesPriceLabel = new JLabel("Sales Price:");
 //                JTextField salesPriceField = new JTextField();
 //                salesPriceField.setEditable(false);
 //                salesPriceField.setPreferredSize(new Dimension(150, 25)); // Set preferred size
 
-                JButton confirmButton = new JButton("Confirm");
-                confirmButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Retrieve values from input fields
-                        String carPlate = carPlateField.getText();
-                        String carModel = carModelField.getText();
-                        double acquirePrice = Double.parseDouble(acquirePriceField.getText());
-                        
-                        int carStatus = 1;
+JButton confirmButton = new JButton("Confirm");
+confirmButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Retrieve values from input fields
+        String carPlate = carPlateField.getText();
+        String carModel = carModelField.getText();
+        double acquirePrice = Double.parseDouble(acquirePriceField.getText());
+        
+        int carStatus = 1;
+        
+        double salesPrice = 0.0;  // Default value
+        
+        VehicleIO carPlateExist = VehicleIO.searchByVehicleCarPlate(carPlate);
+        
+        if(carPlateExist != null) {
+            System.out.println("Car plate been taken.");
+            JOptionPane.showMessageDialog(addNewVehicleDialog, "Cannot register the car plate", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(addNewVehicleDialog, "Vehicle successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
+            // Call the method to add new vehicle entry
+            // addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice)
+            VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
+        }
+        
+        // Close the add new vehicle interface
+        addNewVehicleDialog.dispose();
+    }
+});
 
-                        double salesPrice = 0.0;  // Default value
+// Create a JPanel with GridBagLayout for the add new vehicles interface
+JPanel addNewVehiclePanel = new JPanel(new GridBagLayout());
+GridBagConstraints gbc = new GridBagConstraints();
+gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
 
-                        VehicleIO carPlateExist = VehicleIO.searchByVehicleCarPlate(carPlate); 
-                        
-                        if(carPlateExist != null) {
-                            System.out.println("Car plate been taken.");
-                            JOptionPane.showMessageDialog(addNewVehicleDialog, "Cannot register the car plate", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(addNewVehicleDialog, "Vehicle successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            // Call the method to add new vehicle entry
-                            // addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice)
-                            VehicleIO.addNewVehicle(carPlate, carModel, acquirePrice, carStatus, salesPrice);
-                        }
+// Add carPlateLabel and carPlateField
+gbc.gridx = 0;
+gbc.gridy = 0;
+addNewVehiclePanel.add(carPlateLabel, gbc);
+gbc.gridx = 1;
+addNewVehiclePanel.add(carPlateField, gbc);
 
-                        // Close the add new vehicle interface
-                        addNewVehicleDialog.dispose();
-                    }
-                });
+// Add carModelLabel and carModelField
+gbc.gridx = 0;
+gbc.gridy = 1;
+addNewVehiclePanel.add(carModelLabel, gbc);
+gbc.gridx = 1;
+addNewVehiclePanel.add(carModelField, gbc);
 
-                // Create a JPanel with GridBagLayout for the add new vehicles interface
-                JPanel addNewVehiclePanel = new JPanel(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.anchor = GridBagConstraints.WEST; // Align components to the left
-                gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing
+// Add acquirePriceLabel and acquirePriceField
+gbc.gridx = 0;
+gbc.gridy = 2;
+addNewVehiclePanel.add(acquirePriceLabel, gbc);
+gbc.gridx = 1;
+addNewVehiclePanel.add(acquirePriceField, gbc);
 
-                // Add carPlateLabel and carPlateField
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                addNewVehiclePanel.add(carPlateLabel, gbc);
-                gbc.gridx = 1;
-                addNewVehiclePanel.add(carPlateField, gbc);
-
-                // Add carModelLabel and carModelField
-                gbc.gridx = 0;
-                gbc.gridy = 1;
-                addNewVehiclePanel.add(carModelLabel, gbc);
-                gbc.gridx = 1;
-                addNewVehiclePanel.add(carModelField, gbc);
-
-                // Add acquirePriceLabel and acquirePriceField
-                gbc.gridx = 0;
-                gbc.gridy = 2;
-                addNewVehiclePanel.add(acquirePriceLabel, gbc);
-                gbc.gridx = 1;
-                addNewVehiclePanel.add(acquirePriceField, gbc);
-
-                // Add carStatusLabel and carStatusField
-                gbc.gridx = 0;
-                gbc.gridy = 3; 
-                addNewVehiclePanel.add(carStatusLabel, gbc);
-                gbc.gridx = 1;
-                addNewVehiclePanel.add(carStatusField, gbc);
+// Add carStatusLabel and carStatusField
+gbc.gridx = 0;
+gbc.gridy = 3;
+addNewVehiclePanel.add(carStatusLabel, gbc);
+gbc.gridx = 1;
+addNewVehiclePanel.add(carStatusField, gbc);
 
 //                // Add salesPriceLabel and salesPriceField
 //                gbc.gridx = 0;
@@ -684,17 +682,16 @@ public class GUI_SalesEmployeeInterface extends JFrame {
 //                gbc.gridx = 1;
 //                addNewVehiclePanel.add(salesPriceField, gbc);
 
-                // Add confirmButton
-                gbc.gridx = 1;
-                gbc.gridy = 4; 
-                gbc.gridwidth = 1; 
-                addNewVehiclePanel.add(confirmButton, gbc);
+// Add confirmButton
+gbc.gridx = 1;
+gbc.gridy = 4;
+gbc.gridwidth = 1;
+addNewVehiclePanel.add(confirmButton, gbc);
 
 
-                // Add the panel to the dialog and make it visible
-                addNewVehicleDialog.add(addNewVehiclePanel);
-                addNewVehicleDialog.setVisible(true);
-            }
+// Add the panel to the dialog and make it visible
+addNewVehicleDialog.add(addNewVehiclePanel);
+addNewVehicleDialog.setVisible(true);
         });
         vehiclePanel.add(addNewVehicleButton, BorderLayout.SOUTH);
     }
@@ -756,16 +753,22 @@ public class GUI_SalesEmployeeInterface extends JFrame {
     private void showContentForMenu(String menuName) {
         // Customize the content based on the menu clicked
         contentPanel.removeAll(); // Clear existing content
-
-        if (menuName.equals("Home")) {
-            contentPanel.add(createPanel("Home", homePanel));
-        } else if (menuName.equals("Customer")) {
-            contentPanel.add(createPanel("Customer", customerPanel));
-        } else if (menuName.equals("Sales")) {
-            contentPanel.add(createPanel("Filter Sales", salesFilterPanel));
-            contentPanel.add(createPanel("Sales", salesSearchPanel));
-        } else if (menuName.equals("Vehicle")) {
-            contentPanel.add(createPanel("Vehicle", vehiclePanel));
+        switch (menuName) {
+            case "Home":
+                contentPanel.add(createPanel("Home", homePanel));
+                break;
+            case "Customer":
+                contentPanel.add(createPanel("Customer", customerPanel));
+                break;
+            case "Sales":
+                contentPanel.add(createPanel("Filter Sales", salesFilterPanel));
+                contentPanel.add(createPanel("Sales", salesSearchPanel));
+                break;
+            case "Vehicle":
+                contentPanel.add(createPanel("Vehicle", vehiclePanel));
+                break;
+            default:
+                break;
         }
 
         contentPanel.revalidate();
@@ -789,32 +792,20 @@ public class GUI_SalesEmployeeInterface extends JFrame {
         JMenuItem salesMenuItem = new JMenuItem("Sales");
         JMenuItem vehicleMenuItem = new JMenuItem("Vehicle");
 
-        homeMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showContentForMenu("Home");
-            }
+        homeMenuItem.addActionListener((ActionEvent e) -> {
+            showContentForMenu("Home");
         });
 
-        customerMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showContentForMenu("Customer");
-            }
+        customerMenuItem.addActionListener((ActionEvent e) -> {
+            showContentForMenu("Customer");
         });
 
-        salesMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showContentForMenu("Sales");
-            }
+        salesMenuItem.addActionListener((ActionEvent e) -> {
+            showContentForMenu("Sales");
         });
 
-        vehicleMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showContentForMenu("Vehicle");
-            }
+        vehicleMenuItem.addActionListener((ActionEvent e) -> {
+            showContentForMenu("Vehicle");
         });
 
         homeMenu.add(homeMenuItem);
