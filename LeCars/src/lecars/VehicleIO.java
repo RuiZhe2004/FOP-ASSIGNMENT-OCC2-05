@@ -127,16 +127,18 @@ public class VehicleIO {
     }
     
     /**
+     * Gets the status set.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Define a final String variable STATUS with the value "1".
+     * 2) Define a String variable currentStatus and initialize it to the value of STATUS.
+     * 3) Return the value of currentStatus.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method getStatusSet()
+     * @return the status set = 1
+     * @see #STATUS
      */
     public static String getStatusSet() {
         final String STATUS = "1";
@@ -145,16 +147,25 @@ public class VehicleIO {
     }
     
     /**
+     * Reads and parses sold vehicle data from a CSV file
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Open the CSV file for reading.
+     * 2) Skip the first line (header row).
+     * 3) Read each line of the file.
+     * 4) Split each line into attributes.
+     * 5) Parse the attributes to create a VehicleIO object.
+     * 6) Add the VehicleIO object to a list.
+     * 7) Close the CSV file.
+     * 8) Return the list of VehicleIO objects.
      * </pre>
      * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     * @method getSoldVehicleInput()
+     * @param  - 
+     * @return A list of VehicleIO objects representing the vehicles in the CSV file.
+     * @throws IOException if there is an error reading the CSV file.
+     * @see VehicleIO
      */
     public static List<VehicleIO> getSoldVehicleInput() {
         List<VehicleIO> vehicles = new ArrayList<>();
@@ -208,16 +219,21 @@ public class VehicleIO {
     }
     
     /**
+     * Searches for a vehicle by its car plate among the sold vehicles.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of sold vehicles using the getSoldVehicleInput() method.
+     * 2) Iterate through the list of vehicles.
+     * 3) For each vehicle, compare its car plate to the given car plate.
+     * 4) If the car plates match, return the vehicle.
+     * 5) If no vehicle is found with the given car plate, return null.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method searchBySoldVehicleCarPlate()
+     * @param carPlate the car plate of the vehicle to search for
+     * @return the vehicle with the given car plate, or null if no such vehicle is found
+     * @see #getSoldVehicleInput()
      */
     public static VehicleIO searchBySoldVehicleCarPlate(String carPlate) {
         List<VehicleIO> vehicles = getSoldVehicleInput();
@@ -231,16 +247,23 @@ public class VehicleIO {
     }
     
     /**
+     * Reads and parses all vehicle data from a CSV file
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get an InputStream for the resource file vehicle.csv.
+     * 2) Convert the InputStream to a String.
+     * 3) Remove the first line (header row) from the String.
+     * 4) Split the String into lines.
+     * 5) For each line, split it into attributes.
+     * 6) Parse the attributes to create a VehicleIO object.
+     * 7) Add the VehicleIO object to a list.
+     * 8) Return the list of VehicleIO objects.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method getVehicleInput()
+     * @return A list of VehicleIO objects representing the vehicles in the CSV file.
+     * @see VehicleIO
      */
     public static List<VehicleIO> getVehicleInput() {
         List<VehicleIO> vehicles = new ArrayList<>();
@@ -296,18 +319,23 @@ public class VehicleIO {
     }
     
     /**
+     * Filters the list of vehicles by a given status.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Create a new list to store the filtered vehicles.
+     * 2) Get the list of all vehicles using the getVehicleInput() method.
+     * 3) Iterate through the list of vehicles.
+     * 4) For each vehicle, check if its status matches the given status.
+     * 5) If the status matches, add the vehicle to the filtered list.
+     * 6) Return the filtered list of vehicles.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method filterVehicleByStatus()
+     * @param status the status to filter by
+     * @return a list of vehicles with the given status
+     * @see #getVehicleInput()
      */
-    //filtering filtering filtering
     private static List<VehicleIO> filterVehicleByStatus(int status) {
         List<VehicleIO> filteredVehicles = new ArrayList<>();;
         List<VehicleIO> vehicles = getVehicleInput();
@@ -321,19 +349,22 @@ public class VehicleIO {
     }
     
     /**
+     * Searches for a vehicle by its car plate.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all vehicles using the getVehicleInput() method.
+     * 2) Iterate through the list of vehicles.
+     * 3) For each vehicle, compare its car plate to the given car plate.
+     * 4) If the car plates match, return the vehicle.
+     * 5) If no vehicle is found with the given car plate, return null.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method searchByVehicleCarPlate()
+     * @param carPlate the car plate of the vehicle to search for
+     * @return the vehicle with the given car plate, or null if no such vehicle is found
+     * @see #getVehicleInput()
      */
-    // searching
-    // by car plate
     public static VehicleIO searchByVehicleCarPlate(String carPlate) {
         List<VehicleIO> vehicles = getVehicleInput();
         
@@ -346,18 +377,22 @@ public class VehicleIO {
     }
     
     /**
+     * Filters the list of vehicles by a given model.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Create a new list to store the filtered vehicles.
+     * 2) Get the list of all vehicles using the getVehicleInput() method.
+     * 3) Iterate through the list of vehicles.
+     * 4) For each vehicle, check if its model matches the given model.
+     * 5) If the model matches, add the vehicle to the filtered list.
+     * 6) Return the filtered list of vehicles.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method filterByCarModel()
+     * @param model the model to filter by
+     * @return a list of vehicles with the given model
      */
-    //search by carmodel
     public static List<VehicleIO> filterByCarModel(String model) {
         List<VehicleIO> filteredVehiclesCarModel = new ArrayList<>();
         List<VehicleIO> vehicles = getVehicleInput();
@@ -372,18 +407,20 @@ public class VehicleIO {
     }
     
     /**
+     * Filters the list of vehicles by a given status and model.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all vehicles using the getVehicleInput() method.
+     * 2) Iterate through the list of vehicles.
+     * 3) For each vehicle, check if its status matches the given status and its model matches the given model.
+     * 4) If the status and model match, print the vehicle to the console.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method filterVehicleByStatusAndModel()
+     * @param status the status to filter by
+     * @param model the model to filter by
      */
-    //filter carmodel by status
     public static void filterVehicleByStatusAndModel(int status, String model) {
     List<VehicleIO> vehicles = getVehicleInput();
         for (VehicleIO vehicle : vehicles) {
@@ -394,18 +431,19 @@ public class VehicleIO {
     }
     
     /**
+     * Filters the list of vehicles by a minimum sales price.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all vehicles using the getVehicleInput() method.
+     * 2) Iterate through the list of vehicles.
+     * 3) For each vehicle, check if its sales price is greater than the given price.
+     * 4) If the sales price is greater than the given price, print the vehicle to the console.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method filterVehicleByCarSales ()
+     * @param price the minimum sales price to filter by
      */
-    //filter vehicle with carSales price above
     public static void filterVehicleByCarSales (int price) {
         List<VehicleIO> vehicles = getVehicleInput();
         for (VehicleIO vehicle : vehicles) {
@@ -416,19 +454,26 @@ public class VehicleIO {
     }
     
     /**
+     * Adds a new vehicle to the vehicle list.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Get the list of all vehicles using the getVehicleInput() method.
+     * 2) Check if the given car plate already exists in the list.
+     * 3) If the car plate already exists, return an error message.
+     * 4) If the car plate does not exist, add the new vehicle to the list.
+     * 5) Write the updated list to the CSV file.
+     * 6) Return a message indicating whether the vehicle was successfully added or not.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method addNewVehicle()
+     * @param carPlate the car plate of the new vehicle
+     * @param carModel the model of the new vehicle
+     * @param acquirePrice the acquire price of the new vehicle
+     * @param carStatus the status of the new vehicle
+     * @param salesPrice the sales price of the new vehicle
+     * @return a message indicating whether the vehicle was successfully added or not
      */
-    //add new vehicle
-    //carPlate,carModel,acquirePrice,carStatus,salesPrice
     public static String addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice) {
         List<VehicleIO> vehicles = getVehicleInput();
         //carStatus = STATUS;
@@ -459,18 +504,27 @@ public class VehicleIO {
     }
     
     /**
+     * Marks a vehicle as sold and updates its sales price.
+     *
      * <pre>
-     * To 
-     * Pseudocode
-     * 1) 
+     * Pseudocode:
+     * 1) Create a temporary file to write updated data.
+     * 2) Write the header row to the temporary file.
+     * 3) Iterate through the list of vehicles.
+     * 4) For each vehicle, check if its car plate matches the given car plate.
+     * 5) If the car plates match, update the vehicle's status to sold and its sales price to the given sales price.
+     * 6) Write the updated vehicle to the temporary file.
+     * 7) Close the temporary file.
+     * 8) Copy the contents of the temporary file to the original file, overwriting the original file.
+     * 9) Delete the temporary file.
+     * 10) Return a message indicating whether the vehicle was successfully updated or not.
      * </pre>
-     * 
-     * @method   
-     * @param    
-     * @return   
-     * @see      
+     *
+     * @method soldVehicle()
+     * @param carPlate the car plate of the vehicle to mark as sold
+     * @param salesPrice the sales price of the vehicle
+     * @return a message indicating whether the vehicle was successfully updated or not
      */
-    //vehicle sold
     public static String soldVehicle(String carPlate, double salesPrice) {
         List<VehicleIO> vehicles = getVehicleInput();
              
