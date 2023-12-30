@@ -126,12 +126,36 @@ public class VehicleIO {
         soldVehicle("ABC9999",200);
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static String getStatusSet() {
         final String STATUS = "1";
         String currentStatus = STATUS;
         return currentStatus;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static List<VehicleIO> getSoldVehicleInput() {
         List<VehicleIO> vehicles = new ArrayList<>();
 
@@ -183,6 +207,18 @@ public class VehicleIO {
         return vehicles;        
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static VehicleIO searchBySoldVehicleCarPlate(String carPlate) {
         List<VehicleIO> vehicles = getSoldVehicleInput();
         
@@ -194,6 +230,18 @@ public class VehicleIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     public static List<VehicleIO> getVehicleInput() {
         List<VehicleIO> vehicles = new ArrayList<>();
 
@@ -247,6 +295,18 @@ public class VehicleIO {
         return vehicles;        
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     //filtering filtering filtering
     private static List<VehicleIO> filterVehicleByStatus(int status) {
         List<VehicleIO> filteredVehicles = new ArrayList<>();;
@@ -260,6 +320,18 @@ public class VehicleIO {
         return filteredVehicles;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     // searching
     // by car plate
     public static VehicleIO searchByVehicleCarPlate(String carPlate) {
@@ -273,6 +345,18 @@ public class VehicleIO {
         return null;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     //search by carmodel
     public static List<VehicleIO> filterByCarModel(String model) {
         List<VehicleIO> filteredVehiclesCarModel = new ArrayList<>();
@@ -287,6 +371,18 @@ public class VehicleIO {
         return filteredVehiclesCarModel;
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     //filter carmodel by status
     public static void filterVehicleByStatusAndModel(int status, String model) {
     List<VehicleIO> vehicles = getVehicleInput();
@@ -297,6 +393,18 @@ public class VehicleIO {
         }
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     //filter vehicle with carSales price above
     public static void filterVehicleByCarSales (int price) {
         List<VehicleIO> vehicles = getVehicleInput();
@@ -307,6 +415,18 @@ public class VehicleIO {
         }
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     //add new vehicle
     //carPlate,carModel,acquirePrice,carStatus,salesPrice
     public static String addNewVehicle(String carPlate,String carModel,double acquirePrice,int carStatus,double salesPrice) {
@@ -338,6 +458,18 @@ public class VehicleIO {
         
     }
     
+    /**
+     * <pre>
+     * To 
+     * Pseudocode
+     * 1) 
+     * </pre>
+     * 
+     * @method   
+     * @param    
+     * @return   
+     * @see      
+     */
     //vehicle sold
     public static String soldVehicle(String carPlate, double salesPrice) {
         List<VehicleIO> vehicles = getVehicleInput();

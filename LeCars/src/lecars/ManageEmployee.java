@@ -10,23 +10,49 @@ package lecars;
  */
 import java.io.*;
 import java.util.*;
-import static lecars.EmployeeIO.getEmployeeInput;
-import static lecars.EmployeeIO.filterEmployeeByStatus;
-import static lecars.SalesIO.getSalesInput;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class ManageEmployee {
+public class ManageEmployee extends EmployeeIO{
     public static void main(String[] args) {
-//        System.out.println(getProfitMargin());
         System.out.println(getEmployeeSalary("E0010",1));
         System.out.println(getEmployeeBonus("E0010",0));
+        System.out.println(getProfitMarginThisMonth());
     }
-
+    
+    public ManageEmployee(String employeeId, String employeeName, int employeeStatus, String password) {
+        super(employeeId, employeeName, employeeStatus, password); // Calls the superclass constructor
+    }
+    
+    public ManageEmployee(String employeeId, String employeeName, int employeeStatus) {
+        super(employeeId, employeeName, employeeStatus); // Calls the superclass constructor
+    }
+    
+    /**
+     * <pre>
+     * To change the status of a sales employee to management employee
+     * Pseudocode
+     * 1) Check whether the employee exist or not
+     * 2) Check whether the employee is already a management employee or not
+     * 3) If not a management employee
+     *       Input the secret key for the company "abcde"
+     * 4) If the secret key is correct then change the status of sales employee to management employee
+     * 5) Update in the employee.csv file
+     * </pre>
+     * 
+     * @method    newManageEmployee
+     * @param    employeeID  a unique employee ID
+     * @param    employeeName the name of the employee
+     * @return   void
+     * @see      getEmployeeInput()
+     */
     public static void newManageEmployee(String employeeId, String employeeName) {
         
         //load the list of all employees
-        List<EmployeeIO> employees = getEmployeeInput();
+        /**
+         * @param   employees   an array list of employee objects
+         */
+        List<EmployeeIO> employees = EmployeeIO.getEmployeeInput();
         
         boolean found = false; //flag for found employee
         boolean alreadyManagementLevel = false; //flag for already management level
@@ -73,13 +99,38 @@ public class ManageEmployee {
         }
     }
     
+    /**
+     * <pre>
+     * To get the salary of an employee by Employee ID
+     * Pseudocode
+     * 1) Get the today Year and Month
+     * 2) Check from the sales.csv to find the match for the Year and Month
+     * 3) Filter the aggregated total sales price by year and month by an employee to match the current year and month
+     * 4) Check whether the employee is a sales employee or a management employee
+     * 5) Commission fee = 1% of total sales price this month
+     * 6) Sales employee
+     *       basic salary = 1200
+     *       max allowance = 250
+     * 7) Management employee
+     *       basic salary = 2200
+     *       max allowance =350
+     * 8) Return the salary = basic salary + commission fee + max allowance
+     * </pre>
+     * 
+     * @method    getEmployeeSalary
+     * @param    employeeID  a unique employee ID
+     * @param    employeeStatus the status of the employee
+     *                          1 for management employee
+     *                          0 for sales employee
+     * @return   double salary   The salary of an employee according to the sales record this month
+     */    
     public static double getEmployeeSalary(String employeeId, int employeeStatus){
         double basicSalary = 0;
         double maxAllowance = 0;
         
         OffsetDateTime currentDate = OffsetDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-        String todayMonth = currentDate.format(formatter);
+        String todayYearMonth = currentDate.format(formatter);
 //        System.out.println(todayMonth);
 //        todayMonth = "2023-07";
         
@@ -91,11 +142,11 @@ public class ManageEmployee {
         
         double totalSalesPriceThisMonth = 0;
         
-        if (!(aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth) == null)) {
-            totalSalesPriceThisMonth = aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayMonth);
+        if (!(aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayYearMonth) == null)) {
+            totalSalesPriceThisMonth = aggregatedTotalSalesPriceByYearMonthByEmployeeId.get(todayYearMonth);
         }
         
-        double commisionFee = totalSalesPriceThisMonth * 0.01;
+        double commissionFee = totalSalesPriceThisMonth * 0.01;
         
         switch(employeeStatus){
             // management
@@ -110,11 +161,40 @@ public class ManageEmployee {
                 maxAllowance = 250;
                 break;
         }
-        
-        double salary = commisionFee + basicSalary + maxAllowance;
+
+        double salary = commissionFee + basicSalary + maxAllowance;
         return salary;
     }
     
+    
+    /**
+     * <pre>
+     * To get the bonus of an employee by Employee ID
+     * Pseudocode
+     * 1) Get the today Year and Month
+     * 2) Check from the sales.csv to find the match for the Year and Month
+     * 3) Filter the aggregated total sales price by year and month by an employee to match the current year and month
+     * 4) Check whether the employee is a sales employee or a management employee
+     * 5) Sales employee
+     *       bonus = 500 if total sales this month > 15
+     * 6) Management employee
+     *       bonus =
+    *           if total sales price this month >= 2500000.01
+    *               1.35% of total sales price
+    *           if total sales price this month >= 1600000.01
+    *               1.25% of total sales price
+    *           if total sales price this month >= 800000.01
+    *               1.15% of total sales price
+    *           else
+    *               1% of total sales price
+     * 7) Return the bonus
+     * </pre>
+     * 
+     * @method    getEmployeeSalary
+     * @param    employeeID  a unique employee ID
+     * @param    employeeStatus the status of the employee
+     * @return   double bonus   The bonus of an employee according to the sales record this month
+     */ 
     public static double getEmployeeBonus(String employeeId, int employeeStatus){
         double bonus = 0;
         
@@ -132,7 +212,7 @@ public class ManageEmployee {
                 totalSales++;
             }
         }
-        System.out.println(totalSales);
+//        System.out.println(totalSales);
         
         Map<String, Double> aggregatedTotalSalesPriceByYearMonthByEmployeeId = SalesIO.aggregateTotalSalesPriceByYearMonthByEmployeeId("E0014");
         // Output the aggregated sales by year and month
@@ -166,25 +246,46 @@ public class ManageEmployee {
         
         return bonus;
     }
+  
     
-    private static double getProfitMargin(){
+    /**
+     * <pre>
+     * To get the profit margin of the company this month
+     * Pseudocode
+     * 1) set the profit margin initally to 0
+     * 2) get the total profit margin from sales this month
+     * 3) then substract the profit margin from the salary and bonus of each employee this month
+     * 4) return the total profit margin this month
+     * </pre>
+     * 
+     * @method  getProfitMarginThisMonth
+     * @return  double totalProfitMarginThisMonth   The profit margin of the company this month
+     * @see     aggregateProfitMarginByYearMonth()
+     * @see     getEmployeeInput()
+     * @see     getEmployeeId()
+     * @see     getEmployeeStatus()
+     */     
+    private static double getProfitMarginThisMonth(){
         // profit from sales
-        double profitMargin = 0;
-        List<SalesIO> sales = getSalesInput();
-        for (SalesIO sale : sales) {
-            VehicleIO vehicle = VehicleIO.searchByVehicleCarPlate(sale.getCarPlate());
-            if (vehicle != null){
-                profitMargin += vehicle.getSalesPrice() - vehicle.getAcquirePrice();
-            }
+        double totalProfitMarginThisMonth = 0;
+        
+        OffsetDateTime currentDate = OffsetDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String todayYearMonth = currentDate.format(formatter);
+        
+        Map<String, Double> aggregatedProfitMarginByYearMonth = SalesIO.aggregateProfitMarginByYearMonth();
+        
+        if (!(aggregatedProfitMarginByYearMonth.get(todayYearMonth) == null)) {
+            totalProfitMarginThisMonth = aggregatedProfitMarginByYearMonth.get(todayYearMonth);
         }
         
         // deduction from salary
         List<EmployeeIO> employees = getEmployeeInput();
         for (EmployeeIO employee : employees) {
-            profitMargin -= getEmployeeSalary(employee.getEmployeeId(), employee.getEmployeeStatus());
-            profitMargin -= getEmployeeBonus(employee.getEmployeeId(), employee.getEmployeeStatus());
+            totalProfitMarginThisMonth -= getEmployeeSalary(employee.getEmployeeId(), employee.getEmployeeStatus());
+            totalProfitMarginThisMonth -= getEmployeeBonus(employee.getEmployeeId(), employee.getEmployeeStatus());
         }
         
-        return profitMargin;
+        return totalProfitMarginThisMonth;
     }
 }

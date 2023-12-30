@@ -11,20 +11,40 @@ package lecars;
 
 import java.io.*;
 import java.util.List;
-import static lecars.EmployeeIO.getEmployeeInput;
 
 
 public class SalesEmployee extends EmployeeIO {
     public static void main(String[] args) {
         registerNewUser("Hekk","test");
 
-        SalesEmployee.login("Ahmad bin Abdullah", "3f7g9h2k");
     }
     
     public SalesEmployee(String employeeId, String employeeName, int employeeStatus, String password) {
         super(employeeId, employeeName, employeeStatus, password); // Calls the superclass constructor
     }
     
+    public SalesEmployee(String employeeId, String employeeName, int employeeStatus) {
+        super(employeeId, employeeName, employeeStatus); // Calls the superclass constructor
+    }
+    
+    /**
+     * <pre>
+     * To register a new sales employee
+     * Pseudocode
+     * 1) get all the employee object from employee.csv
+     * 2) check for match employee name
+     * 3) if duplicate
+     *      return username has been taken
+     * 4) else
+     *      get the latest employee ID and do auto increment program
+     *      update the employee.csv file with employee ID, employee name, employee status (always 0), password   
+     * </pre>
+     * 
+     * @method    registerNewUser
+     * @param    employeeName the name of the employee
+     * @param    password  the password of employee
+     * @return   String message that shows status of login
+     */
     public static String registerNewUser(String employeeName, String password) {
         // Read and get the employee data
         List<EmployeeIO> employees = getEmployeeInput();
@@ -82,14 +102,4 @@ public class SalesEmployee extends EmployeeIO {
         }
     }
     
-    public static void login(String enteredUsername, String enteredPassword) {
-        
-        if (EmployeeIO.validateLogin(enteredUsername, enteredPassword) == 0) {
-            System.out.println("Sales Employee Login successful!");
-        } else if (EmployeeIO.validateLogin(enteredUsername, enteredPassword) == 1) {
-            System.out.println("Management Employee Login successful!");
-        } else {
-            System.out.println("Invalid username or password.");
-        }
-    }
 }
