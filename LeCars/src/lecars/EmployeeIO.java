@@ -19,6 +19,15 @@ public class EmployeeIO {
     private int employeeStatus;
     private String password;
     
+     /**
+     * Constructs an EmployeeIO object with complete information.
+     *
+     * @param employeeId      The unique identifier for the employee.
+     * @param employeeName    The name of the employee.
+     * @param employeeStatus  The status code representing the employee's role/status.
+     * @param password        The password associated with the employee.
+     */
+    
     // Constructor
     public EmployeeIO(String employeeId, String employeeName, int employeeStatus, String password) {
         this.employeeId = employeeId;
@@ -27,6 +36,13 @@ public class EmployeeIO {
         this.password = password;
     }
     
+     /**
+     * Constructs an EmployeeIO object without a password.
+     *
+     * @param employeeId      The unique identifier for the employee.
+     * @param employeeName    The name of the employee.
+     * @param employeeStatus  The status code representing the employee's role/status.
+     */
     //without pw
     public EmployeeIO(String employeeId, String employeeName, int employeeStatus) {
         this.employeeId = employeeId;
@@ -68,6 +84,11 @@ public class EmployeeIO {
     }
 
 
+    /**
+     * Customizes the string representation of an EmployeeIO object.
+     *
+     * @return A string containing comma-separated employee information.
+     */
     //add toString method to customize ur output instead of array location
     public String toString(){
         return employeeId+","+employeeName+","+employeeStatus+","+password;
@@ -94,6 +115,11 @@ public class EmployeeIO {
         System.out.println("Target Employee : " + targetEmployee.toString());
     }
     
+    /**
+     * Reads employee data from a CSV file and returns a list of EmployeeIO objects.
+     *
+     * @return A list containing EmployeeIO objects populated from the CSV file.
+     */
     public static List<EmployeeIO> getEmployeeInput() {
         List<EmployeeIO> employees = new ArrayList<>();
 
@@ -140,6 +166,11 @@ public class EmployeeIO {
         return employees;        
     }
     
+    /**
+     * Reads employee data from a CSV file excluding passwords, returning a list of EmployeeIO objects.
+     *
+     * @return A list containing EmployeeIO objects without password information.
+     */
     public static List<EmployeeIO> getEmployeeInputwithoutpw() {
         List<EmployeeIO> employees = new ArrayList<>();
 
@@ -178,7 +209,14 @@ public class EmployeeIO {
     }
     return employees;
 }
-
+    
+    
+    /**
+     * Filters employees based on their status code.
+     *
+     * @param status The status code for filtering employees.
+     * @return A list containing EmployeeIO objects matching the provided status code.
+     */
     //filtering 
     // by status
     public static List<EmployeeIO> filterEmployeeByStatus(int status) {
@@ -198,6 +236,13 @@ public class EmployeeIO {
         return filteredEmployee;
     }
     
+    
+    /**
+     * Searches for an employee by their name.
+     *
+     * @param employeeName The name of the employee to search for.
+     * @return An EmployeeIO object matching the provided name, if found; otherwise, null.
+     */
     // searching
     // by employee name
     public static EmployeeIO searchEmployeeByEmployeeName(String employeeName) {
@@ -213,6 +258,13 @@ public class EmployeeIO {
         return null;
     }
     
+    
+     /**
+     * Searches for an employee by their employee ID.
+     *
+     * @param employeeId The employee ID to search for.
+     * @return An EmployeeIO object matching the provided ID, if found; otherwise, null.
+     */
     // searching
     // by employee id
     private static EmployeeIO searchEmployeeByEmployeeId(String employeeId) {
@@ -228,6 +280,13 @@ public class EmployeeIO {
         return null;
     }
     
+    /**
+     * Validates the login credentials.
+     *
+     * @param enteredUsername The username entered during login.
+     * @param enteredPassword The password entered during login.
+     * @return The status code of the employee if credentials match; otherwise, -1.
+     */
     public static int validateLogin(String enteredUsername, String enteredPassword) {
         // read and get all the data of employees
         List<EmployeeIO> employees = getEmployeeInput();
