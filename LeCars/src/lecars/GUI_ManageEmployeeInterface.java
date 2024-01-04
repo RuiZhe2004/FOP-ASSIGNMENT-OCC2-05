@@ -130,7 +130,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         });
         
         JButton customerButtonOwnData = new JButton("Search Own Data");
-        customerButton.addActionListener(new ActionListener() {
+        customerButtonOwnData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Get the input from the search field
