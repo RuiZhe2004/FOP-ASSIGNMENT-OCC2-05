@@ -86,7 +86,57 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 // Get the input from the search field
                 String searchInput = customerSearchField.getText();
                 
-                // fetching customer information (Restrict employee to gain access to own customer only)
+                // fetching customer information
+                List<CustIO> cust = CustIO.getcustInput();
+                
+                // Create a string builder to accumulate the customer information
+                StringBuilder custInfo = new StringBuilder();
+                
+                custInfo.append("-,-,-,-\n");
+                String[] columnNames = {"Customer ID", "Customer Name", "Phone Number", "Postcode"};
+                
+                if (searchInput == null || searchInput.isEmpty()) {
+                    // Display all items
+                    for (CustIO custs : cust) {
+                        // Add logic to process each sale item
+                        custInfo.append(custs.toString()).append("\n");
+                    }
+                } else {
+                    // Search for specific items based on searchInput
+                    for (CustIO custs : cust) {
+                        // Add logic to process matching items
+                         if (custs.getCustId().contains(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                         else if (custs.getCustName().contains(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                         else if (custs.getphoneNum().contains(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                         else if (custs.getpostcode().contains(searchInput)) {
+                            custInfo.append(custs.toString()).append("\n");
+                         }
+                    }
+                }
+                
+                // to handle the case where nothing show in the table
+                if(custInfo.toString().equals(""))
+                    custInfo.append("-,-,-,-\n");
+
+                // Show the accumulated sales information in a single pane
+                showInfoInterface("Customer Info", custInfo.toString(), columnNames);
+            }
+        });
+        
+        JButton customerButtonOwnData = new JButton("Search Own Data");
+        customerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the input from the search field
+                String searchInput = customerSearchField.getText();
+                
+                // fetching customer information (own data)
                 List<CustIO> cust = SalesIO.filterCustByEmployeeId(employeeId);
                 
                 // Create a string builder to accumulate the customer information
@@ -133,6 +183,7 @@ public class GUI_ManageEmployeeInterface extends JFrame {
         searchPanel.add(customerSearchLabel, BorderLayout.WEST);
         searchPanel.add(customerSearchField, BorderLayout.CENTER);
         searchPanel.add(customerButton, BorderLayout.EAST);
+        searchPanel.add(customerButtonOwnData, BorderLayout.SOUTH);
         //customerPanel.add(customerButton, BorderLayout.EAST);
         
         // Add search panel to the north position of vehicle panel
@@ -281,8 +332,8 @@ public class GUI_ManageEmployeeInterface extends JFrame {
                 // Get the input from the search field
                 String searchInput = salesSearchField.getText();
 
-                // fetching sales information (Restricted to own employeeId)
-                List<SalesIO> sales = SalesIO.filterSalesByEmployeeId(employeeId);
+                // fetching sales information
+                List<SalesIO> sales = SalesIO.getSalesInput();
 
                 // Create a StringBuilder to accumulate sales information
                 StringBuilder salesInfo = new StringBuilder();
