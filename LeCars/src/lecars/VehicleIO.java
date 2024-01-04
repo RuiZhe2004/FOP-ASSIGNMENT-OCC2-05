@@ -14,6 +14,7 @@ public class VehicleIO {
     private double salesPrice;
     private String employeeId;
     
+    
     // Constructor
     public VehicleIO(String carPlate, String carModel, double acquirePrice, int carStatus, double salesPrice) {
         this.carPlate = carPlate;
@@ -210,6 +211,7 @@ public class VehicleIO {
                 }
             }
 
+            
             // Close the BufferedReader
             reader.close();
         } catch (IOException e) {

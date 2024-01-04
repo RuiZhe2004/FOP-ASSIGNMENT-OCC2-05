@@ -19,6 +19,15 @@ public class EmployeeIO {
     private int employeeStatus;
     private String password;
     
+     /**
+     * Constructs an EmployeeIO object with complete information.
+     *
+     * @param employeeId      The unique identifier for the employee.
+     * @param employeeName    The name of the employee.
+     * @param employeeStatus  The status code representing the employee's role/status.
+     * @param password        The password associated with the employee.
+     */
+    
     // Constructor
     public EmployeeIO(String employeeId, String employeeName, int employeeStatus, String password) {
         this.employeeId = employeeId;
@@ -27,6 +36,13 @@ public class EmployeeIO {
         this.password = password;
     }
     
+     /**
+     * Constructs an EmployeeIO object without a password.
+     *
+     * @param employeeId      The unique identifier for the employee.
+     * @param employeeName    The name of the employee.
+     * @param employeeStatus  The status code representing the employee's role/status.
+     */
     //without pw
     public EmployeeIO(String employeeId, String employeeName, int employeeStatus) {
         this.employeeId = employeeId;
@@ -68,6 +84,11 @@ public class EmployeeIO {
     }
 
 
+    /**
+     * Customizes the string representation of an EmployeeIO object.
+     *
+     * @return A string containing comma-separated employee information.
+     */
     //add toString method to customize ur output instead of array location
     public String toString(){
         return employeeId+","+employeeName+","+employeeStatus+","+password;
